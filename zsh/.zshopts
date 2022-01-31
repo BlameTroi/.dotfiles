@@ -1,0 +1,60 @@
+# .zshopts
+#
+# sourced only for interactive shell invocations. sourced by
+# .zshrc.
+
+# Shell Options ...
+#
+# Changing Directories
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt CDABLE_VARS
+setopt PUSHD_TO_HOME
+#
+# Completion
+setopt ALWAYS_TO_END
+setopt AUTO_LIST
+setopt HASH_LIST_ALL
+#
+# Expansion and Globbing
+setopt MARK_DIRS
+#
+# History
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FCNTL_LOCK
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_SAVE_BY_COPY
+setopt INC_APPEND_HISTORY_TIME
+#
+# Input/Output
+setopt ALIASES
+setopt IGNORE_EOF
+setopt INTERACTIVE_COMMENTS
+setopt HASH_CMDS
+setopt HASH_DIRS
+#
+# Job Control
+setopt CHECK_JOBS
+setopt CHECK_RUNNING_JOBS
+setopt NOTIFY
+#
+# Prompting
+setopt PROMPT_SUBST
+setopt PROMPT_BANG
+setopt PROMPT_SP
+setopt PROMPT_PERCENT
+#
+# Scripts and Functions
+setopt C_BASES
+#
+# ZLE
+setopt VI
+#
+# aliases
+source /home/troi/.zshalias
+
