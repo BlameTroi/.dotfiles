@@ -1,4 +1,4 @@
- filetype handling additions
+" filetype handling additions
 
 " Listen very carefully, I will say this only once
 if exists("did_load_filetypes")

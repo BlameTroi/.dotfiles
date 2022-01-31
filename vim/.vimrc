@@ -47,7 +47,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'itchyny/lightline.vim'
 "Plug 'connorholyday/vim-snazzy'
 Plug 'farmergreg/vim-lastplace'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'junegunn/vim-peekaboo'
 
 " git
@@ -111,7 +110,6 @@ endif
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set number                      " Line numbers on
-set relativenumber              " It's all relative
 set showmatch                   " Show matching brackets/parenthesis
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
