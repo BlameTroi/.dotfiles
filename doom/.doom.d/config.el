@@ -1,4 +1,7 @@
+;;; package -- doom config.
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -8,6 +11,11 @@
 ;; clients, file templates and snippets.
 (setq user-full-name "Troy Brumley"
       user-mail-address "blametroi@gmail.com")
+
+
+;; Why not lisp?
+(setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
+
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -21,21 +29,34 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font "Hack Nerd Font Mono-15.0")
+(setq doom-font "Hack Nerd Font Mono-14.0")
+
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;;(setq doom-theme 'wheatgrass)
-(setq doom-theme 'doom-ir-black)
+(setq doom-theme 'alect-black)
+
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/projects/org/")
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
+
+
+;; Completion delay. Set long for now, but for manual set to nil. Value is seconds.
+(setq company-idle-delay 1.0)
+
+
+;; Turn of some parts of lsp-mode, suggestions from hlissner.
+(setq lsp-up-sideline-enable nil
+      lsp-ui-doc-enable nil
+      lspenable-symbol-highlight nil)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -57,20 +78,27 @@
 
 
 ;; some more tweaks
-(setq-default
- delete-by-moving-to-trash t
- window-combination-resize t)
+(setq-default delete-by-moving-to-trash t
+              window-combination-resize t)
 
 (setq undo-limit 80000000
       evil-want-fine-undo t
       auto-save-default t
+      make-backup-files t
       password-cache-expiry nil
-      scroll-margin 2)
+      scroll-margin 2
+      evil-ex-substitute-global t)
 
 (display-time-mode 1)
 
 (global-subword-mode 1)
 
+(toggle-frame-maximized)
+
+;;(setq confirm-kill-emacs t) ;; nil this once i'm done fucking around
+
+;; i shouldn't be using the customize system, but if i do let's
+;; segregate it so i notice i did so.
 (setq-default custom-file (expand-file-name ".custom.el" doom-private-dir))
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -96,9 +124,39 @@
       "C-<right>"      #'+evil/window-move-right)
 
 
+;; try to clean up the doom buffer.
+(custom-set-faces!
+  '(doom-dashboard-banner :inherit default)
+  '(doom-dashboard-loaded :inherit default))
+;;(setq spacemacs-theme-comment-bg nil)
+
+
+
+;; backups & autosaves
+
+
+;; zsh
+;; (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+;; (add-hook 'sh-mode-hook
+;;           (lambda ()
+;;             (if (string-match "\\.zsh$" buffer-file-name)
+;;                 (sh-set-sell "zsh"))))
+
+
+;; the globally ignored directories are not working the way i expect them
+;; to from the doc.
 ;; projectile weirdness, i think it's best to only
 ;; explicitly mark projects, so let's not autodetect
 ;; things like .git or package.json.
+;;
+;; projectile-globally-ignored-files
+;; projectile-globally-ignored-directories
+;; projectile-globally-ignored-file-suffixes
+;; projectile-globally-ignored-modes
 (after! projectile
-  (setq projectile-project-root-files-bottom-up
-        '(".projectile" ".project")))
+(setq projectile-project-root-files-bottom-up '(".projectile" ".project"))
+(setq projectile-globally-ignored-directories (append projectile-globally-ignored-directories '(".git" ".exercism")))
+)
+
+(provide 'config)
+;;; config.el ends here
