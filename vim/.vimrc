@@ -45,18 +45,17 @@ Plug 'ludovicchabant/vim-gutentags'
 
 " UI
 Plug 'itchyny/lightline.vim'
-"Plug 'connorholyday/vim-snazzy'
 Plug 'farmergreg/vim-lastplace'
 Plug 'junegunn/vim-peekaboo'
 
 " git
 Plug 'airblade/vim-gitgutter'
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " qb64 support
 Plug 'blametroi/qb64dev.vim'
 Plug 'blametroi/qbcolor.vim'
-Plug 'blametroi/Freebasic-vim-syntax-file'
+"Plug 'blametroi/Freebasic-vim-syntax-file'
 
 " editor behavior helpers
 Plug 'scrooloose/nerdcommenter'
@@ -64,21 +63,12 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
 
-" code completion, trying coc with clang
-" Use release branch (recommend)
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" : CocInstall coc-clangd
-" : CocInstall coc-json
-" : CocInstall coc-html
-" : CocInstall coc-lists
-" : CocInstall coc-snippets
-
 " markdown / writing
 " vimwiki suggests putting these last
 Plug 'junegunn/goyo.vim'
 " Plug 'reedes/vim-pencil'
 " plug 'ajorgensen/vim-markdown-toc'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
