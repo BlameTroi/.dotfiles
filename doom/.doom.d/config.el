@@ -1,11 +1,12 @@
-;;; package -- doom config.
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; config.el --- Description -*- lexical-binding: t; -*-
+
 ;;; Commentary:
-;;; Code:
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+
+;;; Code:
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
@@ -29,14 +30,23 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font "Hack Nerd Font Mono-14.0")
-
+;;(setq doom-font "Hack Nerd Font Mono-14.0")
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 36)
+      doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
+      doom-unicode-font (font-spec :family "JuliaMono")
+      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;;(setq doom-theme 'wheatgrass)
 (setq doom-theme 'alect-black)
+
+
+;; red should be only for errors.
+(custom-set-faces!
+  '(doom-modeline-buffer-modified :foreground "orange"))
 
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -50,7 +60,7 @@
 
 
 ;; Completion delay. Set long for now, but for manual set to nil. Value is seconds.
-(setq company-idle-delay 1.0)
+(setq company-idle-delay 0.3)
 
 
 ;; Turn of some parts of lsp-mode, suggestions from hlissner.
@@ -82,16 +92,16 @@
               window-combination-resize t)
 
 (setq undo-limit 80000000
-      evil-want-fine-undo t
       auto-save-default t
       make-backup-files t
       password-cache-expiry nil
-      scroll-margin 2
-      evil-ex-substitute-global t)
+      scroll-margin 2)
 
 (display-time-mode 1)
 
 (global-subword-mode 1)
+
+(setq which-key-idle-delay 0.3)
 
 (toggle-frame-maximized)
 
@@ -105,10 +115,6 @@
 
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
-
-(defadvice! prompt-for-buffer (&rest _)
-  :after '(evil-window-split evil-window-vsplit)
-  (consult-buffer))
 
 (map! :map evil-window-map
       "SPC" #'rotate-layout
@@ -129,7 +135,6 @@
   '(doom-dashboard-banner :inherit default)
   '(doom-dashboard-loaded :inherit default))
 ;;(setq spacemacs-theme-comment-bg nil)
-
 
 
 ;; backups & autosaves
@@ -153,10 +158,84 @@
 ;; projectile-globally-ignored-directories
 ;; projectile-globally-ignored-file-suffixes
 ;; projectile-globally-ignored-modes
+(defun projectile-ignored-project-function (filepath)
+  "Return t if FILEPATH is within any of `projectile-ignored-projects'"
+  (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects)))
 (after! projectile
-(setq projectile-project-root-files-bottom-up '(".projectile" ".project"))
-(setq projectile-globally-ignored-directories (append projectile-globally-ignored-directories '(".git" ".exercism")))
-)
+  (setq projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/.local/straight/repos/")
+        projectile-project-root-files-bottom-up '(".projectile" ".project")
+        projectile-globally-ignored-directories (append projectile-globally-ignored-directories '(".git" ".exercism"))))
+
+
+;; ispell
+;; (setq ispell-dictionary "en-custom")
+(setq ispell-personal-dictionary (expand-file-name ".ispell_personal" doom-private-dir))
+
+
+;; evil tweaks.
+(after! evil
+  (setq evil-want-fine-undo t
+        evil-ex-substitute-global t     ; I like my s/../.. to by global by default
+        evil-move-cursor-back nil       ; Don't move the block cursor when toggling insert mode
+        evil-kill-on-visual-paste nil)) ; Don't put overwritten text in the kill ring
+
+
+;; company completion tweaks.
+(after! company
+  (setq company-idle-delay 0.5
+        company-minimum-prefix-length 2)
+  (setq company-show-numbers t)
+  (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
+
+(setq-default history-length 1000)
+(setq-default prescient-history-length 1000)
+
+(set-company-backend!
+  '(text-mode
+    markdown-mode
+    gfm-mode)
+  '(:seperate
+    company-ispell
+    company-files
+    company-yasnippet))
+
+;; smart parens are different in org-mode.
+(sp-local-pair
+ '(org-mode)
+ "<<" ">>"
+ :actions '(insert))
+
+
+;; colors in info.
+(use-package! info-colors
+  :commands (info-colors-fontify-node))
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
+
+;; theme-magic to spread the theme.
+(use-package! theme-magic
+  :commands theme-magic-from-emacs
+  :config
+  (defadvice! theme-magic--auto-extract-16-doom-colors ()
+    :override #'theme-magic--auto-extract-16-colors
+    (list
+     (face-attribute 'default :background)
+     (doom-color 'error)
+     (doom-color 'success)
+     (doom-color 'type)
+     (doom-color 'keywords)
+     (doom-color 'constants)
+     (doom-color 'functions)
+     (face-attribute 'default :foreground)
+     (face-attribute 'shadow :foreground)
+     (doom-blend 'base8 'error 0.1)
+     (doom-blend 'base8 'success 0.1)
+     (doom-blend 'base8 'type 0.1)
+     (doom-blend 'base8 'keywords 0.1)
+     (doom-blend 'base8 'constants 0.1)
+     (doom-blend 'base8 'functions 0.1)
+     (face-attribute 'default :foreground))))
+
 
 (provide 'config)
 ;;; config.el ends here

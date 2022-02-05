@@ -51,3 +51,5 @@
 
 (package! spacemacs-theme)
 (package! alect-themes)
+(package! info-colors)
+(package! theme-magic)
