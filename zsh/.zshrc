@@ -4,6 +4,7 @@
 # we add the eye candy and zsh command line stuff.
 
 # completions for exercism
+typeset -U fpath
 export fpath=(~/.zsh/functions $fpath)
 
 # Set name of the theme to load --- if set to "random", it will

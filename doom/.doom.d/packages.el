@@ -1,6 +1,7 @@
-;; -*- no-byte-compile: t; -*-
+;;; packages.el --- DOOM packages to load -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+;;; Commentary:
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
@@ -49,7 +50,14 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;;; Code:
+
 (package! spacemacs-theme)
 (package! alect-themes)
 (package! info-colors)
-(package! theme-magic)
+;;(package! theme-magic)
+(package! base16-theme)
+;  :recipe (:host github :repo "belak/base16-emacs"))
+
+(provide 'packages)
+;;; packages.el ends here

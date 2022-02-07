@@ -37,16 +37,21 @@
       doom-unicode-font (font-spec :family "JuliaMono")
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;;(setq doom-theme 'wheatgrass)
-(setq doom-theme 'alect-black)
+;;(setq doom-theme 'alect-black)
+(load-theme 'base16-synth-midnight-dark t)
+;(setq doom-theme 'manoj-dark)
 
 
-;; red should be only for errors.
-(custom-set-faces!
-  '(doom-modeline-buffer-modified :foreground "orange"))
+;; modeline readability with some themes needs help
+;; (custom-set-faces!
+;;   '(doom-modeline-bar :background "lightgrey")
+;;   '(doom-modeline-buffer-file :forground "green")
+;;   '(doom-modeline-buffer-modified :foreground "orange"))
 
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -68,50 +73,28 @@
       lsp-ui-doc-enable nil
       lspenable-symbol-highlight nil)
 
-
-;; Here are some additional functions/macros that could help you configure Doom:
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-
-
 ;; some more tweaks
 (setq-default delete-by-moving-to-trash t
               window-combination-resize t)
 
-(setq undo-limit 80000000
+(setq-default history-length 1000)
+
+(setq undo-limit 8000000
       auto-save-default t
       make-backup-files t
       password-cache-expiry nil
       scroll-margin 2)
-
 (display-time-mode 1)
-
 (global-subword-mode 1)
-
-(setq which-key-idle-delay 0.3)
-
 (toggle-frame-maximized)
 
-;;(setq confirm-kill-emacs t) ;; nil this once i'm done fucking around
 
 ;; i shouldn't be using the customize system, but if i do let's
 ;; segregate it so i notice i did so.
 (setq-default custom-file (expand-file-name ".custom.el" doom-private-dir))
 (when (file-exists-p custom-file)
   (load custom-file))
+
 
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
@@ -158,18 +141,31 @@
 ;; projectile-globally-ignored-directories
 ;; projectile-globally-ignored-file-suffixes
 ;; projectile-globally-ignored-modes
-(defun projectile-ignored-project-function (filepath)
-  "Return t if FILEPATH is within any of `projectile-ignored-projects'"
-  (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects)))
-(after! projectile
-  (setq projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/.local/straight/repos/")
-        projectile-project-root-files-bottom-up '(".projectile" ".project")
-        projectile-globally-ignored-directories (append projectile-globally-ignored-directories '(".git" ".exercism"))))
+;; (defun projectile-ignored-project-function (filepath)
+;;   "Return t if FILEPATH is within any of `projectile-ignored-projects'"
+;;   (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects)))
+;; (after! projectile
+;;   (setq projectile-ignored-projects '("~/" "/tmp" "~/.emacs.d/.local/straight/repos/")
+;;         projectile-project-root-files-bottom-up '(".projectile" ".project")
+;;         projectile-globally-ignored-directories (append projectile-globally-ignored-directories '(".git" ".exercism"))))
 
 
-;; ispell
-;; (setq ispell-dictionary "en-custom")
-(setq ispell-personal-dictionary (expand-file-name ".ispell_personal" doom-private-dir))
+;; Here are some additional functions/macros that could help you configure Doom:
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package!' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; This will open documentation for it, including demos of how they are used.
+;;
+;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;; they are implemented.
 
 
 ;; evil tweaks.
@@ -187,9 +183,6 @@
   (setq company-show-numbers t)
   (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
 
-(setq-default history-length 1000)
-(setq-default prescient-history-length 1000)
-
 (set-company-backend!
   '(text-mode
     markdown-mode
@@ -198,6 +191,7 @@
     company-ispell
     company-files
     company-yasnippet))
+
 
 ;; smart parens are different in org-mode.
 (sp-local-pair

@@ -17,7 +17,8 @@ export ZSH_CUSTOM="/home/troi/.zshcustom"
 export MANPATH="/usr/local/man:$MANPATH"
 #
 # PATH="$PATH"
-export PATH="/home/troi/bin:/home/troi/.local/bin:/home/troi/go/bin:$PATH"
+typeset -U PATH
+export path=(~/bin ~/.local/bin ~/go/bin $path[@])
 #
 #export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
