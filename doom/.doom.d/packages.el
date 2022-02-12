@@ -52,12 +52,9 @@
 
 ;;; Code:
 
-(package! spacemacs-theme)
+;;(package! spacemacs-theme)
 (package! alect-themes)
-(package! info-colors)
-;;(package! theme-magic)
 (package! base16-theme)
-;  :recipe (:host github :repo "belak/base16-emacs"))
 
 (provide 'packages)
 ;;; packages.el ends here

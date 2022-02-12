@@ -40,8 +40,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
 Plug 'mileszs/ack.vim'
 
 " tags
-Plug 'preservim/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'preservim/tagbar'
+" Plug 'ludovicchabant/vim-gutentags'
 
 " UI
 Plug 'itchyny/lightline.vim'

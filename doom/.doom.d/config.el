@@ -31,9 +31,9 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 ;;(setq doom-font "Hack Nerd Font Mono-14.0")
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 28)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 36)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
+      doom-variable-pitch-font (font-spec :family "Overpass" :size 28)
       doom-unicode-font (font-spec :family "JuliaMono")
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
@@ -43,7 +43,8 @@
 ;; `load-theme' function. This is the default:
 ;;(setq doom-theme 'wheatgrass)
 ;;(setq doom-theme 'alect-black)
-(load-theme 'base16-synth-midnight-dark t)
+;;(load-theme 'base16-synth-midnight-dark t)
+(load-theme 'base16-greenscreen t)
 ;(setq doom-theme 'manoj-dark)
 
 
@@ -65,13 +66,13 @@
 
 
 ;; Completion delay. Set long for now, but for manual set to nil. Value is seconds.
-(setq company-idle-delay 0.3)
+;; (setq company-idle-delay 0.3)
 
 
 ;; Turn of some parts of lsp-mode, suggestions from hlissner.
-(setq lsp-up-sideline-enable nil
-      lsp-ui-doc-enable nil
-      lspenable-symbol-highlight nil)
+;; (setq lsp-up-sideline-enable nil
+;;       lsp-ui-doc-enable nil
+;;       lspenable-symbol-highlight nil)
 
 ;; some more tweaks
 (setq-default delete-by-moving-to-trash t
@@ -178,8 +179,8 @@
 
 ;; company completion tweaks.
 (after! company
-  (setq company-idle-delay 0.5
-        company-minimum-prefix-length 2)
+  (setq company-idle-delay 0.3
+        company-minimum-prefix-length 3)
   (setq company-show-numbers t)
   (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
 
@@ -200,35 +201,39 @@
  :actions '(insert))
 
 
+;; fortran stuff.
+;;(setq flycheck-gfortran-language-standard nil)
+
+
 ;; colors in info.
-(use-package! info-colors
-  :commands (info-colors-fontify-node))
-(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+;; (use-package! info-colors
+;;   :commands (info-colors-fontify-node))
+;; (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
 
 ;; theme-magic to spread the theme.
-(use-package! theme-magic
-  :commands theme-magic-from-emacs
-  :config
-  (defadvice! theme-magic--auto-extract-16-doom-colors ()
-    :override #'theme-magic--auto-extract-16-colors
-    (list
-     (face-attribute 'default :background)
-     (doom-color 'error)
-     (doom-color 'success)
-     (doom-color 'type)
-     (doom-color 'keywords)
-     (doom-color 'constants)
-     (doom-color 'functions)
-     (face-attribute 'default :foreground)
-     (face-attribute 'shadow :foreground)
-     (doom-blend 'base8 'error 0.1)
-     (doom-blend 'base8 'success 0.1)
-     (doom-blend 'base8 'type 0.1)
-     (doom-blend 'base8 'keywords 0.1)
-     (doom-blend 'base8 'constants 0.1)
-     (doom-blend 'base8 'functions 0.1)
-     (face-attribute 'default :foreground))))
+;; (use-package! theme-magic
+;;   :commands theme-magic-from-emacs
+;;   :config
+;;   (defadvice! theme-magic--auto-extract-16-doom-colors ()
+;;     :override #'theme-magic--auto-extract-16-colors
+;;     (list
+;;      (face-attribute 'default :background)
+;;      (doom-color 'error)
+;;      (doom-color 'success)
+;;      (doom-color 'type)
+;;      (doom-color 'keywords)
+;;      (doom-color 'constants)
+;;      (doom-color 'functions)
+;;      (face-attribute 'default :foreground)
+;;      (face-attribute 'shadow :foreground)
+;;      (doom-blend 'base8 'error 0.1)
+;;      (doom-blend 'base8 'success 0.1)
+;;      (doom-blend 'base8 'type 0.1)
+;;      (doom-blend 'base8 'keywords 0.1)
+;;      (doom-blend 'base8 'constants 0.1)
+;;      (doom-blend 'base8 'functions 0.1)
+;;      (face-attribute 'default :foreground))))
 
 
 (provide 'config)
