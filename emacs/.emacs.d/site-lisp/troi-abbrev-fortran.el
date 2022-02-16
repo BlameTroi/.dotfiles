@@ -66,3 +66,4 @@
     ("p$" "procedure" nil 0)
     ))
 
+(provide 'troi-abbrev-fortran)

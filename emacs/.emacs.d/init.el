@@ -2,30 +2,35 @@
 
 
 ;;; Commentary:
+
 ;; This init was inspired by many things I've seen exploring,
 ;; I don't remember where all the ideas came from and any list
-;; I come up with would be incomplete. Web searching and github
-;; are my sources.
+;; I come up with would be incomplete. Web searches, github,
+;; reddit, emacswiki are all starting points.
+;;
+;; Setting up evil-mode has been a hassle and while my hands are
+;; used to some of the common vim commands, I have decided that
+;; I'll spend less time just learning base emacs with default
+;; keybinds.
 
 
 ;;; Code:
 
 
-;; Tweak garbage collection during init.el processing.
-(setq gc-cons-threshold 50000000)
-
-;; Tweak garbage collection during normal processing and
-;; also fire off a garbage collect if the frame goes out
-;; of focus.
-(setq gc-cons-threshold 2000000)
+;; Tweak garbage collection during both init and normal
+;; processing. Also fire off a garbage collect if the
+;; frame goes out of focus.
+(let ((normal-gc-cons-threshold (* 20 1024 1024))
+      (init-gc-cons-threshold (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'emacs-startup-hook
+            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
 (add-function
  :after after-focus-change-function
  (lambda () (unless (frame-focus-state) (garbage-collect))))
 
 
-
 ;; Bootstrap straight.el if it is not already here.
-;; Install straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -45,15 +50,21 @@
 (setq straight-use-package-by-default t)
 
 
-;; Some standard libraries.
-(use-package cl-lib)     ;; use the right cl libraries
-(use-package seq)        ;; sequence operations
+;; Define any utility functions for this config file.
+(defun add-auto-mode (mode &rest patterns)
+  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
+  (dolist (pattern patterns)
+    (add-to-list 'auto-mode-alist (cons pattern mode))))
 
 
-;; Load org early to get the current version and not whatever
-;; was bundled with emacs.
-(use-package org)
-(setq org-directory "~/projects/org")
+;; General defaults.
+(setq user-full-name "Troy Brumley"
+      user-mail-address "BlameTroi@gmail.com")
+(setq auth-sources '("~/.authinfo.gpg")
+      auth-source-cache-expiry nil)
+
+;; Add my lisp to load-path.
+(push "~/.emacs.d/site-lisp/" load-path)
 
 
 ;; Keep directories clean by stashing autosaves and backups
@@ -64,114 +75,154 @@
 (setq backup-by-copying t)
 
 
-;; encoding, utf-8 everywhere
-(setq-default buffer-file-coding-system 'utf-8-unix)
-(set-terminal-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
+;; Get the various custom-set-variable blocks out init.el. I make
+;; an effort to not use the customize interface at all, but if
+;; something creeps in I don't want it cluttering up version
+;; control.
+(setq custom-file
+      (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 
-;; Base packages.
+;; I like to pick up where I left off.
+(save-place-mode 1)
+(setq save-place-forget-unreadable-files nil)
+
+
+;; Automatically create missing parent directories when visiting a new
+;; file.
+(defun troi/create-non-existent-directory ()
+  (let ((parent-directory (file-name-directory buffer-file-name)))
+    (when (and (not (file-exists-p parent-directory))
+               (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
+      (make directory parent-directory t))))
+(add-to-list 'find-file-not-found-functions #'troi/create-non-existent-directory)
+
+
+;; I need bigger fonts.
+(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
+
+
+;; Minimize typing.
+(fset 'yes-or-no-p 'y-or-n-p)
+(recentf-mode)
+
+
+;; Bring in the system clipboard.
+(setq select-enable-clipboard t)
+
+
+;; Make the UI quieter, more uniform, and generally to my liking.
+(setq-default visible-bell t
+              initial-scratch-message nil)
+(setq inhibit-startup-screen t
+      use-file-dialog nil
+      use-dialog-box nil
+      read-file-name-completion-ignore-case t)
+
+
+;; Hilight matching parens.
+(setq-default show-paren-delay 0)
+(show-paren-mode)
+
+
+;; I go back and forth on line numbers.
+;; (global-display-line-numbers-mode)
+;; (setq display-line-numbers-width 4)
+
+
+;; But I do like column numbers, and I like them one based.
+(column-number-mode)
+(setq mode-line-position-column-format " C%C")
+
+
+;; Whitespace and other global formatting. I removed the display
+;; of trailing whitespace because it provides little benefit. Using
+;; ws-butler cleans up anything I add without changing other code.
+;; TODO wrap/truncate?
+(setq-default fill-column 70
+              indent-tabs-mode nil
+              tab-width 4)
+(setq sentence-end-double-space nil)
+
+
+;; Use the right cl libraries. Do this before loading any
+;; packages.
+(require 'cl-lib)
+
+
+;; Load org early to get the current version and not whatever
+;; was bundled with emacs.
+(use-package org)
+(setq org-directory "~/projects/org")
+
+
+;; Make sure exec path is correct.
+;; TODO should a set of baked environment variables be used
+;;      instead?
 (use-package exec-path-from-shell
   :ensure t
   :config
   (exec-path-from-shell-initialize))
 
+
 (use-package which-key
   :ensure t
   :config
-  (which-key-mode))
+  (which-key-mode)
+  (which-key-setup-side-window-bottom))
 
-(use-package ace-window
-  :ensure t
-  :config
-  (global-set-key (kbd "M-o") 'ace-window)
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
-(use-package green-is-the-new-black-theme :ensure t)
-(use-package green-screen-theme :ensure t)
-(use-package alect-themes :ensure t)
-
+;; External search utilities.
 (use-package ag :ensure t)
 (use-package fzf :ensure t)
 
+
+;; ws-butler only cleans up whitespace on lines touched in the edit
+;; session.
 (use-package ws-butler
   :ensure t
   :config
   (ws-butler-global-mode))
 
+
+;; GIT version control.
 (use-package magit
   :ensure t)
 
 
-;; Evil mode.
-;; Additional packages to install:
-;;        evil-easymotion
-;;        evil-paredit
-;;        evil-search-highlight-persist
-;;        evil-visualstar
-;;        goto-last-change
-(use-package evil
+;; Completion. Is there another option?
+;; (use-package company
+;;   :ensure t)
+;; (add-hook 'after-init-hook 'global-company-mode)
+
+
+;; Paredit for lisps and general parenthetical goodness in all
+;; languages.
+;; (use-package paredit
+;;   :ensure t)
+
+
+;; A first application package. A still in development blood glucose
+;; tracking application I found on github. I've forked it to better
+;; control when I pick up changes.
+;;
+;; md-arif-shaikh/bgt is the original
+(use-package bgt
+  :straight (bgt :type git :host github :repo "blametroi/bgt")
   :ensure t
-
-  :init
-  (setq evil-want-integration t) ;; this should be the default
-  (setq evil-want-keybinding nil)
-
   :config
-
-  (evil-mode 1)
-  (setq evil-search-wrap t)
-  (setq evil-regexp-search t)
-
-  (use-package evil-collection
-    :ensure t
-    :after evil
-    :config
-    (evil-collection-init))
-
-  (use-package evil-leader
-    :ensure t
-    :config
-    (global-evil-leader-mode t)
-    (evil-leader/set-leader "<SPC>")
-    (evil-leader/set-key
-      "bs" 'save-buffer
-      "bk" (lambda ()
-             (interactive)
-             (kill-buffer (current-buffer)))
-      "ws" 'evil-window-split
-      "wv" 'evil-window-vsplit
-      "wc" 'evil-window-delete
-      ;; "cs" 'eval-last-sexp
-      ;; "q"  'evil-quit
-      "he" 'view-echo-area-messages
-      ;; "hf" 'counsel-describe-function
-      ;; "hv" 'counsel-describe-variable
-      "h." 'describe-symbol
-      ;; "sb" 'swiper
-      ;; "sd" 'counsel-rg
-      ))
-
-  (use-package evil-org
-    :ensure t
-    :config
-    (evil-org-set-key-theme
-     '(textobjects insert navigation additional shift todo heading))
-    (add-hook 'org-mode-hook (lambda () (evil-org-mode))))
-
-  (use-package powerline-evil
-    :ensure t
-    :config
-    (powerline-evil-vim-color-theme))
-
-  )
+  (setq bgt-file-name "~/projects/org/bgt.org"
+        bgt-csv-file-name "~/projects/org/bgt.csv"
+        bgt-python-file "~/.emacs.d/straight/repos/bgt/bgt.py"
+        bgt-python-path "python3"))
 
 
-;; theming and ui
+;; Theming support, though I'm currently using an old color theme.
+(use-package green-is-the-new-black-theme :ensure t)
+(use-package green-screen-theme :ensure t)
+(use-package alect-themes :ensure t)
 (load-theme 'wombat)
 (set-face-background 'default "#111")
 (set-face-background 'cursor "#c96")
@@ -181,94 +232,37 @@
 (set-face-foreground 'lazy-highlight "#ccc")
 (set-face-foreground 'font-lock-comment-face "#fc0")
 
-;; I need bigger fonts.
-(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
-
-;; Avoid but don't completely hide the GUI. Be quiet. Minimize typing.
-(column-number-mode)
-(display-time-mode 1)
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq-default
- visible-bell t
- initial-scratch-message nil
- select-enable-clipboard t)  ; this should integrate kill ring with system
-(setq inhibit-startup-screen t
-      use-file-dialog nil
-      use-dialog-box nil
-      read-file-name-completion-ignore-case t)
-(recentf-mode)
-
-
-;; Whitespace and other global formatting.
-(setq-default
- fill-column 70            ; width for auto line wrap
- indent-tabs-mode nil      ; space it out
- tab-width 4               ; readable
- show-trailing-whitespace t)
-(setq sentence-end-double-space nil)
-
 
 ;; parens should be colorful and show matches
-;(require 'rainbow-delimiters)
-;(set-face-foreground 'rainbow-delimiters-depth-1-face "#c66")  ; red
-;(set-face-foreground 'rainbow-delimiters-depth-2-face "#6c6")  ; green
-;(set-face-foreground 'rainbow-delimiters-depth-3-face "#69f")  ; blue
-;(set-face-foreground 'rainbow-delimiters-depth-4-face "#cc6")  ; yellow
-;(set-face-foreground 'rainbow-delimiters-depth-5-face "#6cc")  ; cyan
-;(set-face-foreground 'rainbow-delimiters-depth-6-face "#c6c")  ; magenta
-;(set-face-foreground 'rainbow-delimiters-depth-7-face "#ccc")  ; light gray
-;(set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
-;(set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
-(setq-default show-paren-delay 0)
-(show-paren-mode)
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "#c66")  ; red
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "#6c6")  ; green
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "#69f")  ; blue
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "#cc6")  ; yellow
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "#6cc")  ; cyan
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "#c6c")  ; magenta
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "#ccc")  ; light gray
+  (set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
+  (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  )
 
 
-;; zsh is my preference
+
+;; Make sure zsh uses shell mode.
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
 
-;; Tweak Fortran and f90 modes. Modified from a gist by aradi.
-
-;; Fortran settings
-(setq-default fortran-continuation-string "&")
-(setq-default fortran-do-indent 4)
-(setq-default fortran-if-indent 4)
-(setq-default fortran-structure-indent 4)
-
-;; Fortran 90 settings
-(setq-default f90-do-indent 4)
-(setq-default f90-if-indent 4)
-(setq-default f90-type-indent 4)
-(setq-default f90-program-indent 4)
-(setq-default f90-continuation-indent 6)
-(setq-default f90-smart-end 'blink)
-
-;; Swap Return and C-j in Fortran 90 mode
-;; not sure i'll like this, but we'll see
-(add-hook 'f90-mode-hook
-          '(lambda ()
-             (define-key f90-mode-map [return] 'f90-indent-new-line)
-             (define-key f90-mode-map "\C-j" 'newline)
-             (setq fill-column 100)
-             (abbrev-mode)
-             (setq-default indent-tabs-mode nil)
-             (setq whitespace-line-column 100)
-             (setq whitespace-style '(face tabs lines-tail empty))
-             (whitespace-mode)
-             (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-             )
-          )
-
-;; Read in handy abbreviations for Fortran
-(quietly-read-abbrev-file (locate-user-emacs-file "site-lisp/abbrev-f90.el"))
+;; Automatically insert common headers and comments into newly
+;; created files.
+(auto-insert-mode t)
+(setq auto-insert-directory "~/.emacs.d/site-templates")
 
 
-;; get the various custom-set-variable blocks out
-;; of my init.el
-(setq custom-file
-      (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
+;; Fortran and F90 tweaks.
+(require 'troi-init-fortran)
 
 
 ;; if i ever use paradox again, this is the pattern for storing a
