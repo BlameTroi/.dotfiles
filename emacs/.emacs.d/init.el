@@ -50,6 +50,17 @@
 (setq straight-use-package-by-default t)
 
 
+;; Use the right cl libraries. Do this before loading any
+;; packages.
+(require 'cl-lib)
+
+
+;; Load org early to get the current version and not whatever
+;; was bundled with emacs.
+(use-package org)
+(setq org-directory "~/projects/org")
+
+
 ;; Define any utility functions for this config file.
 (defun add-auto-mode (mode &rest patterns)
   "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
@@ -65,6 +76,16 @@
 
 ;; Add my lisp to load-path.
 (push "~/.emacs.d/site-lisp/" load-path)
+
+;; Make sure zsh uses shell mode.
+(add-auto-mode 'sh-mode "\\.zsh\\'")
+;;(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+
+
+;; Automatically insert common headers and comments into newly
+;; created files.
+(auto-insert-mode t)
+(setq auto-insert-directory "~/.emacs.d/site-templates")
 
 
 ;; Keep directories clean by stashing autosaves and backups
@@ -109,8 +130,12 @@
 (recentf-mode)
 
 
-;; Bring in the system clipboard.
+;; System clipboard joins the kill ring.
 (setq select-enable-clipboard t)
+
+
+;; Allow pixelwise resizing.
+(setq frame-resize-pixelwise t)
 
 
 ;; Make the UI quieter, more uniform, and generally to my liking.
@@ -120,6 +145,11 @@
       use-file-dialog nil
       use-dialog-box nil
       read-file-name-completion-ignore-case t)
+
+
+;; Most people expect delete to actually delete an active highlighted
+;; region these days.
+(delete-selection-mode 1)
 
 
 ;; Hilight matching parens.
@@ -146,16 +176,6 @@
               tab-width 4)
 (setq sentence-end-double-space nil)
 
-
-;; Use the right cl libraries. Do this before loading any
-;; packages.
-(require 'cl-lib)
-
-
-;; Load org early to get the current version and not whatever
-;; was bundled with emacs.
-(use-package org)
-(setq org-directory "~/projects/org")
 
 
 ;; Make sure exec path is correct.
@@ -190,6 +210,19 @@
 ;; GIT version control.
 (use-package magit
   :ensure t)
+(use-package diff-hl
+  :after magit
+  :ensure t
+  :config
+  (global-diff-hl-mode)
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  ;; TODO fringe width should be default of 8, or maybe 16?
+  )
+
+;; (use-package git-blamed :ensure t)
+;; (use-package git-modes :ensure t)
+;; (use-package git-gutter :ensure t)
 
 
 ;; Completion. Is there another option?
@@ -248,17 +281,6 @@
   (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
   )
-
-
-
-;; Make sure zsh uses shell mode.
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-
-
-;; Automatically insert common headers and comments into newly
-;; created files.
-(auto-insert-mode t)
-(setq auto-insert-directory "~/.emacs.d/site-templates")
 
 
 ;; Fortran and F90 tweaks.
