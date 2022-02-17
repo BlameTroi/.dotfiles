@@ -207,7 +207,8 @@
   (ws-butler-global-mode))
 
 
-;; GIT version control.
+;; GIT version control. git-gutter wasn't displaying so I've
+;; reverted to diff-hl.
 (use-package magit
   :ensure t)
 (use-package diff-hl
@@ -217,12 +218,8 @@
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  ;; TODO fringe width should be default of 8, or maybe 16?
   )
-
-;; (use-package git-blamed :ensure t)
-;; (use-package git-modes :ensure t)
-;; (use-package git-gutter :ensure t)
+;; TODO consider adding git-blamed and git-modes. What else?
 
 
 ;; Completion. Is there another option?
@@ -237,7 +234,35 @@
 ;;   :ensure t)
 
 
-;; A first application package. A still in development blood glucose
+;; IDO and even more IDO.
+(use-package ido
+  :config
+  (setq ido-enable-prefix nil
+      ido-enable-flex-matching t
+      ido-create-new-buffer 'always
+      ido-use-filename-at-point 'guess
+      ido-max-prospects 10
+      ido-default-file-method 'selected-window
+      ido-auto-merge-work-directories-length -1)
+  (ido-mode 1)
+  (ido-everywhere 1))
+(use-package ido-completing-read+
+  :after ido
+  :config
+  (ido-ubiquitous-mode 1))
+(use-package flx-ido
+  :after ido
+  :config
+  (flx-ido-mode 1)
+  (setq ido-use-faces nil))
+(use-package smex
+  :after ido
+  :config
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
+
+;; A still in development blood glucose
 ;; tracking application I found on github. I've forked it to better
 ;; control when I pick up changes.
 ;;
