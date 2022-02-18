@@ -17,6 +17,17 @@
 ;;; Code:
 
 
+;; Add my lisp to load-path.
+(push "~/.emacs.d/site-lisp/" load-path)
+
+
+;; General defaults.
+(setq user-full-name "Troy Brumley"
+      user-mail-address "BlameTroi@gmail.com")
+(setq auth-sources '("~/.authinfo.gpg")
+      auth-source-cache-expiry nil)
+
+
 ;; Tweak garbage collection during both init and normal
 ;; processing. Also fire off a garbage collect if the
 ;; frame goes out of focus.
@@ -30,196 +41,49 @@
  (lambda () (unless (frame-focus-state) (garbage-collect))))
 
 
-;; Bootstrap straight.el if it is not already here.
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-
-;; use-package and straight-use-package working together.
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-
-
-;; Use the right cl libraries. Do this before loading any
-;; packages.
-(require 'cl-lib)
-
-
-;; Load org early to get the current version and not whatever
-;; was bundled with emacs.
-(use-package org)
-(setq org-directory "~/projects/org")
-
-
 ;; Define any utility functions for this config file.
-(defun add-auto-mode (mode &rest patterns)
+(defun troi/add-auto-mode (mode &rest patterns)
   "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
   (dolist (pattern patterns)
     (add-to-list 'auto-mode-alist (cons pattern mode))))
 
 
-;; General defaults.
-(setq user-full-name "Troy Brumley"
-      user-mail-address "BlameTroi@gmail.com")
-(setq auth-sources '("~/.authinfo.gpg")
-      auth-source-cache-expiry nil)
-
-;; Add my lisp to load-path.
-(push "~/.emacs.d/site-lisp/" load-path)
-
-;; Make sure zsh uses shell mode.
-(add-auto-mode 'sh-mode "\\.zsh\\'")
-;;(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+;; Initialization is factored out by somewhat logical groupings. Package
+;; management via straight.el must come before we start loading any other
+;; packages. org-mode should be loaded via external packaging early to
+;; avoid bringing in the default version, which is likely stale.
 
 
-;; Automatically insert common headers and comments into newly
-;; created files.
-(auto-insert-mode t)
-(setq auto-insert-directory "~/.emacs.d/site-templates")
+;; infrastructure
+(require 'init-straight)
+(require 'init-exec-path)
+(require 'init-org)
+(require 'init-files-directories)
+(require 'init-fonts-themes)
+(require 'init-ui-behavior)
+(require 'init-external-tools)
+(require 'init-ido)
+(require 'init-auto-mode)
+;; todo: 'init-yasnippet
 
 
-;; Keep directories clean by stashing autosaves and backups
-;; elsewhere.
-(make-directory "~/.tmp/emacs/auto-save/" t)
-(setq auto-save-file-name-transforms '((".*" "~/.tmp/emacs/auto-save/" t)))
-(setq backup-directory-alist '(("." . "~/.tmp/emacs/backup/")))
-(setq backup-by-copying t)
+;; more textually specific
+;; todo: 'init-completion ... company or ???
+;; todo: textual/documentation mode stuff
 
 
-;; Get the various custom-set-variable blocks out init.el. I make
-;; an effort to not use the customize interface at all, but if
-;; something creeps in I don't want it cluttering up version
-;; control.
-(setq custom-file
-      (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
+;; more programming specific
+;; todo: 'init-lisp ... paredit, support for scheme, cl
+;; todo: 'init-pascal
+;; todo: 'init-go
+(require 'troi-init-f90)
 
 
-;; I like to pick up where I left off.
-(save-place-mode 1)
-(setq save-place-forget-unreadable-files nil)
-
-
-;; Automatically create missing parent directories when visiting a new
-;; file.
-(defun troi/create-non-existent-directory ()
-  (let ((parent-directory (file-name-directory buffer-file-name)))
-    (when (and (not (file-exists-p parent-directory))
-               (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
-      (make directory parent-directory t))))
-(add-to-list 'find-file-not-found-functions #'troi/create-non-existent-directory)
-
-
-;; I need bigger fonts.
-(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
-
-
-;; Minimize typing.
-(fset 'yes-or-no-p 'y-or-n-p)
-(recentf-mode)
-
-
-;; System clipboard joins the kill ring.
-(setq select-enable-clipboard t)
-
-
-;; Allow pixelwise resizing.
-(setq frame-resize-pixelwise t)
-
-
-;; Make the UI quieter, more uniform, and generally to my liking.
-(setq-default visible-bell t
-              initial-scratch-message nil)
-(setq inhibit-startup-screen t
-      use-file-dialog nil
-      use-dialog-box nil
-      read-file-name-completion-ignore-case t)
-
-
-;; Most people expect delete to actually delete an active highlighted
-;; region these days.
-(delete-selection-mode 1)
-
-
-;; Hilight matching parens.
-(setq-default show-paren-delay 0)
-(show-paren-mode)
-
-
-;; I go back and forth on line numbers.
-;; (global-display-line-numbers-mode)
-;; (setq display-line-numbers-width 4)
-
-
-;; But I do like column numbers, and I like them one based.
-(column-number-mode)
-(setq mode-line-position-column-format " C%C")
-
-
-;; Whitespace and other global formatting. I removed the display
-;; of trailing whitespace because it provides little benefit. Using
-;; ws-butler cleans up anything I add without changing other code.
-;; TODO wrap/truncate?
-(setq-default fill-column 70
-              indent-tabs-mode nil
-              tab-width 4)
-(setq sentence-end-double-space nil)
+;; applications
+(require 'init-bgt)
 
 
 
-;; Make sure exec path is correct.
-;; TODO should a set of baked environment variables be used
-;;      instead?
-(use-package exec-path-from-shell
-  :ensure t
-  :config
-  (exec-path-from-shell-initialize))
-
-
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode)
-  (which-key-setup-side-window-bottom))
-
-
-;; External search utilities.
-(use-package ag :ensure t)
-(use-package fzf :ensure t)
-
-
-;; ws-butler only cleans up whitespace on lines touched in the edit
-;; session.
-(use-package ws-butler
-  :ensure t
-  :config
-  (ws-butler-global-mode))
-
-
-;; GIT version control. git-gutter wasn't displaying so I've
-;; reverted to diff-hl.
-(use-package magit
-  :ensure t)
-(use-package diff-hl
-  :after magit
-  :ensure t
-  :config
-  (global-diff-hl-mode)
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  )
-;; TODO consider adding git-blamed and git-modes. What else?
 
 
 ;; Completion. Is there another option?
@@ -232,84 +96,6 @@
 ;; languages.
 ;; (use-package paredit
 ;;   :ensure t)
-
-
-;; IDO and even more IDO.
-(use-package ido
-  :config
-  (setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-max-prospects 10
-      ido-default-file-method 'selected-window
-      ido-auto-merge-work-directories-length -1)
-  (ido-mode 1)
-  (ido-everywhere 1))
-(use-package ido-completing-read+
-  :after ido
-  :config
-  (ido-ubiquitous-mode 1))
-(use-package flx-ido
-  :after ido
-  :config
-  (flx-ido-mode 1)
-  (setq ido-use-faces nil))
-(use-package smex
-  :after ido
-  :config
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
-
-;; A still in development blood glucose
-;; tracking application I found on github. I've forked it to better
-;; control when I pick up changes.
-;;
-;; md-arif-shaikh/bgt is the original
-(use-package bgt
-  :straight (bgt :type git :host github :repo "blametroi/bgt")
-  :ensure t
-  :config
-  (setq bgt-file-name "~/projects/org/bgt.org"
-        bgt-csv-file-name "~/projects/org/bgt.csv"
-        bgt-python-file "~/.emacs.d/straight/repos/bgt/bgt.py"
-        bgt-python-path "python3"))
-
-
-;; Theming support, though I'm currently using an old color theme.
-(use-package green-is-the-new-black-theme :ensure t)
-(use-package green-screen-theme :ensure t)
-(use-package alect-themes :ensure t)
-(load-theme 'wombat)
-(set-face-background 'default "#111")
-(set-face-background 'cursor "#c96")
-(set-face-background 'isearch "#c60")
-(set-face-foreground 'isearch "#eee")
-(set-face-background 'lazy-highlight "#960")
-(set-face-foreground 'lazy-highlight "#ccc")
-(set-face-foreground 'font-lock-comment-face "#fc0")
-
-
-;; parens should be colorful and show matches
-(use-package rainbow-delimiters
-  :ensure t
-  :config
-  (set-face-foreground 'rainbow-delimiters-depth-1-face "#c66")  ; red
-  (set-face-foreground 'rainbow-delimiters-depth-2-face "#6c6")  ; green
-  (set-face-foreground 'rainbow-delimiters-depth-3-face "#69f")  ; blue
-  (set-face-foreground 'rainbow-delimiters-depth-4-face "#cc6")  ; yellow
-  (set-face-foreground 'rainbow-delimiters-depth-5-face "#6cc")  ; cyan
-  (set-face-foreground 'rainbow-delimiters-depth-6-face "#c6c")  ; magenta
-  (set-face-foreground 'rainbow-delimiters-depth-7-face "#ccc")  ; light gray
-  (set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
-  (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-  )
-
-
-;; Fortran and F90 tweaks.
-(require 'troi-init-fortran)
 
 
 ;; if i ever use paradox again, this is the pattern for storing a

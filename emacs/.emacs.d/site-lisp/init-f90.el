@@ -52,8 +52,8 @@
             (abbrev-mode)))
 
 ;; Read in handy abbreviations for Fortran
-(require 'troi-abbrev-fortran)
+(require 'init-abbrev-f90)
 
 
-(provide 'troi-init-fortran)
+(provide 'init-f90)
 ;;; troi-init-fortran.el ends here
