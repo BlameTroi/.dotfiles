@@ -63,39 +63,37 @@
 (require 'init-ui-behavior)
 (require 'init-external-tools)
 (require 'init-ido)
+;; todo: hl-todo?
+;; todo: ibuffer
+;; todo: dired
+;; todo: autosave scratch?
 (require 'init-auto-mode)
 ;; todo: 'init-yasnippet
 
 
 ;; more textually specific
 ;; todo: 'init-completion ... company or ???
-;; todo: textual/documentation mode stuff
-
-
-;; more programming specific
-;; todo: 'init-lisp ... paredit, support for scheme, cl
-;; todo: 'init-pascal
-;; todo: 'init-go
-(require 'troi-init-f90)
-
-
-;; applications
-(require 'init-bgt)
-
-
-
-
-
 ;; Completion. Is there another option?
 ;; (use-package company
 ;;   :ensure t)
 ;; (add-hook 'after-init-hook 'global-company-mode)
+;; todo: textual/documentation mode stuff
 
 
+;; more programming specific
+;; todo: 'init-lsp
+;; todo: 'init-lisp ... paredit, support for scheme, cl
 ;; Paredit for lisps and general parenthetical goodness in all
 ;; languages.
 ;; (use-package paredit
 ;;   :ensure t)
+;; todo: 'init-pascal
+;; todo: 'init-go
+(require 'init-f90)
+
+
+;; applications
+(require 'init-bgt)
 
 
 ;; if i ever use paradox again, this is the pattern for storing a
