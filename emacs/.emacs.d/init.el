@@ -63,33 +63,51 @@
 (require 'init-ui-behavior)
 (require 'init-external-tools)
 (require 'init-ido)
-;; todo: hl-todo?
-;; todo: ibuffer
-;; todo: dired
-;; todo: autosave scratch?
+(require 'init-ibuffer)
+(require 'init-git)
+
+;; TODO: dired
+;; TODO: autosave scratch?
 (require 'init-auto-mode)
-;; todo: 'init-yasnippet
+;; TODO: 'init-yasnippet
 
 
 ;; more textually specific
-;; todo: 'init-completion ... company or ???
+(use-package markdown-mode)
+(troi/add-auto-mode 'markdown-mode "\\.\\(md\\|markdown\\)\\'")
+
+
+;; TODO: 'init-completion ... company or ???
 ;; Completion. Is there another option?
 ;; (use-package company
 ;;   :ensure t)
 ;; (add-hook 'after-init-hook 'global-company-mode)
-;; todo: textual/documentation mode stuff
+
+
+;; TODO: textual/documentation mode stuff
 
 
 ;; more programming specific
-;; todo: 'init-lsp
-;; todo: 'init-lisp ... paredit, support for scheme, cl
-;; Paredit for lisps and general parenthetical goodness in all
-;; languages.
-;; (use-package paredit
+;;
+;; (use-package lsp-mode
 ;;   :ensure t)
-;; todo: 'init-pascal
-;; todo: 'init-go
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :after lsp-mode)
+;; TODO: still need flycheck, company-mode, lsp-treemacs (maybe),
+;; and dap-mode if debugger supported.
+;;
+;; TODO: this will wait until i start on a language that has a
+;; server. currently go, fortran, python, and maybe pascal have
+;; servers. the only lisp lsp i see is a racket server.
+
+
+;; Language specific initialization.
+(require 'init-lisp)
 (require 'init-f90)
+;; TODO: 'init-go
+;; TODO: 'init-pascal
+;; TODO: 'init-python
 
 
 ;; applications

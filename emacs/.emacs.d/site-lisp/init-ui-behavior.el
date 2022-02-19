@@ -26,6 +26,11 @@
 ;;; Code:
 
 
+;; Simplify the mode line.
+(use-package diminish
+  :ensure t)
+
+
 ;; I like to pick up where I left off.
 (save-place-mode 1)
 (setq save-place-forget-unreadable-files nil)
@@ -87,6 +92,7 @@
 ;; session.
 (use-package ws-butler
   :ensure t
+  :diminish
   :config
   (ws-butler-global-mode))
 
@@ -94,9 +100,37 @@
 ;; which-key is very helpful!
 (use-package which-key
   :ensure t
+  :diminish
   :config
   (which-key-mode)
   (which-key-setup-side-window-bottom))
+
+
+;; Usually a newline should indent in a programming mode.
+(add-hook 'prog-mode-hook
+          (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+
+
+;; An understore is a word character in many prpogramming languages.
+(modify-syntax-entry ?_ "w" (standard-syntax-table))
+(diminish 'eldoc-mode)
+
+
+;; Hilight todo's, this package also supports moving from tag to tag
+;; but I haven't wired the keybinds yet.
+(use-package hl-todo
+  :ensure t
+  :diminish
+  :config
+  (global-hl-todo-mode))
+
+
+;; Easier window navigation.
+(use-package ace-window
+  :ensure t
+  :config
+  (global-set-key (kbd "M-o") 'ace-window)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 
 (provide 'init-ui-behavior)

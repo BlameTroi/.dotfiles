@@ -1,4 +1,4 @@
-;;; init-straight.el --- set up straight & use-package  -*- lexical-binding: t; -*-
+;;; init-straight.el --- set up straight & use-package -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022  Troy Brumley
 
@@ -48,6 +48,10 @@
 ;; use-package and straight-use-package working together.
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
+
+
+;; bind-key comes with use-package, so may as well invoke it here.
+(require 'bind-key)
 
 
 (provide 'init-straight)

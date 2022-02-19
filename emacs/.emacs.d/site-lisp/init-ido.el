@@ -55,6 +55,15 @@
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands))
 
+(use-package ido-vertical-mode
+  :after ido
+  :config
+(ido-mode 1)
+(ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-and-C-p-only))
+
+;; TODO what about ido-grid-mode?
+
 
 (provide 'init-ido)
 ;;; init-ido.el ends here
