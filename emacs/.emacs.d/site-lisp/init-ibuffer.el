@@ -35,7 +35,7 @@
                ("emacs-config" (filename . ".emacs.d"))
                ("dired" (mode . dired-mode))
                ("org" (or
-                       (mode .org-mode)
+                       (mode . org-mode)
                        (name . "^.*org$")))
                ("magit" (name . "\*magit"))
                ("help" (or
@@ -50,7 +50,14 @@
                ("shell" (or
                          (mode . eshell-mode)
                          (mode . shell-mode)))
-                ;; TODO can we find a way to check if derived from prog-mode?
+               ("lisp/scheme" (or
+                               (name . "\*geiser*")
+                               (name . "\* Chez REPL*")
+                               (mode . emacs-lisp-mode)
+                               (mode . scheme-mode)
+                               (mode . lisp-mode)
+                               (mode . racket-mode)))
+               ;; TODO can we find a way to check if derived from prog-mode?
                ("programming" (or
                                (mode . pascal-mode)
                                (mode . eldoc-mode)

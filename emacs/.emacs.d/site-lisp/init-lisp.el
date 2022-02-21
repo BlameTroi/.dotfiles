@@ -30,7 +30,10 @@
 
 ;; A repl is a good thing.
 (use-package geiser
-  :ensure t)
+  :ensure t
+  :config
+  (setq geiser-repl-use-other-window nil))
+
 (use-package geiser-chez
   :ensure t
   :after geiser)
