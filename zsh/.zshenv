@@ -4,15 +4,15 @@
 # aren't needed for an interactive shell, which belong in
 # .zshrc.
 #
-export XDG_DATA_HOME="/home/troi/.local/share"
-export XDG_CONFIG_HOME="/home/troi/.config"
-export XDG_STATE_HOME="/home/troi/.local/state"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
 #
 # Path to your oh-my-zsh installation.
-export ZSH="/home/troi/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 #
 # Would you like to use another custom folder than $ZSH/custom?
-export ZSH_CUSTOM="/home/troi/.zshcustom"
+export ZSH_CUSTOM="$HOME/.zshcustom"
 #
 export MANPATH="/usr/local/man:$MANPATH"
 #

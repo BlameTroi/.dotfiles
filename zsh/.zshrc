@@ -82,10 +82,10 @@ if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='emacs'
 fi
 
-source /home/troi/.zshopts
+source $HOME/.zshopts
 #
 # aliases
-source /home/troi/.zshalias
+source $HOME/.zshalias
 
 # following added by nvm, i may want to move it to .zshenv
 export NVM_DIR="$HOME/.config/nvm"
