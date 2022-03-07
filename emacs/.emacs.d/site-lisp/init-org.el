@@ -28,8 +28,13 @@
 ;; Load org early to get the current version and not whatever
 ;; was bundled with emacs.
 (use-package org)
-(setq org-directory "~/projects/org")
+(setq org-directory "~/org")
 
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cc" 'org-capture)
+
+(setq org-log-done t)
 
 (provide 'init-org)
 ;;; init-org.el ends here
