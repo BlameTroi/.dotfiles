@@ -18,7 +18,7 @@ endfunction
 " Basics 
 set nocompatible        " Must be first line
 if !WINDOWS()
-    set shell=/bin/bash
+    set shell=/usr/bin/zsh
 endif
 " 
 
@@ -48,24 +48,31 @@ Plug 'itchyny/lightline.vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'junegunn/vim-peekaboo'
 
+" themes
+Plug 'altercation/vim-colors-solarized'
+
 " git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" qb64 support
-Plug 'blametroi/qb64dev.vim'
-Plug 'blametroi/qbcolor.vim'
+" basic language support
+"Plug 'blametroi/qb64dev.vim'
+"Plug 'blametroi/qbcolor.vim'
+Plug 'caglartoklu/fbc.vim'
+"Plug 'vim-scripts/Freebasic-vim-syntax-file'
 "Plug 'blametroi/Freebasic-vim-syntax-file'
 
 " editor behavior helpers
-Plug 'scrooloose/nerdcommenter'
+Plug 'preserVIM/nerdtree'
+Plug 'preserVIM/nerdcommenter'
+Plug 'preserVIM/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
 
 " markdown / writing
 " vimwiki suggests putting these last
-Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/goyo.vim'
 " Plug 'reedes/vim-pencil'
 " plug 'ajorgensen/vim-markdown-toc'
 " Plug 'vimwiki/vimwiki'
@@ -115,7 +122,10 @@ set foldenable                  " Auto fold code
 set foldmethod=indent           " indent makes the most sense to me
 set foldlevelstart=99           " open most folds when starting
 
-" 
+" mouse available in vim
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 
 " Formatting 
 set nowrap                      " Do not wrap long lines
@@ -135,27 +145,27 @@ filetype indent on
 au FileType py set autoindent
 au FileType py set smartindent
 au FileType py set textwidth=79
-
 au FileType * set fo-=cro
-" 
 
-" basic syntax, need to make qb64 specific
-" instead of using freebasic, but for now
-autocmd BufNewFile,BufRead *.bas set ft=freebasic
-autocmd BufNewFile,BufRead *.bi  set ft=freebasic
-autocmd BufNewFile,BufRead *.bm  set ft=freebasic
+" basic syntax and other support
+autocmd BufNewFile,BufRead *.bas set ft=basic
+autocmd BufNewFile,BufRead *.bi  set ft=basic
+autocmd BufNewFile,BufRead *.bm  set ft=basic
+autocmd BufNewFile,BufRead *.bas compiler fbc
 
 " UI Stuff 
 
 " color scheme
+"let g:solarized_termcolors=256
 set t_Co=256
 syntax enable
 "colorscheme snazzy
 "let g:SnazzyTransparent = 1
 "colors blue
 "colors qbcolor
-colors default
+"colors default
 set background=dark
+colorscheme solarized
 
 " comments in italics
 highlight comment cterm=italic, gui=italic
@@ -192,15 +202,15 @@ endif
 
 " use # to toggle relative number on and off while in normal mode
 " useful when a range is needed
-nnoremap <silent> # :set relativenumber!<cr>
+"nnoremap <silent> # :set relativenumber!<cr>
 
 " key remaps for qb64 mode
-au BufEnter,BufNew *.bas nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
-au BufEnter,BufNew *.bi  nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
-au BufEnter,BufNew *.bm  nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
-au BufEnter,BufNew *.bas nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
-au BufEnter,BufNew *.bi  nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
-au BufEnter,BufNew *.bm  nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
+"au BufEnter,BufNew *.bas nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
+"au BufEnter,BufNew *.bi  nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
+"au BufEnter,BufNew *.bm  nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
+"au BufEnter,BufNew *.bas nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
+"au BufEnter,BufNew *.bi  nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
+"au BufEnter,BufNew *.bm  nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
 
 " Key remaps 
 

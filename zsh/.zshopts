@@ -56,4 +56,4 @@ setopt C_BASES
 setopt VI
 #
 # aliases
-source $HOME/.zshalias
+#source $HOME/.zshalias

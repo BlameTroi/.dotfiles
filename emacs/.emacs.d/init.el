@@ -105,6 +105,7 @@
 ;; Language specific initialization.
 (require 'init-lisp)
 (require 'init-f90)
+;; TODO (require 'init-basic)
 ;; TODO: 'init-go
 ;; TODO: 'init-pascal
 ;; TODO: 'init-python

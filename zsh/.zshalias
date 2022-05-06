@@ -12,15 +12,15 @@
 # For a full list of active aliases, run `alias`.
 #
 # Config review
-if type nvim &> /dev/null; then
-  alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
-  alias ohmyzsh="nvim ~/.oh-my-zsh"
-  alias vimrc="nvim ~/.vimrc"
-else
+#if type nvim &> /dev/null; then
+#  alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
+#  alias ohmyzsh="nvim ~/.oh-my-zsh"
+#  alias vimrc="nvim ~/.vimrc"
+#else
   alias zshconfig='vim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
   alias ohmyzsh="vim ~/.oh-my-zsh"
   alias vimrc="vim ~/.vimrc"
-fi
+#fi
 #
 # Default to human readable figures
 alias df='df -h'
@@ -62,25 +62,25 @@ alias lla='ls -lA'    # long list almost all
 #alias mc='mc -b'
 #
 # python3 over 2
-alias python='python3'
+#alias python='python3'
 #
 # longtime basic programmer
 alias cls=clear
 #
 # nvim as vim
-if type nvim &> /dev/null; then
-  alias vim=nvim
-  alias vimdiff='nvim -d'
-fi
-#
-# fzf should use ripgrep if available
-#if type rg &> /dev/null; then
-#  export FZF_DEFAULT_COMMAND='rg --files'
-#  export FZF_DEFAULT_OPTS='-m'
+#if type nvim &> /dev/null; then
+#  alias vim=nvim
+#  alias vimdiff='nvim -d'
 #fi
 #
-alias rm="echo danger will robinson!"
-alias tt="gio trash"
+# fzf should use ripgrep if available
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m'
+fi
+#
+#alias rm="echo danger will robinson!"
+#alias tt="gio trash"
 #
 # Umask
 #
@@ -92,22 +92,22 @@ alias tt="gio trash"
 umask 033
 #
 # fortran!
-alias fpm=~/bin/fpm-0.5.0-linux-x86_64
+#alias fpm=~/bin/fpm-0.5.0-linux-x86_64
 #
 # Path additions
 #
 # lifted from /etc/profile for my .bashrc
-prependpath () {
-    case ":$PATH:" in
-        *:"$1":*)
-            ;;
-        *)
-            PATH="$1:$PATH"
-    esac
-}
+#prependpath () {
+#    case ":$PATH:" in
+#        *:"$1":*)
+#            ;;
+#        *)
+#            PATH="$1:$PATH"
+#    esac
+#}
 #mb=$HOME/.gem/ruby/2.5.0/bin
 #[[ -d $mb ]] && prependpath "$mb"
-mb=$HOME/bin
-[[ -d $mb ]] && prependpath "$mb"
-unset mb
-unset prependpath
+#mb=$HOME/bin
+#[[ -d $mb ]] && prependpath "$mb"
+#unset mb
+#unset prependpath
