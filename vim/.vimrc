@@ -38,10 +38,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
 Plug 'mileszs/ack.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " tags
-" Plug 'preservim/tagbar'
-" Plug 'ludovicchabant/vim-gutentags'
+"Plug 'ludovicchabant/vim-gutentags'
+Plug 'vim-scripts/taglist.vim'
 
 " UI
 Plug 'itchyny/lightline.vim'
@@ -56,19 +57,14 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 " basic language support
-"Plug 'blametroi/qb64dev.vim'
-"Plug 'blametroi/qbcolor.vim'
 Plug 'caglartoklu/fbc.vim'
-"Plug 'vim-scripts/Freebasic-vim-syntax-file'
-"Plug 'blametroi/Freebasic-vim-syntax-file'
 
 " editor behavior helpers
 Plug 'preserVIM/nerdtree'
 Plug 'preserVIM/nerdcommenter'
-Plug 'preserVIM/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'maxbrunsfeld/vim-yankstack'
+"Plug 'maxbrunsfeld/vim-yankstack'
 
 " markdown / writing
 " vimwiki suggests putting these last
