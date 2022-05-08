@@ -30,6 +30,11 @@ if WINDOWS()
 endif
 " 
 
+"
+" autotags setup ...
+let g:autotags_ctags_global_include = "/usr/include/freebasic/*"
+"let g:autotags_ctags_languages = "basic,pascal,vim,rexx,sh,go,fortran,lisp,emacslisp,c"
+"let g:autotags_ctags_langmap = "basic:.bas.bi.bm.bb,pascal:.pas.pp.lpr,rexx:.rexx,sh:.sh.zsh,go:.go,fortran:.f.for.f90.f95"
 " 
 " Vim-Plug 
 call plug#begin('~/.vim/plugged')
@@ -41,8 +46,11 @@ Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 
 " tags
-"Plug 'ludovicchabant/vim-gutentags'
-Plug 'vim-scripts/taglist.vim'
+Plug 'ludovicchabant/vim-gutentags'
+" Plug 'vim-scripts/taglist.vim'
+" Plug 'vim-scripts/autotags' -- dated, my updates below
+Plug 'blametroi/autotags'
+Plug 'preservim/tagbar'
 
 " UI
 Plug 'itchyny/lightline.vim'
@@ -121,6 +129,10 @@ set foldlevelstart=99           " open most folds when starting
 " mouse available in vim
 if !has('nvim')
     set ttymouse=xterm2
+endif
+
+if has('nvim')
+    set mouse=a
 endif
 
 " Formatting 

@@ -1,5 +1,5 @@
 " Vim indent file
-" Language:    basic, but really Liberty BASIC
+" Language:    basic, more liberty & freebasic
 " Maintainer:  Troy Brumley
 " Created:     2019 Jul 24
 " Last Change: 2019 Jul 29
@@ -15,6 +15,7 @@
 "
 " Maintenance Log:
 "
+" 2022/05/08 freebasic keywords
 " 2019/07/29 Correct indenting on select case/case blocks. Line
 "            up the subsequent case lines under the select, indent
 "            under the case lines, out outdent back to select level
@@ -29,7 +30,7 @@ if exists("b:did_indent")
     finish
 endif
 let b:did_indent = 1
-setlocal indentexpr=GetLibertyBasicIndent(v:lnum)
+setlocal indentexpr=GetBasicIndent(v:lnum)
 " We're not going to use the cindent keys, so build indentkeys up
 " from scratch
 setlocal indentkeys=!^F
@@ -47,9 +48,17 @@ setlocal indentkeys+==~loop
 setlocal indentkeys+==~for
 setlocal indentkeys+==~next
 setlocal indentkeys+==~case
+setlocal indentkeys+==~type
+setlocal indentkeys+==~constructor
+setlocal indentkeys+==~destructor
+setlocal indentkeys+==~property
+setlocal indentkeys+==~private
+setlocal indentkeys+==~protected
+setlocal indentkeys+==~public
+setlocal indentkeys+==~operator
+" todo: do we need this?
 
-
-if exists("*GetLibertyBasicIndent")
+if exists("*GetBasicIndent")
     finish
 endif
 
@@ -71,7 +80,7 @@ function! s:GetPrevNonCommentLineNum( line_num )
 endfunction
 
 
-function! GetLibertyBasicIndent( line_num )
+function! GetBasicIndent( line_num )
 
     " Line 0 always goes at column 0
     if a:line_num == 0
@@ -81,7 +90,7 @@ function! GetLibertyBasicIndent( line_num )
     let this_codeline = getline( a:line_num )
 
     " subs, functions, line numbers
-    if this_codeline =~? '^\s*\(sub\|function\)\>'
+    if this_codeline =~? '^\s*\(sub\|function\|constructor\|destructor\|property\|operator\|type\)\>'
         return 0
     endif
     if this_codeline =~ '^\s*\d\+\>'
@@ -107,7 +116,7 @@ function! GetLibertyBasicIndent( line_num )
     " INCREASE INDENT
 
     " increase indent under subs and functions -but- not line numbers
-    if prev_codeline =~? '^\s*\(sub\|function\)\>'
+    if prev_codeline =~? '^\s*\(sub\|function\|constructor\|destructor\|property\|operator\|type\)\>'
         return indnt + shiftwidth()
     endif
 

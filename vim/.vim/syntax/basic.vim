@@ -104,7 +104,7 @@ syn keyword	freebasicFiles			LOCK LOF OPEN OUTPUT RANDOM RESET SEEK UNLOCK WRITE
 
 syn keyword	freebasicFunctions		ALIAS ANY BYREF BYVAL CALL CDECL CONSTRUCTOR DESTRUCTOR
 syn keyword	freebasicFunctions		DECLARE FUNCTION LIB OVERLOAD PASCAL STATIC SUB STDCALL
-syn keyword	freebasicFunctions		VA_ARG VA_FIRST VA_NEXT
+syn keyword	freebasicFunctions		VA_ARG VA_FIRST VA_NEXT PUBLIC PRIVATE PROTECTED THIS
 
 syn match	freebasicGraphics		"\<palette\s+get\>"
 syn keyword	freebasicGraphics		ALPHA CIRCLE CLS COLOR CUSTOM DRAW FLIP GET
@@ -126,7 +126,6 @@ syn keyword	freebasicMemory			ALLOCATE CALLOCATE CLEAR DEALLOCATE FIELD FRE PEEK
 syn keyword	freebasicMisc			ASM DATA LET TO READ RESTORE SIZEOF SWAP OFFSETOF
 
 syn keyword	freebasicModularizing		CHAIN COMMON EXPORT EXTERN DYLIBFREE DYLIBLOAD DYLIBSYMBOL
-syn keyword	freebasicModularizing		PRIVATE PUBLIC
 
 syn keyword	freebasicMultithreading		MUTEXCREATE MUTEXDESTROY MUTEXLOCK MUTEXUNLOCK THREADCREATE THREADWAIT
 
@@ -134,7 +133,7 @@ syn keyword	freebasicShell			CHDIR DIR COMMAND ENVIRON EXEC EXEPATH KILL NAME MK
 
 syn keyword	freebasicEnviron		SHELL SYSTEM WINDOWTITLE POINTERS
 
-syn keyword	freebasicLoops			FOR LOOP WHILE WEND DO CONTINUE STEP UNTIL next
+syn keyword	freebasicLoops			FOR LOOP WHILE WEND DO CONTINUE STEP UNTIL NEXT
 
 syn keyword	freebasicPointer		PROCPTR PTR SADD STRPTR VARPTR
 
