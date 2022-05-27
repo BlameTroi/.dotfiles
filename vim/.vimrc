@@ -1,5 +1,7 @@
 "
-"" Troy's .vimrc Environment
+" Troy's .vimrc Environment
+"
+" adding more customizations after working through the Losh "hardway" book
 
 " Identify platform 
 silent function! OSX()
@@ -58,7 +60,7 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'junegunn/vim-peekaboo'
 
 " themes
-Plug 'altercation/vim-colors-solarized'
+Plug 'dracula/vim',{'as':'dracula'}
 
 " git
 Plug 'airblade/vim-gitgutter'
@@ -108,9 +110,11 @@ set laststatus=2
 "set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 endif
 
+" how i like to see things
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set number                      " Line numbers on
+set numberwidth=6               " xedit legacy
 set showmatch                   " Show matching brackets/parenthesis
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
@@ -125,8 +129,18 @@ set scrolloff=3                 " Minimum lines to keep above and below cursor
 set foldenable                  " Auto fold code
 set foldmethod=indent           " indent makes the most sense to me
 set foldlevelstart=99           " open most folds when starting
+set sidescroll=8                " chunks
 
-" mouse available in vim
+" formatting defaults, things such as makefiles will need overrides
+set nowrap                      " Do not wrap long lines
+set autoindent                  " Indent at the same level of the previous line
+set shiftwidth=4                " Use indents of two spaces
+set expandtab                   " Tabs are spaces, not tabs
+set tabstop=4                   " An indentation every two columns
+set softtabstop=4               " Let backspace delete indent
+set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+
+" make mouse available in either vim or nvim
 if !has('nvim')
     set ttymouse=xterm2
 endif
@@ -135,45 +149,15 @@ if has('nvim')
     set mouse=a
 endif
 
-" Formatting 
-set nowrap                      " Do not wrap long lines
-set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=4                " Use indents of two spaces
-set expandtab                   " Tabs are spaces, not tabs
-set tabstop=4                   " An indentation every two columns
-set softtabstop=4               " Let backspace delete indent
-set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-" 
-
-" Filetype customization 
-syntax enable
-filetype plugin on
-filetype indent on
-
-au FileType py set autoindent
-au FileType py set smartindent
-au FileType py set textwidth=79
-au FileType * set fo-=cro
-
-" basic syntax and other support
-autocmd BufNewFile,BufRead *.bas set ft=basic
-autocmd BufNewFile,BufRead *.bi  set ft=basic
-autocmd BufNewFile,BufRead *.bm  set ft=basic
-autocmd BufNewFile,BufRead *.bas compiler fbc
-
 " UI Stuff 
+syntax enable
 
 " color scheme
-"let g:solarized_termcolors=256
-set t_Co=256
-syntax enable
-"colorscheme snazzy
-"let g:SnazzyTransparent = 1
-"colors blue
-"colors qbcolor
-"colors default
-set background=dark
-colorscheme solarized
+"set t_Co=256
+"set background=dark
+set termguicolors
+"let g:dracula_colorterm = 0
+colorscheme dracula
 
 " comments in italics
 highlight comment cterm=italic, gui=italic
@@ -189,38 +173,19 @@ set guicursor=
 
 " Putting these after just about everything else is done
 " Recommendations seem to be do them close to last
-
-" qb64dev configuration
-let g:qb64dev_qb64_directory="E:\\code\\qb64"
-let g:qb64dev_auotofind_qb64=0
-
-
-" lightline configuration
-"let g:lightline = {
-"\ 'colorscheme': 'snazzy',
-"\ }
-
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 
 " make ack plugin use ag, but ... it seems there is
 " an ag.vim plugin that i should look into
 if executable('ag')
-let g:ackprg = 'ag --vimgrep'
+    let g:ackprg = 'ag --vimgrep'
 endif
 
-" use # to toggle relative number on and off while in normal mode
-" useful when a range is needed
-"nnoremap <silent> # :set relativenumber!<cr>
-
-" key remaps for qb64 mode
-"au BufEnter,BufNew *.bas nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
-"au BufEnter,BufNew *.bi  nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
-"au BufEnter,BufNew *.bm  nnoremap <F5>  : call qb64dev#QB64CompileAndRun()<cr>
-"au BufEnter,BufNew *.bas nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
-"au BufEnter,BufNew *.bi  nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
-"au BufEnter,BufNew *.bm  nnoremap <F11> : call qb64dev#QB64Compile()<cr> 
-
 " Key remaps 
+
+" my preferred leaders...
+let mapleader = ","
+let maplocalleader="\\"
 
 " from vimtips wiki, syntax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
@@ -228,5 +193,90 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans
 " from https://dougblack.io/words/a-good-vimrc.html, toggle fold in normal
 nnoremap <space> za
 
-" and finally ...
-let mapleader = ","
+" quickly edit and source .vimrc. this will not work with the $MYVIMRC
+" variable in nvim since i actually use .vimrc, so the path is hard.
+" coded.
+:nnoremap <leader>ev :vsplit ~/.vimrc<cr>
+:nnoremap <leader>sv :source ~/.vimrc<cr>
+
+" move a line down or up. i'm not fond of these mappings.
+nnoremap <leader>- ddp
+nnoremap <leader>_ ddkkp
+
+" uppercase current word. there is a bug if on first character of word.
+" i haven't figured out how to use *, which correctly selects the word
+" but does not seem to do what i need in visual mode.
+inoremap <leader><c-u> <esc>bveU<esc>wi
+nnoremap <leader><c-u> bveU<esc>w
+
+" wrap current word in single or double quotes.
+" TODO: this word selection is what i need to understand for uppercase
+" word above.
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+
+" wrap visual selection in single or double quotes. losh suggested using
+" `< and `> but i couldn't find a way to preserve the selection with the
+" movement. this works for me.
+vnoremap <leader>" xi""<esc>hp
+vnoremap <leader>' xi''<esc>hp
+
+" hardcore mode mappings to get out of the habit of using esc and arrow
+" keys:
+inoremap jk <esc>
+inoremap <esc> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+" abbreviations for typos  and common
+" text.
+iabbrev @@ blametroi@gmail.com
+iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
+iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
+
+" Filetype customization 
+syntax enable
+filetype plugin on
+filetype indent on
+
+"
+
+" edit empty creates
+augroup troi_global
+	autocmd!
+    autocmd FileType * set fo-=cro
+	autocmd BufNewFile * :write
+augroup END
+
+" basic syntax and other support
+augroup troi_basic
+    autocmd!
+    autocmd BufNewFile,BufRead *.bas set ft=basic
+    autocmd BufNewFile,BufRead *.bi  set ft=basic
+    autocmd BufNewFile,BufRead *.bm  set ft=basic
+    autocmd BufNewFile,BufRead *.bas compiler fbc
+augroup END
+
+" key mappings for specific filetypes
+augroup filetype_basic
+	autocmd!
+	autocmd filetype basic nnoremap <buffer> <localleader>c I'<esc>
+augroup END
+
+augroup filetype_pascal
+	autocmd!
+	autocmd filetype pascal nnoremap <buffer> <localleader>c I//<esc>
+augroup END
+
+augroup filetype_html
+	autocmd!
+	autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
+augroup END
+
+

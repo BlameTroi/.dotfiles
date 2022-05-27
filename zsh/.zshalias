@@ -75,10 +75,11 @@ alias cls=clear
 #fi
 #
 # fzf should use ripgrep if available
-if type rg &> /dev/null; then
-  export FZF_DEFAULT_COMMAND='rg --files'
-  export FZF_DEFAULT_OPTS='-m'
-fi
+# ...this needs more thought ...
+#if type rg &> /dev/null; then
+#  export FZF_DEFAULT_COMMAND='rg --files'
+#  export FZF_DEFAULT_OPTS='-m'
+#fi
 #
 #alias rm="echo danger will robinson!"
 #alias tt="gio trash"

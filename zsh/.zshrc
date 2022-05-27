@@ -13,6 +13,7 @@ export fpath=(~/.zsh/functions $fpath)
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="jonathan"
 #ZSH_THEME="muse"
+#ZSH_THEME="dracula"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -72,7 +73,9 @@ ZSH_THEME="jonathan"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(z zsh-interactive-cd themes fd)
+#
+# zsh-syntax-highlighting *must* be last
+plugins=(z fzf zsh-interactive-cd themes fd vi-mode) # zsh-syntax-highlighting)
 
 # turn it up to 11
 source $ZSH/oh-my-zsh.sh
