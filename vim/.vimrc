@@ -5,6 +5,7 @@
 " and reviewing jmoyers' gist on setting up a c dev environment with
 " vim and tmux.
 
+" Helpful functions {{{
 " Identify platform 
 silent function! OSX()
     return has('macunix')
@@ -15,8 +16,9 @@ endfunction
 silent function! WINDOWS()
     return  (has('win32') || has('win64'))
 endfunction
+" }}}
 
-" Basics 
+" Basics {{{
 set nocompatible        " Must be first line
 if !WINDOWS()
     set shell=/usr/bin/zsh
@@ -28,8 +30,9 @@ endif
 if WINDOWS()
     set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
+" }}}
 
-" some tweaks from jmoyers ...
+" some tweaks from jmoyers ...{{{
 
 " just because
 set encoding=utf-8
@@ -43,10 +46,12 @@ let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
 
 " allow director/project specific vimrc ... this is potentially
 " insecure but i work alone so ... no biggie.
+" note: in nvim, you have to use .exrc as the filename now. 
 set exrc
 set secure
+" }}}
 
-" Vim-Plug 
+" Vim-Plug {{{
 call plug#begin('~/.vim/plugged')
 
 Plug 'ctrlpvim/ctrlp.vim'
@@ -59,8 +64,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'caglartoklu/fbc.vim'
 
 call plug#end()
+" }}}
 
-" Vim UI 
+" UI appearance and some behavior {{{
 
 set nocursorline                " Don't highlight current line
 set tabpagemax=10               " Only show 10 tabs
@@ -104,15 +110,6 @@ set foldmethod=indent           " indent makes the most sense to me
 set foldlevelstart=99           " open most folds when starting
 set sidescroll=8                " chunks
 
-" formatting defaults, things such as makefiles will need overrides
-set nowrap                      " Do not wrap long lines
-set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=4                " Use indents of two spaces
-set expandtab                   " Tabs are spaces, not tabs
-set tabstop=4                   " An indentation every two columns
-set softtabstop=4               " Let backspace delete indent
-set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-
 " make mouse available in either vim or nvim
 if !has('nvim')
     set ttymouse=xterm2
@@ -121,11 +118,6 @@ endif
 if has('nvim')
     set mouse=a
 endif
-
-" Filetype customization 
-syntax enable
-filetype plugin on
-filetype indent on
 
 " color scheme
 set termguicolors
@@ -139,7 +131,24 @@ highlight comment cterm=italic, gui=italic
 " when in insert mode
 set guicursor=
 
-" Key remaps 
+" }}}
+
+" formatting defaults and enable syntax, plugin, and indent {{{
+set nowrap                      " Do not wrap long lines
+set autoindent                  " Indent at the same level of the previous line
+set shiftwidth=4                " Use indents of two spaces
+set expandtab                   " Tabs are spaces, not tabs
+set tabstop=4                   " An indentation every two columns
+set softtabstop=4               " Let backspace delete indent
+set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+
+" Filetype customization 
+syntax enable
+filetype plugin on
+filetype indent on
+" }}}
+
+" Key remaps {{{
 
 " my preferred leaders...
 let mapleader = ","
@@ -197,27 +206,25 @@ nnoremap <right> <nop>
 iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
+" }}}
 
-" edit empty creates
+" edit new empty creates the file {{{
 augroup troi_global
 	autocmd!
     autocmd FileType * set fo-=cro
 	autocmd BufNewFile * :write
 augroup END
+" }}}
 
-" basic syntax and other support
-augroup troi_basic
-    autocmd!
+" mappings and customization for specific filetypes {{{
+
+augroup filetype_basic
+	autocmd!
+	autocmd filetype basic nnoremap <buffer> <localleader>c I'<esc>
     autocmd BufNewFile,BufRead *.bas set ft=basic
     autocmd BufNewFile,BufRead *.bi  set ft=basic
     autocmd BufNewFile,BufRead *.bm  set ft=basic
     autocmd BufNewFile,BufRead *.bas compiler fbc
-augroup END
-
-" key mappings for specific filetypes
-augroup filetype_basic
-	autocmd!
-	autocmd filetype basic nnoremap <buffer> <localleader>c I'<esc>
 augroup END
 
 augroup filetype_pascal
@@ -230,3 +237,9 @@ augroup filetype_html
 	autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+
+" }}}
