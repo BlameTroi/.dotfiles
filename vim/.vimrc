@@ -2,27 +2,25 @@
 " Troy's .vimrc Environment
 "
 " adding more customizations after working through the Losh "hardway" book
+" and reviewing jmoyers' gist on setting up a c dev environment with
+" vim and tmux.
 
 " Identify platform 
 silent function! OSX()
     return has('macunix')
 endfunction
-
 silent function! LINUX()
     return has('unix') && !has('macunix') && !has('win32unix')
 endfunction
-
 silent function! WINDOWS()
     return  (has('win32') || has('win64'))
 endfunction
-" 
 
 " Basics 
 set nocompatible        " Must be first line
 if !WINDOWS()
     set shell=/usr/bin/zsh
 endif
-" 
 
 " Windows Compatible 
 " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
@@ -30,62 +28,37 @@ endif
 if WINDOWS()
     set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
-" 
 
-"
-" autotags setup ...
-let g:autotags_ctags_global_include = "/usr/include/freebasic/*"
-"let g:autotags_ctags_languages = "basic,pascal,vim,rexx,sh,go,fortran,lisp,emacslisp,c"
-"let g:autotags_ctags_langmap = "basic:.bas.bi.bm.bb,pascal:.pas.pp.lpr,rexx:.rexx,sh:.sh.zsh,go:.go,fortran:.f.for.f90.f95"
-" 
+" some tweaks from jmoyers ...
+
+" just because
+set encoding=utf-8
+
+" allow :e file autocomplete in subdirectories
+set path+=**
+set wildmenu
+
+" don't ctrlp into these
+let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
+
+" allow director/project specific vimrc ... this is potentially
+" insecure but i work alone so ... no biggie.
+set exrc
+set secure
+
 " Vim-Plug 
 call plug#begin('~/.vim/plugged')
 
-" files and search
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
-Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-
-" tags
-Plug 'ludovicchabant/vim-gutentags'
-" Plug 'vim-scripts/taglist.vim'
-" Plug 'vim-scripts/autotags' -- dated, my updates below
 Plug 'blametroi/autotags'
-Plug 'preservim/tagbar'
-
-" UI
 Plug 'itchyny/lightline.vim'
 Plug 'farmergreg/vim-lastplace'
-Plug 'junegunn/vim-peekaboo'
-
-" themes
 Plug 'dracula/vim',{'as':'dracula'}
-
-" git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-
-" basic language support
 Plug 'caglartoklu/fbc.vim'
 
-" editor behavior helpers
-Plug 'preserVIM/nerdtree'
-Plug 'preserVIM/nerdcommenter'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-"Plug 'maxbrunsfeld/vim-yankstack'
-
-" markdown / writing
-" vimwiki suggests putting these last
-" Plug 'junegunn/goyo.vim'
-" Plug 'reedes/vim-pencil'
-" plug 'ajorgensen/vim-markdown-toc'
-" Plug 'vimwiki/vimwiki'
-
 call plug#end()
-
-" 
 
 " Vim UI 
 
@@ -94,20 +67,20 @@ set tabpagemax=10               " Only show 10 tabs
 set noshowmode                  " Lightline displays the current mode
 
 if has('cmdline_info')
-set ruler                   " Show the ruler
-"set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-set showcmd                 " Show partial commands in status line and
-" Selected characters/lines in visual mode
+    set ruler                   " Show the ruler
+    "set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+    set showcmd                 " Show partial commands in status line and
+    " Selected characters/lines in visual mode
 endif
 
 if has('statusline')
-set laststatus=2
-" Broken down into easily includeable segments
-"set statusline=%<%f\                     " Filename
-"set statusline+=%w%h%m%r                 " Options
-"set statusline+=\ [%{&ff}/%Y]            " Filetype
-"set statusline+=\ [%{getcwd()}]          " Current dir
-"set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+    set laststatus=2
+    " Broken down into easily includeable segments
+    "set statusline=%<%f\                     " Filename
+    "set statusline+=%w%h%m%r                 " Options
+    "set statusline+=\ [%{&ff}/%Y]            " Filetype
+    "set statusline+=\ [%{getcwd()}]          " Current dir
+    "set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 endif
 
 " how i like to see things
@@ -149,14 +122,13 @@ if has('nvim')
     set mouse=a
 endif
 
-" UI Stuff 
+" Filetype customization 
 syntax enable
+filetype plugin on
+filetype indent on
 
 " color scheme
-"set t_Co=256
-"set background=dark
 set termguicolors
-"let g:dracula_colorterm = 0
 colorscheme dracula
 
 " comments in italics
@@ -166,20 +138,6 @@ highlight comment cterm=italic, gui=italic
 " this disables changing the cursor to a thin vertical bar
 " when in insert mode
 set guicursor=
-
-" 
-
-" Plugin additions 
-
-" Putting these after just about everything else is done
-" Recommendations seem to be do them close to last
-set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-
-" make ack plugin use ag, but ... it seems there is
-" an ag.vim plugin that i should look into
-if executable('ag')
-    let g:ackprg = 'ag --vimgrep'
-endif
 
 " Key remaps 
 
@@ -240,13 +198,6 @@ iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
 
-" Filetype customization 
-syntax enable
-filetype plugin on
-filetype indent on
-
-"
-
 " edit empty creates
 augroup troi_global
 	autocmd!
@@ -278,5 +229,4 @@ augroup filetype_html
 	autocmd!
 	autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
 augroup END
-
 

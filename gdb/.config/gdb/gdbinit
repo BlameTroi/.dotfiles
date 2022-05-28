@@ -1,5 +1,8 @@
 # __________________gdb options_________________
 
+set print pretty on
+tui enable
+
 set confirm off
 set verbose off
 set history filename ~/.gdb_history
