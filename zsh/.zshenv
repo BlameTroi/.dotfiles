@@ -19,7 +19,7 @@ export manpath=(~/.local/share/man /usr/local/man $manpath[@])
 #
 # PATH="$PATH"
 typeset -U PATH
-export path=(~/bin ~/.local/bin $path[@])
+export path=(~/bin ~/.local/bin ~/.local/share/gem/ruby/3.0.0/bin $path[@])
 #
 #export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
@@ -35,5 +35,6 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 # umask 077
 umask 033
 #
-export VISUAL="vim"
+export VISUAL="lvim"
 export EDITOR=$VISUAL
+. "$HOME/.cargo/env"

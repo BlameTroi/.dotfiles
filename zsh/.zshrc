@@ -11,8 +11,8 @@ export fpath=(~/.zsh/functions $fpath)
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="jonathan"
-#ZSH_THEME="muse"
+#ZSH_THEME="jonathan"
+ZSH_THEME="muse"
 #ZSH_THEME="dracula"
 
 # Set list of themes to pick from when loading at random
@@ -75,14 +75,17 @@ ZSH_THEME="jonathan"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z fzf zsh-interactive-cd themes fd vi-mode) # zsh-syntax-highlighting)
+plugins=(z fzf zsh-interactive-cd themes fd vi-mode) # tmux zsh-syntax-highlighting)
+
+# open tmux on startup, requires tmux plugin
+# ZSH_TMUX_AUTOSTART=true
 
 # turn it up to 11
 source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
+    export EDITOR='lvim'
 fi
 
 source $HOME/.zshopts
@@ -91,9 +94,9 @@ source $HOME/.zshopts
 source $HOME/.zshalias
 
 # following added by nvm, i may want to move it to .zshenv
-#export NVM_DIR="$HOME/.config/nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Base16 Shell
 # BASE16_SHELL="$HOME/.config/base16-shell"

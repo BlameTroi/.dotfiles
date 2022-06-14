@@ -62,6 +62,7 @@ Plug 'dracula/vim',{'as':'dracula'}
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'caglartoklu/fbc.vim'
+Plug 'vim-scripts/Smart-Tabs'
 
 call plug#end()
 " }}}
@@ -136,9 +137,10 @@ set guicursor=
 " formatting defaults and enable syntax, plugin, and indent {{{
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=4                " Use indents of two spaces
-set expandtab                   " Tabs are spaces, not tabs
-set tabstop=4                   " An indentation every two columns
+set copyindent                  " use tabs or spaces as on prior line
+set shiftwidth=4                " Use indents of four spaces
+set noexpandtab                 " Tabs are not tabs
+set tabstop=4                   " An indentation every four columns
 set softtabstop=4               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 
@@ -231,6 +233,11 @@ augroup filetype_pascal
 	autocmd!
 	autocmd filetype pascal nnoremap <buffer> <localleader>c I//<esc>
 augroup END
+
+augroup filetype_c
+    autocmd!
+    autocmd filetype c nnoremap <buffer> <localleader>c I//<esc>
+augroup END    
 
 augroup filetype_html
 	autocmd!
