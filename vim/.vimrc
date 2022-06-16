@@ -61,36 +61,27 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'dracula/vim',{'as':'dracula'}
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-Plug 'caglartoklu/fbc.vim'
-Plug 'vim-scripts/Smart-Tabs'
 
 call plug#end()
 " }}}
 
 " UI appearance and some behavior {{{
 
-set nocursorline                " Don't highlight current line
+set cursorline                  " Don't highlight current line
 set tabpagemax=10               " Only show 10 tabs
 set noshowmode                  " Lightline displays the current mode
 
 if has('cmdline_info')
     set ruler                   " Show the ruler
-    "set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
     set showcmd                 " Show partial commands in status line and
-    " Selected characters/lines in visual mode
 endif
 
 if has('statusline')
     set laststatus=2
-    " Broken down into easily includeable segments
-    "set statusline=%<%f\                     " Filename
-    "set statusline+=%w%h%m%r                 " Options
-    "set statusline+=\ [%{&ff}/%Y]            " Filetype
-    "set statusline+=\ [%{getcwd()}]          " Current dir
-    "set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 endif
 
 " how i like to see things
+set cmdheight=2                 " more space in command line
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set number                      " Line numbers on
@@ -122,7 +113,10 @@ endif
 
 " color scheme
 set termguicolors
-colorscheme dracula
+if !has('nvim')
+	colorscheme dracula
+	set background=dark
+endif
 
 " comments in italics
 highlight comment cterm=italic, gui=italic
@@ -153,7 +147,7 @@ filetype indent on
 " Key remaps {{{
 
 " my preferred leaders...
-let mapleader = ","
+let mapleader = "<space>"
 let maplocalleader="\\"
 
 " from vimtips wiki, syntax highlighting group under cursor
