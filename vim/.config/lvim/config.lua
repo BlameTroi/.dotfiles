@@ -9,6 +9,7 @@ lvim.leader = ","
 vim.g.localleader = "\\"
 
 -- general
+-- vim.opt.termguicolors = true
 lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "dracula"
@@ -38,6 +39,10 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.joinspaces = false
 
+-- key-menu.nvim settings
+vim.o.timeoutlen = 300
+
+-- vim.g.EditorConfig_exclude_patterns = "['fugitive://.*', 'scp://.*']"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
@@ -83,118 +88,154 @@ lvim.builtin.lualine.style = "default"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
-lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.rainbow.enable = true
+-- trying key-menu.nvim in place of whichkey
+-- lvim.builtin.which_key.active = false
 -- if you don't want all the parsers change this to a table of
 -- the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-	"bash",
-	"c",
-	"javascript",
-	"json",
-	"lua",
-	"python",
-	"typescript",
-	"rust",
-	"java",
-	"yaml",
+		"bash",
+		"c",
+		"cpp",
+		"javascript",
+		"json",
+		"lua",
+		"python",
+		"typescript",
+		"yaml",
 }
-
-lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.indent.disable = {"yaml", "python", "c", "cpp" }
+lvim.builtin.treesitter.indent.disable = {"c", "cpp" }
 
 -- Additional Plugins
 lvim.plugins = {
-	{ "Mofiqul/dracula.nvim" },
-	-- {
-	-- 	"folke/zen-mode.nvim",
-	-- 	config = function()
-	-- 		require("zen-mode").setup { plugins = { tmux = {enabled = true }}}
-	-- 	end
-	-- },
-	-- {
-	-- 	"folke/twilight.nvim",
-	-- 	config = function()
-	-- 		require("twilight").setup {
-	-- 			-- add code here or leave empty for defaults
-	-- 		}
-	-- 	end
-	-- },
+		{
+				"Mofiqul/dracula.nvim"
+		},
+		{
+				"phaazon/hop.nvim",
+				event = "BufRead",
+				config = function()
+						require("hop").setup()
+						vim.api.nvim_set_keymap("n", "s", "HopChar2<cr>", { silent = true })
+						vim.api.nvim_set_keymap("n", "S", "HopWord<cr>", { silent = true })
+				end
+		},
+		{
+				"sindrets/diffview.nvim",
+				event = "BufRead",
+		},
+		{
+				"p00f/nvim-ts-rainbow",
+		},
+		-- {
+		-- 	"linty-org/key-menu.nvim",
+		-- 	config = function()
+		-- 		-- this should match your leader
+		-- 		require 'key-menu'.set('n', ',')
+		-- 		require 'key-menu'.set('n', 'g')
+		-- 	end
+		-- },
+		-- {
+		-- 	"folke/zen-mode.nvim",
+		-- 	config = function()
+		-- 		require("zen-mode").setup { plugins = { tmux = {enabled = true }}}
+		-- 	end
+		-- },
+		-- {
+		-- 	"folke/twilight.nvim",
+		-- 	config = function()
+		-- 		require("twilight").setup {
+		-- 			-- add code here or leave empty for defaults
+		-- 		}
+		-- 	end
+		-- },
+		{
+				"folke/lsp-colors.nvim"
+		},
+		--	{
+		--		"folke/trouble.nvim",
+		--		cmd = "TroubleToggle",
+		--		config = function()
+		--		require("trouble").setup {
+		--				-- taking defaults right now
+		--		}
+		--		end
+		--	},
+		-- {
+		--   "editorconfig/editorconfig-vim",
+		--   config = function()
+		--     require("editorconfig").setup({
+		--       -- need to add augroupt to disable in things like gitcommit
+		--       -- assignment to g.EditorConfig stuff doesn't seem to work here in lua
+		--     })
+		--   end
+		-- },
+		-- {
+		-- 	"tpope/vim-surround",
+		-- 	keys = { "c", "d", "y" },
+		-- 	config = function()
+		-- 	require("vim-surround").setup {
+		-- 			-- not aware of any needed
+		-- 	}
+		-- 	end
+		-- },
+		{
+				"ethanholz/nvim-lastplace",
+				event = "BufRead",
+				config = function()
+						require("nvim-lastplace").setup({
+								lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+								lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
+								lastplace_open_folds = true,
+						})
+				end
+		},
+		--	{
+		--		"TimUntersberger/neogit",
+		--		config = function()
+		--			require("neogit").setup{}
+		--		end
+		--	},
+		--	{
+		--		"nvim-neorg/neorg",
+		--		tag = "*",
+		--		config = function()
+		--		require("neorg").setup {}
+		--		end
+		--	},
+		--	{
+		--		"chentoast/marks.nvim",
+		--		config = function()
+		--		require("marks").setup {
+		--				default_mappings = true,
+		--				builtin_marks = { ".", "<", ">", "^" },
+		--		}
+		--		end
+		--	},
+		--	{
+		--		"mrjones2014/legendary.nvim",
+		--		config = function ()
+		--		require("legendary").setup({
+		--				include_builtin = true,
+		--				include_legendary_cmds = true,
+		--				select_prompt = nil,
+		--				formatter = nil,
+		--				most_recent_item_at_top = true,
+		--				keymaps = {},
+		--				commands = {},
+		--				autocmds = {},
+		--				auto_register_which_key = true,
+		--				scratchpad = {
+		--					display_results = 'float',
+		--				},
+		--		})
+		--		end
+		--	},
+		-- more to come...
 	{
-		"folke/lsp-colors.nvim"
-	},
-	{
-		"folke/trouble.nvim",
-		cmd = "TroubleToggle",
-		config = function()
-		require("trouble").setup {
-				-- taking defaults right now
-		}
-		end
-	},
-	{ "editorconfig/editorconfig-vim" },
-	-- {
-	-- 	"tpope/vim-surround",
-	-- 	keys = { "c", "d", "y" },
-	-- 	config = function()
-	-- 	require("vim-surround").setuup {
-	-- 			-- not aware of any needed
-	-- 	}
-	-- 	end
-	-- },
-	{
-		"ethanholz/nvim-lastplace",
-		event = "BufRead",
-		config = function()
-			require("nvim-lastplace").setup({
-				lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-				lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
-				lastplace_open_folds = true,
-			})
-		end
-	},
-	{
-		"TimUntersberger/neogit",
-		config = function()
-			require("neogit").setup{}
-		end
-	},
-	{
-		"nvim-neorg/neorg",
-		tag = "*",
-		config = function()
-		require("neorg").setup {}
-		end
-	},
-	{
-		"chentoast/marks.nvim",
-		config = function()
-		require("marks").setup {
-				default_mappings = true,
-				builtin_marks = { ".", "<", ">", "^" },
-		}
-		end
-	},
-	{
-		"mrjones2014/legendary.nvim",
-		config = function ()
-		require("legendary").setup({
-				include_builtin = true,
-				include_legendary_cmds = true,
-				select_prompt = nil,
-				formatter = nil,
-				most_recent_item_at_top = true,
-				keymaps = {},
-				commands = {},
-				autocmds = {},
-				auto_register_which_key = true,
-				scratchpad = {
-					display_results = 'float',
-				},
-		})
-		end
-	},
-	-- more to come...
+		"sudormrfbin/cheatsheet.nvim"
+	}
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
