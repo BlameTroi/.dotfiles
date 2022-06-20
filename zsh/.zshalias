@@ -13,10 +13,10 @@
 #
 # Config review
 if type nvim &> /dev/null; then
-  alias vim='lvim'
-  alias zshconfig='lvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
-  alias ohmyzsh="lvim ~/.oh-my-zsh"
-  alias vimrc="lvim ~/.vimrc"
+  alias vim='nvim'
+  alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
+  alias ohmyzsh="nvim ~/.oh-my-zsh"
+  alias vimrc="nvim ~/.vimrc"
 else
   alias zshconfig='vim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
   alias ohmyzsh="vim ~/.oh-my-zsh"

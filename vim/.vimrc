@@ -41,6 +41,8 @@ set encoding=utf-8
 set path+=**
 set wildmenu
 
+let g:loaded_perl_provider = 0
+
 " don't ctrlp into these
 let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
 
