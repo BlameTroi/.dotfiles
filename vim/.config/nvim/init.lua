@@ -58,8 +58,7 @@ require "user.telescope"
 -- require "user.cmp"
 
 -- [[ lsp configuration ]]
--- following goes into the user/lsp directory to execute init.lua
--- require "user.lsp"
+-- require "user.lsp"  -- ./user/lsp/init.lua
 require "user.treesitter"
 -- require "user.autopairs"
 -- -- require "user.project"
@@ -68,7 +67,8 @@ require "user.treesitter"
 require "user.comment"
 
 -- [[ git ]]
-require "user.vim-fugitive"
+-- require "user.vim-fugitive"
+require "user.gitsigns"
 
 -- [[ key mapping ]]
 require "user.whichkey"

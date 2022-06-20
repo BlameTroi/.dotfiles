@@ -87,7 +87,12 @@ telescope.setup {
 		-- builtin picker
 	},
 	extensions = {
-		fzf,
+		fzf = {
+			fuzzy = true,
+			override_generic_sorter = true,
+			override_file_sorter = true,
+			case_mode = 'smart_case',
+		},
 		-- Your extension configuration goes here:
 		-- extension_name = {
 		--   extension_config_key = value,
