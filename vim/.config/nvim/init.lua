@@ -42,7 +42,7 @@ require "user.bqf"
 require "user.nvim-lastplace"
 -- popup and dressing don't require setup at this time
 -- require "user.notify" -- TODO: not working yet
--- require "user.toggleterm"
+require "user.toggleterm"
 
 -- require "user.indentline"
 

@@ -18,7 +18,7 @@ configs.setup {
 	rainbow = {
 		enable = true,
 	},
-	indent = { enable = true, disable = { "c", "yaml" } },
+	indent = { enable = false }, -- , disable = { "c", "yaml" } },
 	context_commentstring = {
 		enable = true,
 		enable_autocmd = false,

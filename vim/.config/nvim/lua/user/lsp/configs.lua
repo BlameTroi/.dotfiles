@@ -5,11 +5,14 @@ end
 
 local lspconfig = require("lspconfig")
 
-local servers = { "jsonls", "sumneko_lua" }
+local servers = { "clangd", "jsonls", "sumneko_lua" }
 
 lsp_installer.setup {
 	ensure_installed = servers
 }
+
+lspconfig.clangd.setup{}
+lspconfig.sumneko_lua.setup{}
 
 for _, server in pairs(servers) do
 	local opts = {

@@ -60,7 +60,6 @@ return packer.startup(function(use)
 	use "ethanholz/nvim-lastplace"
 	-- use "rcarriga/nvim-notify" -- not working yet TODO: fix it
 	use "kevinhwang91/nvim-bqf"
-	-- TODO: bqf broken on sync 06/20/22, we'll live without for a while
 	-- use {
 	-- 	"kevinhwang91/nvim-bqf",
 	-- 	-- TODO: ft = "qf" -- will lead to lazy loading and move to opt, need to get this working 
