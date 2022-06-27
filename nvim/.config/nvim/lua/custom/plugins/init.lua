@@ -26,6 +26,9 @@ return {
    ["stevearc/dressing.nvim"] = {
    },
 
+   ["simrat39/symbols-outline.nvim"] = {
+   },
+
    ["p00f/nvim-ts-rainbow"] = {
    }
 

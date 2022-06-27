@@ -2,6 +2,7 @@ local M = {}
 
 local override = require "custom.override"
 
+vim.cmd [[:echom "chadrc options"]]
 M.options = {
 	user = function()
 		require "custom.options"
@@ -14,6 +15,7 @@ M.options = {
 
 }
 
+vim.cmd [[:echom "chadrc plugins"]]
 M.plugins = {
 
 	options = {
@@ -35,6 +37,10 @@ M.plugins = {
 	user = require "custom.plugins",
 }
 
+vim.cmd [[:echom "chadrc mapping"]]
+M.mappings = require "custom.mappings"
+
+vim.cmd [[:echom "chadrc ui"]]
 M.ui = {
 	theme = "chadracula",
 
@@ -49,6 +55,8 @@ M.ui = {
 	tabufline_enabled = true,
 }
 
-M.mappings = require "custom.mappings"
+-- vim.cmd [[:echom "chadrc mapping"]]
+-- M.mappings = require "custom.mappings"
 
+vim.cmd [[:echom "chadrc done"]]
 return M
