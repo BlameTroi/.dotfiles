@@ -5,84 +5,125 @@
 " and reviewing jmoyers' gist on setting up a c dev environment with
 " vim and tmux.
 
-" Helpful functions {{{
-" Identify platform 
-silent function! OSX()
-    return has('macunix')
-endfunction
-silent function! LINUX()
-    return has('unix') && !has('macunix') && !has('win32unix')
-endfunction
-silent function! WINDOWS()
-    return  (has('win32') || has('win64'))
-endfunction
-" }}}
-
-" Basics {{{
 set nocompatible        " Must be first line
-if !WINDOWS()
-    set shell=/usr/bin/zsh
+
+" Shell on non window systems
+if !(has('win32') || has('win64'))
+  set shell=/usr/bin/zsh
 endif
 
-" Windows Compatible 
 " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
 " across (heterogeneous) systems easier.
-if WINDOWS()
-    set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+if (has('win32') || has('win64'))
+  set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
-" }}}
 
-" some tweaks from jmoyers ...{{{
-
-" just because
 set encoding=utf-8
-
 " allow :e file autocomplete in subdirectories
 set path+=**
 set wildmenu
 
-let g:loaded_perl_provider = 0
-
-" don't ctrlp into these
-let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
-
-" allow director/project specific vimrc ... this is potentially
-" insecure but i work alone so ... no biggie.
-" note: in nvim, you have to use .exrc as the filename now. 
-set exrc
-set secure
-" }}}
-
-" Vim-Plug {{{
+" Vim-Plug
 call plug#begin('~/.vim/plugged')
 
+" colors
+Plug 'blametroi/vim-amber'
+Plug 'blametroi/vim-dichromatic'
+Plug 'blametroi/reloaded.vim'
+Plug 'andreasvc/vim-256noir'
+
+" statusline
+Plug 'KaraMCC/vim-streamline'
+let g:streamline_enable_devicons = 1
+let g:streamline_minimal_ui = 0
+
+" other filetypes
+Plug 'jorengarenar/COBOL.vim'
+let g:cobol_legacy_code = 0
+let g:cobol_folding = 1
+let g:cobol_autoupper = 1
+let g:cobol_indent_data_items = 2
+let g:cobol_indent_id_paras = 0
+let g:cobol_comp_mp_cobc = 1
+let g:cobol_format_free = 1
+ 
+" even better vim behavior
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'blametroi/autotags'
-Plug 'itchyny/lightline.vim'
+let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
+
 Plug 'farmergreg/vim-lastplace'
-Plug 'dracula/vim',{'as':'dracula'}
+
+Plug 'tpope/vim-commentary'
+map  gc  <Plug>Commentary
+nmap gcc <Plug>ComentaryLine
+
+" git
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
+
+" fuzzy and grep
+Plug 'junegunn/fzf', { 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" nerd
+Plug 'preservim/nerdtree'
+
+" eye candy
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
-" }}}
 
-" UI appearance and some behavior {{{
+" optional packages in vim
+packadd! matchit
 
-set cursorline                  " Don't highlight current line
+" fix from git kitty issues 108
+" vim hardcodes background color erase even if the terminfo file does
+" not contain bce (not to mention that libvte based terminals
+" incorrectly contain bce in their terminfo files). This causes
+" incorrect background rendering when using a color theme with a
+" background color.
+if &term == 'xterm-kitty'
+  let &t_ut=''
+endif
+
+" Filetype customization 
+syntax enable
+filetype plugin on
+filetype indent on
+
+" color scheme
+set background=dark
+colorscheme amber
+set termguicolors
+
+" comments in italics
+" note: must come after syntax enable ft plugin on indent on ...
+highlight Comment gui=italic cterm=italic
+
+" nvim hack, guicursor applies to terminal mode as well???
+" this disables changing the cursor to a thin vertical bar
+" when in insert mode
+" set guicursor=
+ 
+" gitgutter trying to get colors i want
+" TODO: remove hard coding
+highlight GitGutterAdd    guibg=#000000 guifg=#fc9505
+highlight GitGutterChange guibg=#000000 guifg=#fc9505
+highlight GitGutterDelete guibg=#000000 guifg=#fc9505
+
+" UI appearance and some behavior
+
+set nocursorline                " Don't highlight current line
 set tabpagemax=10               " Only show 10 tabs
-set noshowmode                  " Lightline displays the current mode
+set noshowmode                  " Statusline displays mode
 
-if has('cmdline_info')
-    set ruler                   " Show the ruler
-    set showcmd                 " Show partial commands in status line and
-endif
+set ruler                       " Show the ruler
+set showcmd                     " Show partial commands in status line and
 
-if has('statusline')
-    set laststatus=2
-endif
+set laststatus=2
 
-" how i like to see things
+set grepprg=LC_ALL=C\ grep\ -nrsh
+set hidden
 set cmdheight=2                 " more space in command line
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
@@ -103,50 +144,30 @@ set foldenable                  " Auto fold code
 set foldmethod=indent           " indent makes the most sense to me
 set foldlevelstart=99           " open most folds when starting
 set sidescroll=8                " chunks
+set tags=./tags;,tags;
 
 " make mouse available in either vim or nvim
-if !has('nvim')
-    set ttymouse=xterm2
-endif
+set mouse=a
+"if !has('nvim')
+"    set ttymouse=xterm2
+"endif
+"if has('nvim')
+"    set mouse=a
+"endif
 
-if has('nvim')
-    set mouse=a
-endif
-
-" color scheme
-set termguicolors
-if !has('nvim')
-	colorscheme dracula
-	set background=dark
-endif
-
-" comments in italics
-highlight comment cterm=italic, gui=italic
-
-" nvim hack, guicursor applies to terminal mode as well???
-" this disables changing the cursor to a thin vertical bar
-" when in insert mode
-set guicursor=
-
-" }}}
-
-" formatting defaults and enable syntax, plugin, and indent {{{
+" formatting defaults and enable syntax, plugin, and indent
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
 set copyindent                  " use tabs or spaces as on prior line
-set shiftwidth=4                " Use indents of four spaces
-set noexpandtab                 " Tabs are not tabs
-set tabstop=4                   " An indentation every four columns
-set softtabstop=4               " Let backspace delete indent
+set shiftwidth=2                " Use indents of two spaces
+set expandtab                   " Tabs are not tabs
+set tabstop=2                   " An indentation every two columns
+set softtabstop=2               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+set virtualedit=all             " like the good old days
 
-" Filetype customization 
-syntax enable
-filetype plugin on
-filetype indent on
-" }}}
 
-" Key remaps {{{
+" Key remaps
 
 " my preferred leaders...
 let mapleader = "<space>"
@@ -161,8 +182,8 @@ nnoremap <space> za
 " quickly edit and source .vimrc. this will not work with the $MYVIMRC
 " variable in nvim since i actually use .vimrc, so the path is hard.
 " coded.
-:nnoremap <leader>ev :vsplit ~/.vimrc<cr>
-:nnoremap <leader>sv :source ~/.vimrc<cr>
+nnoremap <leader>ev :vsplit ~/.vimrc<cr>
+nnoremap <leader>sv :source ~/.vimrc<cr>
 
 " move a line down or up. i'm not fond of these mappings.
 nnoremap <leader>- ddp
@@ -189,60 +210,87 @@ vnoremap <leader>' xi''<esc>hp
 " hardcore mode mappings to get out of the habit of using esc and arrow
 " keys:
 inoremap jk <esc>
-inoremap <esc> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
+" inoremap <esc> <nop>
+" inoremap <up> <nop>
+" inoremap <down> <nop>
+" inoremap <left> <nop>
+" inoremap <right> <nop>
+" nnoremap <up> <nop>
+" nnoremap <down> <nop>
+" nnoremap <left> <nop>
+" nnoremap <right> <nop>
+
+" ----------------------------------------------------------------------------
+" Quickfix
+" ----------------------------------------------------------------------------
+nnoremap ]q :cnext<cr>zz
+nnoremap [q :cprev<cr>zz
+nnoremap ]l :lnext<cr>zz
+nnoremap [l :lprev<cr>zz
+
+" ----------------------------------------------------------------------------
+" Buffers
+" ----------------------------------------------------------------------------
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprev<cr>
+
+" ----------------------------------------------------------------------------
+" Tabs
+" ----------------------------------------------------------------------------
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
+
+" ----------------------------------------------------------------------------
+" <tab> / <s-tab> | Circular windows navigation
+" ----------------------------------------------------------------------------
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
 
 " abbreviations for typos  and common
 " text.
 iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
-" }}}
 
-" edit new empty creates the file {{{
+" edit new empty creates the file
 augroup troi_global
-	autocmd!
-    autocmd FileType * set fo-=cro
-	autocmd BufNewFile * :write
+  autocmd!
+  autocmd FileType * set fo-=cro
+  autocmd BufNewFile * :write
 augroup END
-" }}}
 
-" mappings and customization for specific filetypes {{{
+" mappings and customization for specific filetypes
 
 augroup filetype_basic
-	autocmd!
-	autocmd filetype basic nnoremap <buffer> <localleader>c I'<esc>
-    autocmd BufNewFile,BufRead *.bas set ft=basic
-    autocmd BufNewFile,BufRead *.bi  set ft=basic
-    autocmd BufNewFile,BufRead *.bm  set ft=basic
-    autocmd BufNewFile,BufRead *.bas compiler fbc
+  autocmd!
+  autocmd filetype basic nnoremap <buffer> <localleader>c I'<esc>
+  autocmd BufNewFile,BufRead *.bas set ft=basic
+  autocmd BufNewFile,BufRead *.bi  set ft=basic
+  autocmd BufNewFile,BufRead *.bm  set ft=basic
+  autocmd BufNewFile,BufRead *.bas compiler fbc
 augroup END
 
 augroup filetype_pascal
-	autocmd!
-	autocmd filetype pascal nnoremap <buffer> <localleader>c I//<esc>
+  autocmd!
+  autocmd filetype pascal nnoremap <buffer> <localleader>c I//<esc>
 augroup END
 
 augroup filetype_c
-    autocmd!
-    autocmd filetype c nnoremap <buffer> <localleader>c I//<esc>
+  autocmd!
+  autocmd filetype c nnoremap <buffer> <localleader>c I//<esc>
 augroup END    
 
 augroup filetype_html
-	autocmd!
-	autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
+  autocmd!
+  autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
 augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
-" }}}
+augroup filetype_cobol
+  autocmd!
+  autocmd filetype cobol filetype indent off
+augroup END

@@ -75,7 +75,7 @@ ZSH_THEME="muse"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z fzf zsh-interactive-cd themes fd vi-mode) # tmux zsh-syntax-highlighting)
+plugins=(z fzf zsh-interactive-cd themes fd vi-mode) # themes tmux zsh-syntax-highlighting)
 
 # open tmux on startup, requires tmux plugin
 # ZSH_TMUX_AUTOSTART=true
@@ -85,7 +85,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='nvim'
+    export EDITOR='vim'
 fi
 
 source $HOME/.zshopts
@@ -94,15 +94,17 @@ source $HOME/.zshopts
 source $HOME/.zshalias
 
 # following added by nvm, i may want to move it to .zshenv
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
+# BASE16_SHELL="$HOME/.config/base16-shell"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # direnv
 #eval "$(direnv hook zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
