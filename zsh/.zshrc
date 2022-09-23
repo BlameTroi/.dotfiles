@@ -12,7 +12,7 @@ export fpath=(~/.zsh/functions $fpath)
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 #ZSH_THEME="jonathan"
-ZSH_THEME="muse"
+ZSH_THEME="muse-mono"
 #ZSH_THEME="dracula"
 
 # Set list of themes to pick from when loading at random
@@ -41,7 +41,7 @@ ZSH_THEME="muse"
 # DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -75,7 +75,7 @@ ZSH_THEME="muse"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z fzf zsh-interactive-cd themes fd vi-mode) # themes tmux zsh-syntax-highlighting)
+plugins=(z fzf zsh-interactive-cd fd vi-mode) # themes tmux zsh-syntax-highlighting)
 
 # open tmux on startup, requires tmux plugin
 # ZSH_TMUX_AUTOSTART=true

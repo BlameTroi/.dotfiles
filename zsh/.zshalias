@@ -14,9 +14,9 @@
 # Config review
 if type nvim &> /dev/null; then
   alias vim='nvim'
-  alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
-  alias ohmyzsh="nvim ~/.oh-my-zsh"
-  alias vimrc="nvim ~/.vimrc"
+  # alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
+  # alias ohmyzsh="nvim ~/.oh-my-zsh"
+  # alias vimrc="nvim ~/.vimrc"
 else
   alias zshconfig='vim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
   alias ohmyzsh="vim ~/.oh-my-zsh"
@@ -32,9 +32,9 @@ alias less='less -r'                          # raw control characters
 alias whence='type -a'                        # where, of a sort
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='ls --color=auto --format=vertical'
-    alias vdir='ls --color=auto --format=long'
+    # alias ls='ls --color=auto'
+    # alias dir='ls --color=auto --format=vertical'
+    # alias vdir='ls --color=auto --format=long'
     alias grep='grep --color=auto'            # show differences in colour
     alias egrep='grep -e --color=auto'        # show differences in colour
     alias fgrep='grep -f --color=auto'        # show differences in colour
@@ -42,10 +42,12 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 #
 # Some shortcuts for different directory listings
-alias ll='ls -l'      # long list
-alias la='ls -A'      # almost all (excludes . and ..)
+alias ls='ls -F'
+alias l='ls -F'
+alias ll='ls -lF'      # long list
+alias la='ls -AF'      # almost all (excludes . and ..)
 alias l='ls -CF'      # list by columns, suffix type indicator
-alias lla='ls -lA'    # long list almost all
+alias lla='ls -lAF'    # long list almost all
 #
 # python virtual environments ...
 #alias activate-pyenv3="source ~/python-virtual-environments/pyenv3/bin/activate"
