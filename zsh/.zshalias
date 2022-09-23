@@ -14,9 +14,9 @@
 # Config review
 if type nvim &> /dev/null; then
   alias vim='nvim'
-  # alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
-  # alias ohmyzsh="nvim ~/.oh-my-zsh"
-  # alias vimrc="nvim ~/.vimrc"
+  alias zshconfig='nvim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
+  alias ohmyzsh="nvim ~/.oh-my-zsh"
+  alias vimrc="nvim ~/.vimrc"
 else
   alias zshconfig='vim ~/.zshrc ~/.zshenv ~/.zshalias ~/.zshopts'
   alias ohmyzsh="vim ~/.oh-my-zsh"
@@ -71,17 +71,16 @@ alias lla='ls -lAF'    # long list almost all
 alias cls=clear
 #
 # nvim as vim
-#if type nvim &> /dev/null; then
-#  alias vim=nvim
-#  alias vimdiff='nvim -d'
-#fi
+if type nvim &> /dev/null; then
+  alias vim=nvim
+  alias vimdiff='nvim -d'
+fi
 #
 # fzf should use ripgrep if available
-# ...this needs more thought ...
-#if type rg &> /dev/null; then
-#  export FZF_DEFAULT_COMMAND='rg --files'
-#  export FZF_DEFAULT_OPTS='-m'
-#fi
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m'
+fi
 #
 #alias rm="echo danger will robinson!"
 #alias tt="gio trash"

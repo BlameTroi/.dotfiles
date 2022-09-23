@@ -11,9 +11,7 @@ export fpath=(~/.zsh/functions $fpath)
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="jonathan"
 ZSH_THEME="muse-mono"
-#ZSH_THEME="dracula"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -85,26 +83,14 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
+export EDITOR='vim'
 fi
 
+# options
 source $HOME/.zshopts
-#
+
 # aliases
 source $HOME/.zshalias
 
-# following added by nvm, i may want to move it to .zshenv
-# export NVM_DIR="$HOME/.config/nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Base16 Shell
-# BASE16_SHELL="$HOME/.config/base16-shell"
-# [ -n "$PS1" ] && \
-#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-#         eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-# direnv
-#eval "$(direnv hook zsh)"
-
+# fzf integration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

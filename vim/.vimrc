@@ -4,6 +4,11 @@
 " adding more customizations after working through the Losh "hardway" book
 " and reviewing jmoyers' gist on setting up a c dev environment with
 " vim and tmux.
+"
+" things are going well enough that i'm willing to switch to neovim since
+" it's faster and i don't have any vim9 dependencies. however, i'm keeping
+" to vimscript instead of lua for customization so i can always fall back
+" to vim if needed.
 
 set nocompatible        " Must be first line
 
@@ -19,9 +24,6 @@ if (has('win32') || has('win64'))
 endif
 
 set encoding=utf-8
-" allow :e file autocomplete in subdirectories
-set path+=**
-set wildmenu
 
 " Vim-Plug
 call plug#begin('~/.vim/plugged')
@@ -46,7 +48,7 @@ let g:cobol_indent_data_items = 2
 let g:cobol_indent_id_paras = 0
 let g:cobol_comp_mp_cobc = 1
 let g:cobol_format_free = 1
- 
+
 " even better vim behavior
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
@@ -103,8 +105,8 @@ highlight Comment gui=italic cterm=italic
 " nvim hack, guicursor applies to terminal mode as well???
 " this disables changing the cursor to a thin vertical bar
 " when in insert mode
-" set guicursor=
- 
+set guicursor=  
+
 " gitgutter trying to get colors i want
 " TODO: remove hard coding
 highlight GitGutterAdd    guibg=#000000 guifg=#fc9505
@@ -122,6 +124,8 @@ set showcmd                     " Show partial commands in status line and
 
 set laststatus=2
 
+set path+=**                    " allow :e file autocomplete in subdirectories
+" TODO: ripgrep?
 set grepprg=LC_ALL=C\ grep\ -nrsh
 set hidden
 set cmdheight=2                 " more space in command line
@@ -144,7 +148,6 @@ set foldenable                  " Auto fold code
 set foldmethod=indent           " indent makes the most sense to me
 set foldlevelstart=99           " open most folds when starting
 set sidescroll=8                " chunks
-set tags=./tags;,tags;
 
 " make mouse available in either vim or nvim
 set mouse=a
@@ -165,7 +168,6 @@ set tabstop=2                   " An indentation every two columns
 set softtabstop=2               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 set virtualedit=all             " like the good old days
-
 
 " Key remaps
 
