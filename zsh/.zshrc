@@ -73,7 +73,7 @@ DISABLE_LS_COLORS="true"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z fzf zsh-interactive-cd fd vi-mode) # themes tmux zsh-syntax-highlighting)
+plugins=(z zsh-interactive-cd fd vi-mode) # themes tmux zsh-syntax-highlighting)
 
 # open tmux on startup, requires tmux plugin
 # ZSH_TMUX_AUTOSTART=true
@@ -83,7 +83,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='vim'
+export EDITOR='nvim'
 fi
 
 # options

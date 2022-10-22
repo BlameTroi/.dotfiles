@@ -29,9 +29,9 @@ set encoding=utf-8
 call plug#begin('~/.vim/plugged')
 
 " colors
-Plug 'blametroi/vim-amber'
-Plug 'blametroi/vim-dichromatic'
-Plug 'blametroi/reloaded.vim'
+" Plug 'blametroi/vim-amber'
+" Plug 'blametroi/vim-dichromatic'
+" Plug 'blametroi/reloaded.vim'
 Plug 'andreasvc/vim-256noir'
 
 " statusline
@@ -95,7 +95,11 @@ filetype indent on
 
 " color scheme
 set background=dark
-colorscheme amber
+colorscheme retro-amber
+" colorscheme retro-green
+" colorscheme retro-mono
+" colorscheme retro-3290
+" colorscheme retro-3290x
 set termguicolors
 
 " comments in italics
@@ -107,11 +111,15 @@ highlight Comment gui=italic cterm=italic
 " when in insert mode
 set guicursor=  
 
-" gitgutter trying to get colors i want
-" TODO: remove hard coding
-highlight GitGutterAdd    guibg=#000000 guifg=#fc9505
-highlight GitGutterChange guibg=#000000 guifg=#fc9505
-highlight GitGutterDelete guibg=#000000 guifg=#fc9505
+" adjust gitgutter marks to use default retro colors.
+" i'm still looking for a way to do this only if i
+" know gitgutter is loaded
+" TODO: this gets E254 cannot allocation color RetroBG & RetroFG in vim, not in nvim
+if exists('RetroBG')
+  highlight GitGutterAdd    guibg=RetroBG guifg=RetroFG
+  highlight GitGutterChange guibg=RetroBG guifg=RetroFG
+  highlight GitGutterDelete guibg=RetroBG guifg=RetroFG
+endif
 
 " UI appearance and some behavior
 

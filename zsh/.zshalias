@@ -52,38 +52,14 @@ alias lla='ls -lAF'    # long list almost all
 # python virtual environments ...
 #alias activate-pyenv3="source ~/python-virtual-environments/pyenv3/bin/activate"
 #
-# no windows for emacs
-#alias emacs='emacs -nw'
-#
-# i keep forgetting to set colors for tmux
-#alias tmux='tmux -2'
-#
-# screen needs some help
-#alias screen='SCREENDIR=~/.screen screen'
-#
-# colors for mc not quite right yet
-#alias mc='mc -b'
-#
-# python3 over 2
-#alias python='python3'
-#
 # longtime basic programmer
 alias cls=clear
-#
-# nvim as vim
-if type nvim &> /dev/null; then
-  alias vim=nvim
-  alias vimdiff='nvim -d'
-fi
 #
 # fzf should use ripgrep if available
 if type rg &> /dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files'
   export FZF_DEFAULT_OPTS='-m'
 fi
-#
-#alias rm="echo danger will robinson!"
-#alias tt="gio trash"
 #
 # Umask
 #
@@ -93,9 +69,6 @@ fi
 # Paranoid: neither group nor others have any perms:
 # umask 077
 umask 033
-#
-# fortran!
-#alias fpm=~/bin/fpm-0.5.0-linux-x86_64
 #
 # Path additions
 #
