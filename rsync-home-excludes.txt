@@ -188,6 +188,9 @@ go/pkg/mod/cache
 # Nvidia OpenGL Shader Cache
 .nv/GLCache
 
+# discord
+.config/discord
+
 # Electron Apps
 .config/*/blob_storage
 .config/*/Application Cache
