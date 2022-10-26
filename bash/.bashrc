@@ -207,3 +207,5 @@ alias python='python3'
 # ### nvim is proving problematic so ... let's
 # ### just stay with vim
 #[[ -x /usr/bin/nvim ]] && alias vim=nvim
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

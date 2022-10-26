@@ -32,7 +32,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'blametroi/vim-amber'
 " Plug 'blametroi/vim-dichromatic'
 " Plug 'blametroi/reloaded.vim'
-Plug 'andreasvc/vim-256noir'
+" Plug 'andreasvc/vim-256noir'
 
 " statusline
 Plug 'KaraMCC/vim-streamline'
@@ -61,14 +61,14 @@ nmap gcc <Plug>ComentaryLine
 
 " git
 Plug 'airblade/vim-gitgutter'
-"Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 
 " fuzzy and grep
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " nerd
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 
 " eye candy
 Plug 'ryanoasis/vim-devicons'
@@ -115,11 +115,11 @@ set guicursor=
 " i'm still looking for a way to do this only if i
 " know gitgutter is loaded
 " TODO: this gets E254 cannot allocation color RetroBG & RetroFG in vim, not in nvim
-if exists('RetroBG')
-  highlight GitGutterAdd    guibg=RetroBG guifg=RetroFG
-  highlight GitGutterChange guibg=RetroBG guifg=RetroFG
-  highlight GitGutterDelete guibg=RetroBG guifg=RetroFG
-endif
+"if exists('RetroBG')
+"  highlight GitGutterAdd    guibg=RetroBG guifg=RetroFG
+"  highlight GitGutterChange guibg=RetroBG guifg=RetroFG
+"  highlight GitGutterDelete guibg=RetroBG guifg=RetroFG
+"endif
 
 " UI appearance and some behavior
 
