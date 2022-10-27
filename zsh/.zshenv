@@ -14,12 +14,14 @@ export ZSH="$HOME/.oh-my-zsh"
 # Would you like to use another custom folder than $ZSH/custom?
 #export ZSH_CUSTOM="$HOME/.zshcustom"
 #
-typeset -U MANPATH
-export manpath=(~/.local/share/man /usr/local/man $manpath[@])
+# on ubuntu, do not use manpath variable! see manpath command
+# and /etc/manpath.config
+#typeset -U MANPATH
+#export manpath=(~/.local/share/man /usr/local/man $manpath[@])
 #
 # PATH="$PATH"
 typeset -U PATH
-export path=(~/bin ~/.local/bin ~/.local/share/gem/ruby/3.0.0/bin $path[@])
+export path=(~/.local/bin $path[@])
 #
 #export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
