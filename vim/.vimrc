@@ -57,7 +57,7 @@ Plug 'farmergreg/vim-lastplace'
 
 Plug 'tpope/vim-commentary'
 map  gc  <Plug>Commentary
-nmap gcc <Plug>ComentaryLine
+nmap gcc <Plug>CommentaryLine
 
 " git
 Plug 'airblade/vim-gitgutter'
@@ -175,19 +175,20 @@ set expandtab                   " Tabs are not tabs
 set tabstop=2                   " An indentation every two columns
 set softtabstop=2               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-set virtualedit=all             " like the good old days
+" set virtualedit=all             " like the good old days
 
 " Key remaps
 
 " my preferred leaders...
-let mapleader = "<space>"
+nnoremap <space> <nop>
+let mapleader = " "
 let maplocalleader="\\"
 
 " from vimtips wiki, syntax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " from https://dougblack.io/words/a-good-vimrc.html, toggle fold in normal
-nnoremap <space> za
+" nnoremap <space> za
 
 " quickly edit and source .vimrc. this will not work with the $MYVIMRC
 " variable in nvim since i actually use .vimrc, so the path is hard.
@@ -202,7 +203,7 @@ nnoremap <leader>_ ddkkp
 " uppercase current word. there is a bug if on first character of word.
 " i haven't figured out how to use *, which correctly selects the word
 " but does not seem to do what i need in visual mode.
-inoremap <leader><c-u> <esc>bveU<esc>wi
+" inoremap <leader><c-u> <esc>bveU<esc>wi
 nnoremap <leader><c-u> bveU<esc>w
 
 " wrap current word in single or double quotes.
