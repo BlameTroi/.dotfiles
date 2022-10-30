@@ -42,6 +42,8 @@ cgdb
 libncurses-dev
 ncurses-doc
 ncurses-examples
+cups (if not already installed)
+canon printer drivers from their website
 
 ripgrep (via deb from github home)
 fd-find

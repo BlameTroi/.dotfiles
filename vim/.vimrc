@@ -264,11 +264,11 @@ iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
 
 " edit new empty creates the file
-augroup troi_global
-  autocmd!
-  autocmd FileType * set fo-=cro
-  autocmd BufNewFile * :write
-augroup END
+" augroup troi_global
+"   autocmd!
+"   autocmd FileType * set fo-=cro
+"   autocmd BufNewFile * :write
+" augroup END
 
 " mappings and customization for specific filetypes
 
