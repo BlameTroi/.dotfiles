@@ -13,12 +13,12 @@ if exists("b:did_indent")
 	finish
 endif
 let b:did_indent = 1
-echo "whew, let's do it"
+"echo "whew, let's do it"
 setlocal indentexpr=GetPascalIndent(v:lnum)
 "setlocal indentkeys&
 setlocal indentkeys=!^F
 setlocal indentkeys+=o
-echo &indentkeys
+"echo &indentkeys
 setlocal indentkeys+==end;,==const,==type,==var,==begin,==repeat,==until,==for
 setlocal indentkeys+==program,==function,==procedure,==object,==private
 setlocal indentkeys+==record,==if,==else,==case

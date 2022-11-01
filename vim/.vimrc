@@ -10,9 +10,9 @@
 " to vimscript instead of lua for customization so i can always fall back
 " to vim if needed.
 
-set nocompatible        " Must be first line
+set nocompatible        " Must be first
 
-" Shell on non window systems
+" Set shell on non window systems
 if !(has('win32') || has('win64'))
   set shell=/usr/bin/zsh
 endif
@@ -40,14 +40,14 @@ let g:streamline_enable_devicons = 1
 let g:streamline_minimal_ui = 0
 
 " other filetypes
-Plug 'jorengarenar/COBOL.vim'
-let g:cobol_legacy_code = 0
-let g:cobol_folding = 1
-let g:cobol_autoupper = 1
-let g:cobol_indent_data_items = 2
-let g:cobol_indent_id_paras = 0
-let g:cobol_comp_mp_cobc = 1
-let g:cobol_format_free = 1
+" Plug 'jorengarenar/COBOL.vim'
+" let g:cobol_legacy_code = 0
+" let g:cobol_folding = 1
+" let g:cobol_autoupper = 1
+" let g:cobol_indent_data_items = 2
+" let g:cobol_indent_id_paras = 0
+" let g:cobol_comp_mp_cobc = 1
+" let g:cobol_format_free = 1
 
 " even better vim behavior
 Plug 'ctrlpvim/ctrlp.vim'
@@ -55,20 +55,12 @@ let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
 
 Plug 'farmergreg/vim-lastplace'
 
-Plug 'tpope/vim-commentary'
-map  gc  <Plug>Commentary
-nmap gcc <Plug>CommentaryLine
-
 " git
 Plug 'airblade/vim-gitgutter'
-" Plug 'tpope/vim-fugitive'
 
 " fuzzy and grep
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-
-" nerd
-" Plug 'preservim/nerdtree'
 
 " eye candy
 Plug 'ryanoasis/vim-devicons'
@@ -126,15 +118,15 @@ set guicursor=
 set nocursorline                " Don't highlight current line
 set tabpagemax=10               " Only show 10 tabs
 set noshowmode                  " Statusline displays mode
-
 set ruler                       " Show the ruler
 set showcmd                     " Show partial commands in status line and
-
 set laststatus=2
 
 set path+=**                    " allow :e file autocomplete in subdirectories
+
 " TODO: ripgrep?
 set grepprg=LC_ALL=C\ grep\ -nrsh
+
 set hidden
 set cmdheight=2                 " more space in command line
 set backspace=indent,eol,start  " Backspace for dummies
@@ -170,25 +162,23 @@ set mouse=a
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
 set copyindent                  " use tabs or spaces as on prior line
-set shiftwidth=2                " Use indents of two spaces
-set expandtab                   " Tabs are not tabs
-set tabstop=2                   " An indentation every two columns
-set softtabstop=2               " Let backspace delete indent
+set shiftwidth=4                " Use indents of four spaces
+set noexpandtab                 " let's try to go way
+set tabstop=4                   " An indentation every two columns
+set softtabstop=4               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 " set virtualedit=all             " like the good old days
 
 " Key remaps
 
 " my preferred leaders...
+" be sure to unmap space, you'll see lags in insert mode otherwise
 nnoremap <space> <nop>
 let mapleader = " "
 let maplocalleader="\\"
 
 " from vimtips wiki, syntax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-" from https://dougblack.io/words/a-good-vimrc.html, toggle fold in normal
-" nnoremap <space> za
 
 " quickly edit and source .vimrc. this will not work with the $MYVIMRC
 " variable in nvim since i actually use .vimrc, so the path is hard.
@@ -220,7 +210,11 @@ vnoremap <leader>' xi''<esc>hp
 
 " hardcore mode mappings to get out of the habit of using esc and arrow
 " keys:
-inoremap jk <esc>
+"
+" after furhter consideration, i'm going to keep the default key
+" behavior for these. i don't need to be a speed demon these days.
+"
+" inoremap jk <esc>
 " inoremap <esc> <nop>
 " inoremap <up> <nop>
 " inoremap <down> <nop>
@@ -263,13 +257,6 @@ iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
 
-" edit new empty creates the file
-" augroup troi_global
-"   autocmd!
-"   autocmd FileType * set fo-=cro
-"   autocmd BufNewFile * :write
-" augroup END
-
 " mappings and customization for specific filetypes
 
 augroup filetype_basic
@@ -290,11 +277,6 @@ augroup filetype_c
   autocmd!
   autocmd filetype c nnoremap <buffer> <localleader>c I//<esc>
 augroup END    
-
-augroup filetype_html
-  autocmd!
-  autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
-augroup END
 
 augroup filetype_vim
   autocmd!
