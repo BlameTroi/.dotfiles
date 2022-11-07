@@ -56,7 +56,7 @@ let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
 Plug 'farmergreg/vim-lastplace'
 
 " git
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 " fuzzy and grep
 Plug 'junegunn/fzf', { 'do': './install --all' }
@@ -87,7 +87,8 @@ filetype indent on
 
 " color scheme
 set background=dark
-colorscheme retro-amber
+colorscheme darkblue
+" colorscheme retro-amber
 " colorscheme retro-green
 " colorscheme retro-mono
 " colorscheme retro-3290
@@ -112,6 +113,10 @@ set guicursor=
 "  highlight GitGutterChange guibg=RetroBG guifg=RetroFG
 "  highlight GitGutterDelete guibg=RetroBG guifg=RetroFG
 "endif
+" TODO: SignColumn gets messed up using DarkBlue scheme.
+" highlight! link SIgnColumn LineNR fixes most, but marks
+" from GitGutter are still wrong. Disabling GitGutter for
+" now since I don't really use it.
 
 " UI appearance and some behavior
 
@@ -169,42 +174,58 @@ set softtabstop=4               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 " set virtualedit=all             " like the good old days
 
+" ----------------------------------------------------------------------------
 " Key remaps
+" ----------------------------------------------------------------------------
 
+" ----------------------------------------------------------------------------
 " my preferred leaders...
 " be sure to unmap space, you'll see lags in insert mode otherwise
+" ----------------------------------------------------------------------------
 nnoremap <space> <nop>
 let mapleader = " "
 let maplocalleader="\\"
 
+" ----------------------------------------------------------------------------
 " from vimtips wiki, syntax highlighting group under cursor
+" ----------------------------------------------------------------------------
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" ----------------------------------------------------------------------------
 " quickly edit and source .vimrc. this will not work with the $MYVIMRC
 " variable in nvim since i actually use .vimrc, so the path is hard.
 " coded.
+" ----------------------------------------------------------------------------
 nnoremap <leader>ev :vsplit ~/.vimrc<cr>
 nnoremap <leader>sv :source ~/.vimrc<cr>
 
+" ----------------------------------------------------------------------------
 " move a line down or up. i'm not fond of these mappings.
+" ----------------------------------------------------------------------------
 nnoremap <leader>- ddp
 nnoremap <leader>_ ddkkp
 
+" ----------------------------------------------------------------------------
 " uppercase current word. there is a bug if on first character of word.
 " i haven't figured out how to use *, which correctly selects the word
 " but does not seem to do what i need in visual mode.
 " inoremap <leader><c-u> <esc>bveU<esc>wi
+" ----------------------------------------------------------------------------
 nnoremap <leader><c-u> bveU<esc>w
 
+" ----------------------------------------------------------------------------
 " wrap current word in single or double quotes.
 " TODO: this word selection is what i need to understand for uppercase
 " word above.
+" ----------------------------------------------------------------------------
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 
+" ----------------------------------------------------------------------------
 " wrap visual selection in single or double quotes. losh suggested using
 " `< and `> but i couldn't find a way to preserve the selection with the
 " movement. this works for me.
+" ----------------------------------------------------------------------------
 vnoremap <leader>" xi""<esc>hp
 vnoremap <leader>' xi''<esc>hp
 
@@ -251,14 +272,24 @@ nnoremap [t :tabp<cr>
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 
+" ----------------------------------------------------------------------------
+" ctags
+" ----------------------------------------------------------------------------
+map <leader>t :silent !ctags -R<CR><C_L>
+" the following is c specific, need to consider generalization
+map <leader>/ :execute "vimgrep // **/*[.ch]"
+
+" ----------------------------------------------------------------------------
 " abbreviations for typos  and common
 " text.
+" ----------------------------------------------------------------------------
 iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
 
+" ----------------------------------------------------------------------------
 " mappings and customization for specific filetypes
-
+" ----------------------------------------------------------------------------
 augroup filetype_basic
   autocmd!
   autocmd filetype basic nnoremap <buffer> <localleader>c I'<esc>

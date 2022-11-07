@@ -21,7 +21,7 @@ export ZSH="$HOME/.oh-my-zsh"
 #
 # PATH="$PATH"
 typeset -U PATH
-export path=(~/.local/bin $path[@])
+export path=(~/.local/bin ~/.cargo/bin $path[@])
 #
 #export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'

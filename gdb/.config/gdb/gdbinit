@@ -1,7 +1,7 @@
 # __________________gdb options_________________
 
 set print pretty on
-tui enable
+# tui enable
 
 set confirm off
 set verbose off
