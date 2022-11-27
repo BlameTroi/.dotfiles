@@ -85,18 +85,10 @@ syntax enable
 filetype plugin on
 filetype indent on
 
-" color scheme
+" coloring and highlighting
 set background=dark
 colorscheme darkblue
-" colorscheme retro-amber
-" colorscheme retro-green
-" colorscheme retro-mono
-" colorscheme retro-3290
-" colorscheme retro-3290x
 set termguicolors
-
-" comments in italics
-" note: must come after syntax enable ft plugin on indent on ...
 highlight Comment gui=italic cterm=italic
 
 " nvim hack, guicursor applies to terminal mode as well???
@@ -118,20 +110,22 @@ set guicursor=
 " from GitGutter are still wrong. Disabling GitGutter for
 " now since I don't really use it.
 
-" UI appearance and some behavior
+" make mouse available in either vim or nvim
+set mouse=a
+"if !has('nvim')
+"    set ttymouse=xterm2
+"endif
+"if has('nvim')
+"    set mouse=a
+"endif
 
+" UI appearance and some behavior
 set nocursorline                " Don't highlight current line
 set tabpagemax=10               " Only show 10 tabs
 set noshowmode                  " Statusline displays mode
 set ruler                       " Show the ruler
 set showcmd                     " Show partial commands in status line and
 set laststatus=2
-
-set path+=**                    " allow :e file autocomplete in subdirectories
-
-" TODO: ripgrep?
-set grepprg=LC_ALL=C\ grep\ -nrsh
-
 set hidden
 set cmdheight=2                 " more space in command line
 set backspace=indent,eol,start  " Backspace for dummies
@@ -149,30 +143,30 @@ set wildmode=list:longest,full  " Command <Tab> completion, list matches, then l
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set scrolljump=1                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
+set sidescroll=8                " chunks
+set nowrap                      " Do not wrap long lines
+
 set foldenable                  " Auto fold code
 set foldmethod=indent           " indent makes the most sense to me
 set foldlevelstart=99           " open most folds when starting
-set sidescroll=8                " chunks
 
-" make mouse available in either vim or nvim
-set mouse=a
-"if !has('nvim')
-"    set ttymouse=xterm2
-"endif
-"if has('nvim')
-"    set mouse=a
-"endif
-
-" formatting defaults and enable syntax, plugin, and indent
-set nowrap                      " Do not wrap long lines
+" formatting defaults
 set autoindent                  " Indent at the same level of the previous line
 set copyindent                  " use tabs or spaces as on prior line
 set shiftwidth=4                " Use indents of four spaces
-set noexpandtab                 " let's try to go way
-set tabstop=4                   " An indentation every two columns
+set noexpandtab                 " let's try the go way
+set tabstop=4                   " An indentation every four columns
 set softtabstop=4               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-" set virtualedit=all             " like the good old days
+" set virtualedit=all           " i may want this for mainframe style editing, like the good old days
+
+" TODO: ripgrep?
+set grepprg=LC_ALL=C\ grep\ -nrsh
+
+" TODO: is there a better way to access headers like <sys/types.h>
+" for jumping to files? right now i'm hardcoding to my lubuntu system.
+set path+=/usr/include/x86_64-linux-gnu
+set path+=**                    " allow :e file autocomplete in subdirectories
 
 " ----------------------------------------------------------------------------
 " Key remaps
@@ -276,7 +270,7 @@ nnoremap <S-tab> <c-w>W
 " ctags
 " ----------------------------------------------------------------------------
 map <leader>t :silent !ctags -R<CR><C_L>
-" the following is c specific, need to consider generalization
+" TODO: the following is c specific, need to consider generalization
 map <leader>/ :execute "vimgrep // **/*[.ch]"
 
 " ----------------------------------------------------------------------------
