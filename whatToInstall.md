@@ -54,6 +54,10 @@ neovim
 
 grsync
 
+python3 python3-dev python3-doc python3-tk python3-venv python3-examples
+tk8.6 tk8.6-dev tcl8.6-dev tcl8.6-doc tk8.6-doc
+python3-tk-dbg
+
 winehq-stable (after setting source above), add --install-recommends
 lutris (via deb from github home)
 
