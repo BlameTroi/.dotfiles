@@ -7,6 +7,7 @@
 *.o
 *.so
 *.elc
+*.pyc
 
 # compiled listings #
 #####################
@@ -46,6 +47,8 @@ Thumbs.db
 ######################
 *.swp
 tags
+tags.lock
+tags.temp
 .netrwhist
 .viminfo
 *~
