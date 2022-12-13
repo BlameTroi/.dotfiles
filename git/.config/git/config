@@ -2,7 +2,7 @@
 	name = troi
 	email = blametroi@gmail.com
 [core]
-	editor = emacs
+	editor = vim
 [credential]
 	helper = cache timeout=3600
 [init]
