@@ -73,7 +73,7 @@ DISABLE_LS_COLORS="true"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z zsh-interactive-cd fd vi-mode) # themes tmux zsh-syntax-highlighting)
+plugins=(z zsh-interactive-cd fd vi-mode poetry) # themes tmux zsh-syntax-highlighting)
 
 # open tmux on startup, requires tmux plugin
 # ZSH_TMUX_AUTOSTART=true

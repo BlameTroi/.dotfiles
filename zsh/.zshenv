@@ -39,3 +39,6 @@ umask 033
 #
 export VISUAL="nvim"
 export EDITOR=$VISUAL
+#
+# python specific
+export PYTHONSTARTUP=~/.config/python/init.py

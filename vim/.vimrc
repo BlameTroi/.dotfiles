@@ -1,15 +1,14 @@
 "
 " Troy's .vimrc Environment
 "
-" adding more customizations after working through the Losh "hardway" book
-" and reviewing jmoyers' gist on setting up a c dev environment with
+" Adding more customizations after working through the Losh "hardway" book
+" and reviewing jmoyers' gist on setting up a C dev environment with
 " vim and tmux.
 "
-" things are going well enough that i'm willing to switch to neovim since
-" it's faster and i don't have any vim9 dependencies. however, i'm keeping
-" to vimscript instead of lua for customization so i can always fall back
-" to vim if needed.
-
+" I use neovim for a faster editing experience. I only use vimscript plugins
+" so I can revert at any time, but the clean and shiny nvim executable works
+" for my use case.
+"
 set nocompatible        " Must be first
 
 " Set shell on non window systems
@@ -25,51 +24,89 @@ endif
 
 set encoding=utf-8
 
+"
+" optional packages in vim
+packadd! matchit
+
+"
 " Vim-Plug
 call plug#begin('~/.vim/plugged')
 
-" colors
-" Plug 'blametroi/vim-amber'
-" Plug 'blametroi/vim-dichromatic'
-" Plug 'blametroi/reloaded.vim'
-" Plug 'andreasvc/vim-256noir'
+" Code completion
+" 
+" I thought about using ycm but as it doesn't support neovim well yet.
+" I'm also seeing issues with jedi-vim, neovim, and virtual environments
+" that I don't see with vim 8 or 9. Rather than crawl into the rabbit hole
+" of neovim I am not using virtual environments. This is hobby code and
+" while virtual environments are indeed a good thing (TM) I have no real
+" need.
 
-" statusline
+" speed up deaing with folds
+Plug 'Konfekt/FastFold'
+
+" Python
+" ale and python-mode seem to be what the cool kids use, but they aren't
+" working well for me. I'm just going to get myself something that works
+" on the few things I need.
+Plug 'tmhedberg/SimpylFold'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'davidhalter/jedi-vim'
+
+" Status line
 Plug 'KaraMCC/vim-streamline'
 let g:streamline_enable_devicons = 1
 let g:streamline_minimal_ui = 0
 
-" other filetypes
-" Plug 'jorengarenar/COBOL.vim'
-" let g:cobol_legacy_code = 0
-" let g:cobol_folding = 1
-" let g:cobol_autoupper = 1
-" let g:cobol_indent_data_items = 2
-" let g:cobol_indent_id_paras = 0
-" let g:cobol_comp_mp_cobc = 1
-" let g:cobol_format_free = 1
-
-" even better vim behavior
+" Better vim behavior
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_custom_ignore = '\.git\|node_modules\|\.cache'
 
 Plug 'farmergreg/vim-lastplace'
 
+" allow modelines but limit the commands that can be used
+Plug 'ciaranm/securemodelines'
+let g:secure_modelines_verbose = 1
+let g:secure_modelines_leave_modeline = 1
+
 " git
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
+
+" tags
+Plug 'preservim/tagbar'
+" I would like to use vim-easytags but don't trust the
+" vim-misc dependency ... there's an exe in the repo!
+" Plug 'xolox/vim-easytags'
+Plug 'ludovicchabant/vim-gutentags'
+
+" motion and such
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 
 " fuzzy and grep
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+" TODO: qf ?
+" https://github.com/romainl/vim-qf
+
 " eye candy
 Plug 'ryanoasis/vim-devicons'
+Plug 'chrisbra/unicode.vim'
+"u+29D0 ⧐
+"
 
 call plug#end()
 
-" optional packages in vim
-packadd! matchit
+"
+" Enable filetype customization 
+syntax enable
+filetype plugin on
+filetype indent on
 
+"
+" Colorschemes and fonts
+"
 " fix from git kitty issues 108
 " vim hardcodes background color erase even if the terminfo file does
 " not contain bce (not to mention that libvte based terminals
@@ -79,11 +116,6 @@ packadd! matchit
 if &term == 'xterm-kitty'
   let &t_ut=''
 endif
-
-" Filetype customization 
-syntax enable
-filetype plugin on
-filetype indent on
 
 " coloring and highlighting
 set background=dark
@@ -99,7 +131,8 @@ set guicursor=
 " adjust gitgutter marks to use default retro colors.
 " i'm still looking for a way to do this only if i
 " know gitgutter is loaded
-" TODO: this gets E254 cannot allocation color RetroBG & RetroFG in vim, not in nvim
+" TODO: this gets E254 cannot allocation color RetroBG & RetroFG in vim,
+" but not in nvim
 "if exists('RetroBG')
 "  highlight GitGutterAdd    guibg=RetroBG guifg=RetroFG
 "  highlight GitGutterChange guibg=RetroBG guifg=RetroFG
@@ -109,8 +142,11 @@ set guicursor=
 " highlight! link SIgnColumn LineNR fixes most, but marks
 " from GitGutter are still wrong. Disabling GitGutter for
 " now since I don't really use it.
+"
+" TODO: The highlighting for tabnames needs work.
 
-" make mouse available in either vim or nvim
+"
+" Mouse available in either vim or nvim
 set mouse=a
 "if !has('nvim')
 "    set ttymouse=xterm2
@@ -119,54 +155,72 @@ set mouse=a
 "    set mouse=a
 "endif
 
+"
 " UI appearance and some behavior
-set nocursorline                " Don't highlight current line
-set tabpagemax=10               " Only show 10 tabs
-set noshowmode                  " Statusline displays mode
-set ruler                       " Show the ruler
-set showcmd                     " Show partial commands in status line and
-set laststatus=2
-set hidden
-set cmdheight=2                 " more space in command line
 set backspace=indent,eol,start  " Backspace for dummies
+set cmdheight=2                 " more space in command line
+set colorcolumn=80              " hollerith wins again
+set foldenable                  " Auto fold code
+set foldlevelstart=99           " open most folds when starting
+set foldmethod=indent           " indent makes the most sense to me
+set hidden                      "
+set hlsearch                    " Highlight search terms
+set ignorecase                  " Case insensitive search
+set incsearch                   " Find as you type search
+set laststatus=2                " Always show status lines
 set linespace=0                 " No extra spaces between rows
+set nocursorline                " Don't highlight current line
+set noshowmode                  " Statusline displays mode
+set nowrap                      " Do not wrap long lines
 set number                      " Line numbers on
 set numberwidth=6               " xedit legacy
-set showmatch                   " Show matching brackets/parenthesis
-set incsearch                   " Find as you type search
-set hlsearch                    " Highlight search terms
-set winminheight=0              " Windows can be 0 line high
-set ignorecase                  " Case insensitive search
-set smartcase                   " Case sensitive when uc present
-set wildmenu                    " Show list instead of just completing
-set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+set ruler                       " Show the ruler
 set scrolljump=1                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
+set showcmd                     " Show partial commands in status line and
+set showmatch                   " Show matching brackets/parenthesis
 set sidescroll=8                " chunks
-set nowrap                      " Do not wrap long lines
+set smartcase                   " Case sensitive when uc present
+set splitbelow                  " How I like splits
+set splitright                  " How I like splits
+set tabpagemax=5                " Only show 5 tabs
+" set virtualedit=all           " i may want this for mainframe style editing
+set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+set wildmenu                    " Show list instead of just completing
+set wildmode=list:longest,full  " Command <Tab> completion
+set winminheight=0              " Windows can be 0 line high
 
-set foldenable                  " Auto fold code
-set foldmethod=indent           " indent makes the most sense to me
-set foldlevelstart=99           " open most folds when starting
-
-" formatting defaults
+"
+" Text formatting defaults. These are generally sensible and should comply
+" with Python PEP8.
 set autoindent                  " Indent at the same level of the previous line
 set copyindent                  " use tabs or spaces as on prior line
+set nosmartindent               " Avoid snotfights with syntax plugins (i hope)
 set shiftwidth=4                " Use indents of four spaces
-set noexpandtab                 " let's try the go way
+set expandtab                   " i prefer the go tab for indent but meh
 set tabstop=4                   " An indentation every four columns
 set softtabstop=4               " Let backspace delete indent
-set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-" set virtualedit=all           " i may want this for mainframe style editing, like the good old days
+set textwidth=79                " card images will never die!
+set nojoinspaces                " Prevents inserting two spaces on join line 
 
+"
 " TODO: ripgrep?
 set grepprg=LC_ALL=C\ grep\ -nrsh
 
+"
 " TODO: is there a better way to access headers like <sys/types.h>
 " for jumping to files? right now i'm hardcoding to my lubuntu system.
 set path+=/usr/include/x86_64-linux-gnu
 set path+=**                    " allow :e file autocomplete in subdirectories
+
+"
+" tweak netrw to get a nerdtree-lite
+" from https://shapeshed.com/vim-netrw/
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
 " ----------------------------------------------------------------------------
 " Key remaps
@@ -281,6 +335,7 @@ iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
 
+" TODO: these belong in plugin specific files (after/ and such)
 " ----------------------------------------------------------------------------
 " mappings and customization for specific filetypes
 " ----------------------------------------------------------------------------
