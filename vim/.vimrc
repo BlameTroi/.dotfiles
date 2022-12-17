@@ -44,18 +44,26 @@ call plug#begin('~/.vim/plugged')
 " speed up deaing with folds
 Plug 'Konfekt/FastFold'
 
+" helper
+Plug 'junegunn/vim-easy-align'
+
 " Python
 " ale and python-mode seem to be what the cool kids use, but they aren't
 " working well for me. I'm just going to get myself something that works
 " on the few things I need.
-Plug 'tmhedberg/SimpylFold'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'davidhalter/jedi-vim'
+Plug 'tmhedberg/SimpylFold',          {'for': 'python'}
+Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
+Plug 'davidhalter/jedi-vim',          {'for': 'python'}
+
+"
+" Snippets
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 " Status line
 Plug 'KaraMCC/vim-streamline'
 let g:streamline_enable_devicons = 1
-let g:streamline_minimal_ui = 0
+let g:streamline_minimal_ui      = 0
 
 " Better vim behavior
 Plug 'ctrlpvim/ctrlp.vim'
@@ -84,7 +92,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 
 " fuzzy and grep
-Plug 'junegunn/fzf', { 'do': './install --all' }
+Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'junegunn/fzf.vim'
 
 " TODO: qf ?
@@ -93,16 +101,16 @@ Plug 'junegunn/fzf.vim'
 " eye candy
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/unicode.vim'
-"u+29D0 ⧐
+
 "
+Plug 'habamax/vim-pire'
 
 call plug#end()
 
 "
 " Enable filetype customization 
 syntax enable
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
 "
 " Colorschemes and fonts
@@ -157,6 +165,7 @@ set mouse=a
 
 "
 " UI appearance and some behavior
+set autowrite                   " so i don't forget
 set backspace=indent,eol,start  " Backspace for dummies
 set cmdheight=2                 " more space in command line
 set colorcolumn=80              " hollerith wins again
@@ -240,61 +249,6 @@ let maplocalleader="\\"
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . "> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " ----------------------------------------------------------------------------
-" quickly edit and source .vimrc. this will not work with the $MYVIMRC
-" variable in nvim since i actually use .vimrc, so the path is hard.
-" coded.
-" ----------------------------------------------------------------------------
-nnoremap <leader>ev :vsplit ~/.vimrc<cr>
-nnoremap <leader>sv :source ~/.vimrc<cr>
-
-" ----------------------------------------------------------------------------
-" move a line down or up. i'm not fond of these mappings.
-" ----------------------------------------------------------------------------
-nnoremap <leader>- ddp
-nnoremap <leader>_ ddkkp
-
-" ----------------------------------------------------------------------------
-" uppercase current word. there is a bug if on first character of word.
-" i haven't figured out how to use *, which correctly selects the word
-" but does not seem to do what i need in visual mode.
-" inoremap <leader><c-u> <esc>bveU<esc>wi
-" ----------------------------------------------------------------------------
-nnoremap <leader><c-u> bveU<esc>w
-
-" ----------------------------------------------------------------------------
-" wrap current word in single or double quotes.
-" TODO: this word selection is what i need to understand for uppercase
-" word above.
-" ----------------------------------------------------------------------------
-nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
-
-" ----------------------------------------------------------------------------
-" wrap visual selection in single or double quotes. losh suggested using
-" `< and `> but i couldn't find a way to preserve the selection with the
-" movement. this works for me.
-" ----------------------------------------------------------------------------
-vnoremap <leader>" xi""<esc>hp
-vnoremap <leader>' xi''<esc>hp
-
-" hardcore mode mappings to get out of the habit of using esc and arrow
-" keys:
-"
-" after furhter consideration, i'm going to keep the default key
-" behavior for these. i don't need to be a speed demon these days.
-"
-" inoremap jk <esc>
-" inoremap <esc> <nop>
-" inoremap <up> <nop>
-" inoremap <down> <nop>
-" inoremap <left> <nop>
-" inoremap <right> <nop>
-" nnoremap <up> <nop>
-" nnoremap <down> <nop>
-" nnoremap <left> <nop>
-" nnoremap <right> <nop>
-
-" ----------------------------------------------------------------------------
 " Quickfix
 " ----------------------------------------------------------------------------
 nnoremap ]q :cnext<cr>zz
@@ -334,6 +288,8 @@ map <leader>/ :execute "vimgrep // **/*[.ch]"
 iabbrev @@ blametroi@gmail.com
 iabbrev ccopy Copyright 2022 Troy Brumley, all rights reserved.
 iabbrev ssig -- <cr>Troy Brumley<cr>blametroi@gmail.com
+" u+29D0 ⧐
+" TODO: add some common unicode glyps
 
 " TODO: these belong in plugin specific files (after/ and such)
 " ----------------------------------------------------------------------------
