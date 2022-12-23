@@ -78,12 +78,10 @@ let g:secure_modelines_leave_modeline = 1
 
 " git
 Plug 'airblade/vim-gitgutter'
+let g:gitgutter_set_sign_backgrounds = 1
 
 " tags
 Plug 'preservim/tagbar'
-" I would like to use vim-easytags but don't trust the
-" vim-misc dependency ... there's an exe in the repo!
-" Plug 'xolox/vim-easytags'
 Plug 'ludovicchabant/vim-gutentags'
 
 " motion and such
@@ -101,6 +99,7 @@ Plug 'junegunn/fzf.vim'
 " eye candy
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/unicode.vim'
+Plug '~/projects/vim/vim-retroi'
 
 "
 Plug 'habamax/vim-pire'
@@ -127,31 +126,16 @@ endif
 
 " coloring and highlighting
 set background=dark
-colorscheme darkblue
+" colorscheme darkblue
+" colorscheme retroi-amber
 set termguicolors
 highlight Comment gui=italic cterm=italic
+highlight! link SignColumn LineNR
 
 " nvim hack, guicursor applies to terminal mode as well???
 " this disables changing the cursor to a thin vertical bar
 " when in insert mode
 set guicursor=  
-
-" adjust gitgutter marks to use default retro colors.
-" i'm still looking for a way to do this only if i
-" know gitgutter is loaded
-" TODO: this gets E254 cannot allocation color RetroBG & RetroFG in vim,
-" but not in nvim
-"if exists('RetroBG')
-"  highlight GitGutterAdd    guibg=RetroBG guifg=RetroFG
-"  highlight GitGutterChange guibg=RetroBG guifg=RetroFG
-"  highlight GitGutterDelete guibg=RetroBG guifg=RetroFG
-"endif
-" TODO: SignColumn gets messed up using DarkBlue scheme.
-" highlight! link SIgnColumn LineNR fixes most, but marks
-" from GitGutter are still wrong. Disabling GitGutter for
-" now since I don't really use it.
-"
-" TODO: The highlighting for tabnames needs work.
 
 "
 " Mouse available in either vim or nvim
@@ -304,6 +288,7 @@ augroup filetype_basic
   autocmd BufNewFile,BufRead *.bas compiler fbc
 augroup END
 
+" testing
 augroup filetype_pascal
   autocmd!
   autocmd filetype pascal nnoremap <buffer> <localleader>c I//<esc>
