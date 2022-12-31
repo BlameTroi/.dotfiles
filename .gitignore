@@ -1,3 +1,4 @@
 vim/.vim/plugged/*
 packer_compiled.lua
 vim/.config/lvim/*
+*.bak
