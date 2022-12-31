@@ -57,24 +57,24 @@
 ;; infrastructure
 (require 'init-straight)
 (require 'init-exec-path)
-(require 'init-org)
+;;(require 'init-org)
 (require 'init-files-directories)
 (require 'init-fonts-themes)
 (require 'init-ui-behavior)
-(require 'init-external-tools)
-(require 'init-ido)
+;;(require 'init-external-tools)
+;;(require 'init-ido)
 (require 'init-ibuffer)
-(require 'init-git)
+;;(require 'init-git)
 
 ;; TODO: dired
 ;; TODO: autosave scratch?
-(require 'init-auto-mode)
+;;(require 'init-auto-mode)
 ;; TODO: 'init-yasnippet
 
 
 ;; more textually specific
-(use-package markdown-mode)
-(troi/add-auto-mode 'markdown-mode "\\.\\(md\\|markdown\\)\\'")
+;;(use-package markdown-mode)
+;;(troi/add-auto-mode 'markdown-mode "\\.\\(md\\|markdown\\)\\'")
 
 
 ;; TODO: 'init-completion ... company or ???
@@ -110,9 +110,23 @@
 ;; TODO: 'init-pascal
 ;; TODO: 'init-python
 
+;; copied from gforth manual ...
+(autoload 'forth-mode "gforth.el")
+(setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
+                            auto-mode-alist))
+(autoload 'forth-block-mode "gforth.el")
+(setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
+                            auto-mode-alist))
+(add-hook 'forth-mode-hook (function (lambda ()
+                                       ;; customize variables here:
+                                       (setq forth-indent-level 4)
+                                       (setq forth-minor-indent-level 2)
+                                       (setq forth-hilight-level 3)
+                                       ;;; ...
+                                       )))
 
 ;; applications
-(require 'init-bgt)
+;;(require 'init-bgt)
 
 
 ;; if i ever use paradox again, this is the pattern for storing a

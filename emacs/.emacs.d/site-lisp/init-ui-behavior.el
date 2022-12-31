@@ -25,6 +25,8 @@
 
 ;;; Code:
 
+;; Let's try no menu bar.
+(menu-bar-mode -1)
 
 ;; Simplify the mode line.
 (use-package diminish
