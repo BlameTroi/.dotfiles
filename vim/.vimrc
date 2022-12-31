@@ -99,6 +99,7 @@ Plug 'junegunn/fzf.vim'
 " eye candy
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/unicode.vim'
+Plug 'altercation/vim-colors-solarized'
 Plug '~/projects/vim/vim-retroi'
 
 "
@@ -126,6 +127,7 @@ endif
 
 " coloring and highlighting
 set background=dark
+colorscheme solarized
 " colorscheme darkblue
 " colorscheme retroi-amber
 set termguicolors
