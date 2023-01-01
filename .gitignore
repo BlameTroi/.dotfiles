@@ -2,3 +2,6 @@ vim/.vim/plugged/*
 packer_compiled.lua
 vim/.config/lvim/*
 *.bak
+emacs/.emacs.d/places
+emacs/.emacs.d/recentf
+emacs/.emacs.d/straight
