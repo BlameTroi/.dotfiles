@@ -2,9 +2,9 @@
 	name = troi
 	email = blametroi@gmail.com
 [core]
-	editor = vim
+	editor = emacs -nw
 [credential]
 	helper = cache timeout=3600
 [init]
 	defaultBranch = main
-	editor = vim
+	editor = emacs -nw

@@ -37,7 +37,7 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 # umask 077
 umask 033
 #
-export VISUAL="nvim"
+export VISUAL="emacs"
 export EDITOR=$VISUAL
 #
 # python specific

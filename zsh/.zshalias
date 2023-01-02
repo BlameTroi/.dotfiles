@@ -32,9 +32,9 @@ alias less='less -r'                          # raw control characters
 alias whence='type -a'                        # where, of a sort
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    # alias ls='ls --color=auto'
-    # alias dir='ls --color=auto --format=vertical'
-    # alias vdir='ls --color=auto --format=long'
+    alias ls='ls --color=auto'
+    alias dir='ls --color=auto --format=vertical'
+    alias vdir='ls --color=auto --format=long'
     alias grep='grep --color=auto'            # show differences in colour
     alias egrep='grep -e --color=auto'        # show differences in colour
     alias fgrep='grep -f --color=auto'        # show differences in colour
@@ -42,12 +42,12 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 #
 # Some shortcuts for different directory listings
-alias ls='ls -F'
-alias l='ls -F'
-alias ll='ls -lF'      # long list
-alias la='ls -AF'      # almost all (excludes . and ..)
-alias l='ls -CF'      # list by columns, suffix type indicator
-alias lla='ls -lAF'    # long list almost all
+alias ls='ls -F --color=auto'
+alias l='ls -F --color=auto'
+alias ll='ls -lF --color=auto'      # long list
+alias la='ls -AF --color=auto'      # almost all (excludes . and ..)
+alias l='ls -CF --color=auto'       # list by columns, suffix type indicator
+alias lla='ls -lAF --color=auto'    # long list almost all
 #
 # python virtual environments ...
 #alias activate-pyenv3="source ~/python-virtual-environments/pyenv3/bin/activate"

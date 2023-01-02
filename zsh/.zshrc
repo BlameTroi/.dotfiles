@@ -39,7 +39,7 @@ ZSH_THEME="muse-mono"
 # DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
-DISABLE_LS_COLORS="true"
+# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -73,7 +73,7 @@ DISABLE_LS_COLORS="true"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z zsh-interactive-cd fd vi-mode poetry) # themes tmux zsh-syntax-highlighting)
+plugins=(z zsh-interactive-cd fd) # themes tmux zsh-syntax-highlighting)
 
 # open tmux on startup, requires tmux plugin
 # ZSH_TMUX_AUTOSTART=true
@@ -83,7 +83,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='nvim'
+export EDITOR='emacs'
 fi
 
 # options
