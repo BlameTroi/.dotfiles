@@ -125,9 +125,6 @@
                                        ;;; ...
                                        )))
 
-;; applications
-;;(require 'init-bgt)
-
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not
