@@ -27,8 +27,8 @@
 
 ;; I need bigger fonts.
 ;;(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
-(set-frame-font "Liberation Mono-14.0" nil t)
-
+;;(set-frame-font "Liberation Mono-14.0" nil t)
+(set-frame-font "SouceCodePro Nerd Font Mono-20.0" nil t)
 ;; Theming support, though I'm currently using an old color theme.
 (use-package green-is-the-new-black-theme :ensure t)
 (use-package green-screen-theme :ensure t)
@@ -42,7 +42,7 @@
 ;; (set-face-background 'lazy-highlight "#960")
 ;; (set-face-foreground 'lazy-highlight "#ccc")
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
-(load-theme 'solarized-dark t)
+(load-theme 'solarized-dark-high-contrast t)
 
 ;; parens should be colorful and show matches
 (use-package rainbow-delimiters
