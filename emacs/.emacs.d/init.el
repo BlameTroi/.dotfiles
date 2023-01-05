@@ -57,14 +57,14 @@
 ;; infrastructure
 (require 'init-straight)
 (require 'init-exec-path)
-;;(require 'init-org)
+;; (require 'init-org)
 (require 'init-files-directories)
 (require 'init-fonts-themes)
 (require 'init-ui-behavior)
 ;;(require 'init-external-tools)
 ;;(require 'init-ido)
 (require 'init-ibuffer)
-;;(require 'init-git)
+(require 'init-git)
 
 ;; TODO: dired
 ;; TODO: autosave scratch?
@@ -107,24 +107,45 @@
 (require 'init-f90)
 ;; TODO (require 'init-basic)
 ;; TODO: 'init-go
+
 ;; TODO: 'init-pascal
+;; ;; User customization for Pascal mode
+(setq pascal-indent-level       2
+      pascal-case-indent        2
+      pascal-auto-newline       nil
+      pascal-tab-always-indent  t
+      pascal-auto-endcomments   t
+      pascal-auto-lineup        '(all)
+      pascal-type-keywords      '("array" "file" "packed" "char"
+				     "integer" "real" "string" "record")
+      pascal-start-keywords     '("begin" "end" "function" "procedure"
+				     "repeat" "until" "while" "read" "readln"
+				     "reset" "rewrite" "write" "writeln")
+      pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
+
 ;; TODO: 'init-python
 
 ;; copied from gforth manual ...
-(autoload 'forth-mode "gforth.el")
-(setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
-                            auto-mode-alist))
-(autoload 'forth-block-mode "gforth.el")
-(setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
-                            auto-mode-alist))
-(add-hook 'forth-mode-hook (function (lambda ()
-                                       ;; customize variables here:
-                                       (setq forth-indent-level 4)
-                                       (setq forth-minor-indent-level 2)
-                                       (setq forth-hilight-level 3)
-                                       ;;; ...
-                                       )))
+;; (autoload 'forth-mode "gforth.el")
+;; (setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
+;;                             auto-mode-alist))
+;; (autoload 'forth-block-mode "gforth.el")
+;; (setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
+;;                             auto-mode-alist))
+;; (add-hook 'forth-mode-hook (function (lambda ()
+;;                                        ;; customize variables here:
+;;                                        (setq forth-indent-level 4)
+;;                                        (setq forth-minor-indent-level 2)
+;;                                        (setq forth-hilight-level 3)
+;;                                        ;;; ...
+;;                                        )))
 
+;; try using lars' standard forth-mode first ...
+(use-package forth-mode
+             :ensure t)
+(require 'forth-mode)
+(require 'forth-block-mode)
+(require 'forth-interaction-mode)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not

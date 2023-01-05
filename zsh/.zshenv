@@ -37,8 +37,9 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 # umask 077
 umask 033
 #
-export VISUAL="emacs"
+export VISUAL="emacsclient -t"
 export EDITOR=$VISUAL
+export ALTERNATE_EDITOR=""
 #
 # python specific
 export PYTHONSTARTUP=~/.config/python/init.py

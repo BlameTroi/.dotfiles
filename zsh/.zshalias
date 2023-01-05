@@ -27,6 +27,11 @@ fi
 alias df='df -h'
 alias du='du -h'
 #
+# editing
+alias e='emacsclient -t'
+alias emacs='emacsclient -t'
+alias killemacs='emacsclient -e "(save-buffers-kill-emacs)"'
+#
 # Misc
 alias less='less -r'                          # raw control characters
 alias whence='type -a'                        # where, of a sort
