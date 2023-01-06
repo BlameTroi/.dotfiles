@@ -5,3 +5,4 @@ vim/.config/lvim/*
 emacs/.emacs.d/places
 emacs/.emacs.d/recentf
 emacs/.emacs.d/straight
+emacs/.emacs.d/transient
