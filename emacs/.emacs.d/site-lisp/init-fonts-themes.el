@@ -34,6 +34,8 @@
 (use-package green-screen-theme :ensure t)
 (use-package alect-themes :ensure t)
 (use-package solarized-theme :ensure t)
+;;(use-package gruber-darker-theme :ensure t)
+(use-package gruvbox-theme :ensure t)
 ;; (load-theme 'wombat)
 ;; (set-face-background 'default "#111")
 ;; (set-face-background 'cursor "#c96")
@@ -42,8 +44,8 @@
 ;; (set-face-background 'lazy-highlight "#960")
 ;; (set-face-foreground 'lazy-highlight "#ccc")
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
-(load-theme 'solarized-dark-high-contrast t)
-
+;; (load-theme 'gruber-darker-theme t)
+(load-theme 'gruvbox-dark-hard t)
 ;; parens should be colorful and show matches
 (use-package rainbow-delimiters
   :ensure t

@@ -108,20 +108,7 @@
 ;; TODO (require 'init-basic)
 ;; TODO: 'init-go
 
-;; TODO: 'init-pascal
-;; ;; User customization for Pascal mode
-(setq pascal-indent-level       2
-      pascal-case-indent        2
-      pascal-auto-newline       nil
-      pascal-tab-always-indent  t
-      pascal-auto-endcomments   t
-      pascal-auto-lineup        '(all)
-      pascal-type-keywords      '("array" "file" "packed" "char"
-				     "integer" "real" "string" "record")
-      pascal-start-keywords     '("begin" "end" "function" "procedure"
-				     "repeat" "until" "while" "read" "readln"
-				     "reset" "rewrite" "write" "writeln")
-      pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
+(require 'init-pascal)
 
 ;; TODO: 'init-python
 
@@ -139,13 +126,12 @@
 ;;                                        (setq forth-hilight-level 3)
 ;;                                        ;;; ...
 ;;                                        )))
-
 ;; try using lars' standard forth-mode first ...
-(use-package forth-mode
-             :ensure t)
-(require 'forth-mode)
-(require 'forth-block-mode)
-(require 'forth-interaction-mode)
+;; (use-package forth-mode
+;;              :ensure t)
+;; (require 'forth-mode)
+;; (require 'forth-block-mode)
+;; (require 'forth-interaction-mode)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not
