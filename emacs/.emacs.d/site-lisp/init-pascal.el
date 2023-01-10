@@ -27,39 +27,23 @@
 ;; TODO: how to defer?
 ;; i think this is where i would load a customized version in place
 ;; of the standard pascal-mode
-;; (require 'pascal-mode)
-;; (autoload 'pascal-mode "pascal-mode.el")
 
-(setq auto-mode-alist (cons '("\\.pas\\'" . opascal-mode)
-                             auto-mode-alist))
+;; the default pascal mode seems a bit broken, so i may
+;; be tweaking it.
 
-;; the default pascal mode seems broken, so i'm checking out the
-;; default opascal mode. since i tend to run with $mode objfpc
-;; i think this should work ok.
-
-(add-hook 'opascal-mode-hook (function
-                             (lambda ()
-                               (setq opascal-indent-level          2)
-                               (setq opascal-compound-block-indent 2)
-                               (setq opascal-case-label-indent     0)
-                               (setq opascal-tab-always-indents    t))))
-
-;;                                (setq pascal-auto-newline       nil)
-;;                                (setq opascal-tab-always-indent  t)
-;;                                (setq pascal-auto-endcomments   t)
-;;                                (setq pascal-auto-lineup        '(all))
-;;                                (setq pascal-type-keywords      '("array" "file" "packed"
-;;                                                                  "char" "integer" "real"
-;;                                                                  "string" "record"))
-;;                                (setq pascal-start-keywords     '("begin" "end" "function"
-;;                                                                  "procedure" "repeat"
-;;                                                                  "until" "while" "read"
-;;                                                                  "readln" "reset"
-;;                                                                  "rewrite" "write"
-;;                                                                  "writeln"))
-;;                                (setq pascal-separator-keywords '("downto" "else" "mod"
-;;                                                                  "div" "then"))
-;;                                )))
+;; User customization for Pascal mode
+(setq pascal-indent-level       6
+      pascal-case-indent        3
+      pascal-auto-newline       nil
+      pascal-tab-always-indent  t
+      pascal-auto-endcomments   t
+      pascal-auto-lineup        '(all)
+      pascal-type-keywords      '("array" "file" "packed" "char"
+				                  "integer" "real" "string" "record")
+      pascal-start-keywords     '("begin" "end" "function" "procedure"
+				                  "repeat" "until" "while" "read" "readln"
+				                  "reset" "rewrite" "write" "writeln")
+      pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
 
 (provide 'init-pascal)
 ;;; init-pascal.el ends here

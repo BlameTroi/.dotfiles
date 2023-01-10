@@ -57,19 +57,15 @@
 ;; infrastructure
 (require 'init-straight)
 (require 'init-exec-path)
-;; (require 'init-org)
+(require 'init-org)
 (require 'init-files-directories)
 (require 'init-fonts-themes)
 (require 'init-ui-behavior)
-;;(require 'init-external-tools)
-;;(require 'init-ido)
+(require 'init-external-tools)
+(require 'init-ido)
 (require 'init-ibuffer)
 (require 'init-git)
-
-;; TODO: dired
-;; TODO: autosave scratch?
-;;(require 'init-auto-mode)
-;; TODO: 'init-yasnippet
+(require 'init-yasnippet)
 
 
 ;; more textually specific
@@ -87,51 +83,11 @@
 ;; TODO: textual/documentation mode stuff
 
 
-;; more programming specific
-;;
-;; (use-package lsp-mode
-;;   :ensure t)
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :after lsp-mode)
-;; TODO: still need flycheck, company-mode, lsp-treemacs (maybe),
-;; and dap-mode if debugger supported.
-;;
-;; TODO: this will wait until i start on a language that has a
-;; server. currently go, fortran, python, and maybe pascal have
-;; servers. the only lisp lsp i see is a racket server.
-
-
-;; Language specific initialization.
+;; Language/mode specific initialization.
+(require 'init-auto-mode)
 (require 'init-lisp)
-(require 'init-f90)
-;; TODO (require 'init-basic)
-;; TODO: 'init-go
-
 (require 'init-pascal)
 
-;; TODO: 'init-python
-
-;; copied from gforth manual ...
-;; (autoload 'forth-mode "gforth.el")
-;; (setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
-;;                             auto-mode-alist))
-;; (autoload 'forth-block-mode "gforth.el")
-;; (setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
-;;                             auto-mode-alist))
-;; (add-hook 'forth-mode-hook (function (lambda ()
-;;                                        ;; customize variables here:
-;;                                        (setq forth-indent-level 4)
-;;                                        (setq forth-minor-indent-level 2)
-;;                                        (setq forth-hilight-level 3)
-;;                                        ;;; ...
-;;                                        )))
-;; try using lars' standard forth-mode first ...
-;; (use-package forth-mode
-;;              :ensure t)
-;; (require 'forth-mode)
-;; (require 'forth-block-mode)
-;; (require 'forth-interaction-mode)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not

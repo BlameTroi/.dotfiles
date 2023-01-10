@@ -28,7 +28,8 @@
 ;; I need bigger fonts.
 ;;(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
 ;;(set-frame-font "Liberation Mono-14.0" nil t)
-(set-frame-font "SouceCodePro Nerd Font Mono-20.0" nil t)
+(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-20.0"))
+(set-frame-font "SauceCodePro Nerd Font Mono-20.0" nil t)
 ;; Theming support, though I'm currently using an old color theme.
 (use-package green-is-the-new-black-theme :ensure t)
 (use-package green-screen-theme :ensure t)

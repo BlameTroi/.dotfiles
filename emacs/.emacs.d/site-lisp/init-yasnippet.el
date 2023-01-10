@@ -1,9 +1,9 @@
-;;; init-external-tools.el --- packages that support externals such as ag or fzf  -*- lexical-binding: t; -*-
+;;; init-yasnippet.el --- initialization for snippets  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  Troy Brumley
+;; Copyright (C) 2023  Troy Brumley
 
 ;; Author: Troy Brumley <BlameTroi@gmail.com>
-;; Keywords: internal, lisp
+;; Keywords: abbrev, lisp
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,18 +20,15 @@
 
 ;;; Commentary:
 
-;; Just about anything that involves an external executable can go here.
-;; Some of the bigger applications/modes (eg., git) rate their own
-;; initialization.
+;; pretty straight forward stuff.
 
 ;;; Code:
 
+(straight-use-package 'yasnippet)
+(straight-use-package 'yasnippet-snippets)
 
-;; External search utilities.
-(use-package ag :ensure t)
-(use-package rg :ensure t)
-(use-package fzf :ensure t)
+(yas-global-mode t) ;; activate yasnippet
 
 
-(provide 'init-external-tools)
-;;; init-external-tools.el ends here
+(provide 'init-yasnippet)
+;;; init-yasnippet.el ends here
