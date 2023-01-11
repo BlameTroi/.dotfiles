@@ -32,11 +32,11 @@
 ;; be tweaking it.
 
 ;; User customization for Pascal mode
-(setq pascal-indent-level       6
-      pascal-case-indent        3
+(setq pascal-indent-level       2
+      pascal-case-indent        2
       pascal-auto-newline       nil
       pascal-tab-always-indent  t
-      pascal-auto-endcomments   t
+      pascal-auto-endcomments   nil
       pascal-auto-lineup        '(all)
       pascal-type-keywords      '("array" "file" "packed" "char"
 				                  "integer" "real" "string" "record")

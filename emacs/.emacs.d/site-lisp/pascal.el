@@ -75,8 +75,8 @@
     (define-key map "="        'electric-pascal-equal)
     (define-key map "#"        'electric-pascal-hash)
     ;; These are user preferences, so not to set by default.
-    ;;(define-key map "\r"       'electric-pascal-terminate-line)
-    ;;(define-key map "\t"       'electric-pascal-tab)
+    (define-key map "\r"       'electric-pascal-terminate-line)
+    (define-key map "\t"       'electric-pascal-tab)
     (define-key map "\M-\t"    'completion-at-point)
     (define-key map "\M-?"     'completion-help-at-point)
     (define-key map "\177"     'backward-delete-char-untabify)
