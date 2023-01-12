@@ -43,3 +43,11 @@ export ALTERNATE_EDITOR=""
 #
 # python specific
 export PYTHONSTARTUP=~/.config/python/init.py
+#
+# Timezone, set TZ$ to /etc/timezone if it exists, or default
+# to America/New_York.
+if [ ! -f /etc/timezone ]; then
+    export TZ="America/New_York"
+else
+    export TZ=$(</etc/timezone)
+fi
