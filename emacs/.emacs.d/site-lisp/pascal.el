@@ -54,6 +54,9 @@
 ;; myself and therefore would never notice them anyway.   If you do
 ;; find any bugs, you may submit them to: esk@gnu.org as well as to
 ;; bug-gnu-emacs@gnu.org.
+
+;; Changes:
+;; 1) add some delphi/fpc/tp keywords such as uses, interface, implementation.
 
 ;;; Code:
 
@@ -108,7 +111,10 @@
     "type" "until" "var" "while" "with"
     ;; The following are not standard in pascal, but widely used.
     "get" "put" "input" "output" "read" "readln" "reset" "rewrite" "write"
-    "writeln"))
+    "writeln"
+    ;; fpc/delphi/tp:
+    "uses" "unit" "interface" "initialization" "finalization" "implementation"
+    ))
 
 ;;;
 ;;; Regular expressions used to calculate indent, etc.
@@ -116,14 +122,14 @@
 (defconst pascal-symbol-re      "\\<[a-zA-Z_][a-zA-Z_0-9.]*\\>")
 (defconst pascal-beg-block-re   "\\<\\(begin\\|case\\|record\\|repeat\\)\\>")
 (defconst pascal-end-block-re   "\\<\\(end\\|until\\)\\>")
-(defconst pascal-declaration-re "\\<\\(const\\|label\\|type\\|var\\)\\>")
-(defconst pascal-progbeg-re     "\\<program\\>")
-(defconst pascal-defun-re       "\\<\\(function\\|procedure\\|program\\)\\>")
+(defconst pascal-declaration-re "\\<\\(const\\|label\\|type\\|var\\|uses\\)\\>")
+(defconst pascal-progbeg-re     "\\<\\(program\\|unit\\)\\>")
+(defconst pascal-defun-re       "\\<\\(function\\|procedure\\|program\\|unit\\)\\>")
 (defconst pascal-sub-block-re   "\\<\\(if\\|else\\|for\\|while\\|with\\)\\>")
 (defconst pascal-noindent-re    "\\<\\(begin\\|end\\|until\\|else\\)\\>")
 (defconst pascal-nosemi-re      "\\<\\(begin\\|repeat\\|then\\|do\\|else\\)\\>")
 (defconst pascal-autoindent-lines-re
-  "\\<\\(label\\|var\\|type\\|const\\|until\\|end\\|begin\\|repeat\\|else\\)\\>")
+  "\\<\\(label\\|var\\|type\\|const\\|until\\|end\\|begin\\|repeat\\|else\\|uses\\)\\>")
 
 ;;; Strings used to mark beginning and end of excluded text
 (defconst pascal-exclude-str-start "{-----\\/----- EXCLUDED -----\\/-----"
@@ -159,17 +165,19 @@
   "Syntax table in use in Pascal-mode buffers.")
 
 
-
+;;uses\\|unit\\|initialization\\|finalization\\|interface\\|implementation\\|function\\
 (defconst pascal-font-lock-keywords
-  `(("\\_<\\(function\\|pro\\(cedure\\|gram\\)\\)[ \t]+\\([[:alpha:]][[:alnum:]_]*\\)"
+  `(("\\_<\\(pro\\(cedure\\|gram\\)\\)[ \t]+\\([[:alpha:]][[:alnum:]_]*\\)"
      (1 font-lock-keyword-face)
      (3 font-lock-function-name-face))
     ;; ("type" "const" "real" "integer" "char" "boolean" "var"
     ;;  "record" "array" "file")
     (,(concat "\\_<\\(array\\|boolean\\|c\\(har\\|onst\\)\\|file\\|"
-              "integer\\|re\\(al\\|cord\\)\\|type\\|var\\)\\_>")
+              "integer\\|re\\(al\\|cord\\)\\|type\\|var\\|set\\|string\\)\\_>")
      . font-lock-type-face)
-    ("\\_<\\(label\\|external\\|forward\\)\\_>" . font-lock-constant-face)
+    (,(concat "\\_<\\(label\\|external\\|uses\\|implementation\\|initialization\\|"
+     "finalization\\|interface\\|forward\\)\\_>")
+     . font-lock-constant-face)
     ("\\_<\\([0-9]+\\)[ \t]*:" 1 font-lock-function-name-face)
     ;; ("of" "to" "for" "if" "then" "else" "case" "while"
     ;;  "do" "until" "and" "or" "not" "in" "with" "repeat" "begin" "end")
