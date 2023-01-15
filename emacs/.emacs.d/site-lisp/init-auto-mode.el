@@ -27,6 +27,9 @@
 
 ;; Make sure zsh uses shell mode.
 (troi/add-auto-mode 'sh-mode "\\.zsh\\'")
+
+;; free pascal and lazarus -- the pascalish files
+;;(troi/add-auto-mode 'fpc-mode "\\.pas\\'\\|\\.pp\\'\\|\\.lpr\\'")
 ;;(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
 

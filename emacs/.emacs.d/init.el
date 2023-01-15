@@ -68,11 +68,6 @@
 (require 'init-yasnippet)
 
 
-;; more textually specific
-;;(use-package markdown-mode)
-;;(troi/add-auto-mode 'markdown-mode "\\.\\(md\\|markdown\\)\\'")
-
-
 ;; TODO: 'init-completion ... company or ???
 ;; Completion. Is there another option?
 ;; (use-package company
@@ -86,8 +81,8 @@
 ;; Language/mode specific initialization.
 (require 'init-auto-mode)
 (require 'init-lisp)
-(require 'init-pascal)
-
+;;(require 'init-pascal)
+(require 'init-fpc)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not
