@@ -1,4 +1,4 @@
-;;; init-fpc.el --- major mode for lazarus and free pascal  -*- lexical-binding: t; -*-
+;;; init-pasc.el --- major mode for lazarus and free pascal  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  Troy Brumley
 
@@ -10,7 +10,6 @@
 ;;; Commentary:
 
 ;; TODO: re-enable after testing
-;;(require 'fpc-mode)
 
 ;; ;; User customization for Pascal mode
 ;; (setq pascal-indent-level       3
@@ -27,10 +26,10 @@
 ;;       pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
 
 ;; TODO defer/autoload
-(require 'fpc-mode)
+(require 'pasc-mode)
 
-(add-to-list 'auto-mode-alist '("\\.pas\\'" . fpc-mode))
+(add-to-list 'auto-mode-alist '("\\.pas\\'" . pasc-mode))
 
-(provide 'init-fpc)
+(provide 'init-pasc)
 
-;;; init-fpc.el ends here
+;;; init-pasc.el ends here

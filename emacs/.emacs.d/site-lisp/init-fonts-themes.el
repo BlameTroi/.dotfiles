@@ -28,15 +28,18 @@
 ;; I need bigger fonts.
 ;;(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
 ;;(set-frame-font "Liberation Mono-14.0" nil t)
-(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-20.0"))
-(set-frame-font "SauceCodePro Nerd Font Mono-20.0" nil t)
+(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18.0"))
+(set-frame-font "SauceCodePro Nerd Font Mono-18.0" nil t)
 ;; Theming support, though I'm currently using an old color theme.
+;;(use-package tao-theme :ensure t)
+;;(load-theme 'tao-yin t)
+;;(use-package
 (use-package green-is-the-new-black-theme :ensure t)
 (use-package green-screen-theme :ensure t)
 (use-package alect-themes :ensure t)
-(use-package solarized-theme :ensure t)
+;;(use-package solarized-theme :ensure t)
 ;;(use-package gruber-darker-theme :ensure t)
-(use-package gruvbox-theme :ensure t)
+;;(use-package gruvbox-theme :ensure t)
 ;; (load-theme 'wombat)
 ;; (set-face-background 'default "#111")
 ;; (set-face-background 'cursor "#c96")
@@ -46,7 +49,17 @@
 ;; (set-face-foreground 'lazy-highlight "#ccc")
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
 ;; (load-theme 'gruber-darker-theme t)
-(load-theme 'gruvbox-dark-hard t)
+;;(load-theme 'gruvbox-dark-hard t)
+
+(use-package almost-mono-themes
+  :ensure t
+  :config
+  (load-theme 'almost-mono-black t))
+  ;; (load-theme 'almost-mono-gray t)
+  ;; (load-theme 'almost-mono-cream t)
+  ;; (load-theme 'almost-mono-white t))
+
+
 ;; parens should be colorful and show matches
 (use-package rainbow-delimiters
   :ensure t

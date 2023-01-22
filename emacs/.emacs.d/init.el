@@ -82,7 +82,7 @@
 (require 'init-auto-mode)
 (require 'init-lisp)
 ;;(require 'init-pascal)
-(require 'init-fpc)
+;; (require 'init-pasc)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not

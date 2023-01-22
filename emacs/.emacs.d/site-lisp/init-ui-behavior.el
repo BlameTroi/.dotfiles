@@ -72,7 +72,7 @@
 
 ;; I go back and forth on line numbers.
 (global-display-line-numbers-mode)
-(setq display-line-numbers-width 6)
+(setq display-line-numbers-width 4)
 
 
 ;; But I do like column numbers, and I like them one based.
