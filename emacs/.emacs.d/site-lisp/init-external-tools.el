@@ -26,12 +26,14 @@
 
 ;;; Code:
 
-
 ;; External search utilities.
-(use-package ag :ensure t)
-(use-package rg :ensure t)
-(use-package fzf :ensure t)
-
+;; TODO: is more setup needed beyond loading?
+(use-package ag
+  :ensure t)
+(use-package rg
+  :ensure t)
+(use-package fzf
+  :ensure t)
 
 (provide 'init-external-tools)
 ;;; init-external-tools.el ends here

@@ -32,24 +32,20 @@
 (use-package diminish
   :ensure t)
 
-
 ;; I like to pick up where I left off.
 (save-place-mode 1)
 (setq save-place-forget-unreadable-files nil)
-
 
 ;; Minimize typing.
 (fset 'yes-or-no-p 'y-or-n-p)
 (recentf-mode)
 
-
 ;; System clipboard joins the kill ring.
+;; NOTE: this doesn't work under kitty terminal, but i'm ok with that.
 (setq select-enable-clipboard t)
-
 
 ;; Allow pixelwise resizing.
 (setq frame-resize-pixelwise t)
-
 
 ;; Make the UI quieter, more uniform, and generally to my liking.
 (setq-default visible-bell t
@@ -59,26 +55,21 @@
       use-dialog-box nil
       read-file-name-completion-ignore-case t)
 
-
 ;; Most people expect delete to actually delete an active highlighted
 ;; region these days.
 (delete-selection-mode 1)
-
 
 ;; Hilight matching parens.
 (setq-default show-paren-delay 0)
 (show-paren-mode)
 
-
 ;; I go back and forth on line numbers.
 (global-display-line-numbers-mode)
 (setq display-line-numbers-width 4)
 
-
 ;; But I do like column numbers, and I like them one based.
 (column-number-mode)
 (setq mode-line-position-column-format " C%C")
-
 
 ;; Whitespace and other global formatting. I removed the display
 ;; of trailing whitespace because it provides little benefit. Using
@@ -89,7 +80,6 @@
               tab-width 4)
 (setq sentence-end-double-space nil)
 
-
 ;; ws-butler only cleans up whitespace on lines touched in the edit
 ;; session.
 (use-package ws-butler
@@ -97,7 +87,6 @@
   :diminish
   :config
   (ws-butler-global-mode))
-
 
 ;; which-key is very helpful!
 (use-package which-key
@@ -107,25 +96,58 @@
   (which-key-mode)
   (which-key-setup-side-window-bottom))
 
-
 ;; Usually a newline should indent in a programming mode.
 (add-hook 'prog-mode-hook
           (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 
-
 ;; An understore is a word character in many prpogramming languages.
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
-(diminish 'eldoc-mode)
 
+;; TODO: why did this land here?
+;; (diminish 'eldoc-mode)
 
-;; Hilight todo's, this package also supports moving from tag to tag
-;; but I haven't wired the keybinds yet.
+;; Hilight todo and other tags.
 (use-package hl-todo
   :ensure t
   :diminish
   :config
-  (global-hl-todo-mode))
+  (global-hl-todo-mode)
+  (add-to-list 'hl-todo-keyword-faces '("TXB" . "#cc9393"))
+  (add-to-list 'hl-todo-keyword-faces '("txb" . "#cc9393"))
+  (define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
+  (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
+  (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
+  (define-key hl-todo-mode-map (kbd "C-c i") 'hl-todo-insert)
+  )
 
+;; NOTE: following are from a reddit post
+;; (use-package hl-todo
+;;        :ensure t
+;;        :custom-face
+;;        (hl-todo ((t (:inherit hl-todo :italic t))))
+;;        :hook ((prog-mode . hl-todo-mode)
+;;               (yaml-mode . hl-todo-mode)))
+;;
+;; Highlight keywords such as TODO, FIXME, NOTE, etc.
+;; NOTE: Face values defined in `hl-todo-keyword-faces'.
+;; (use-package hl-todo
+;;   :config
+;;   (global-hl-todo-mode)
+;;   (add-to-list 'hl-todo-keyword-faces '("REMOVED" . "#cc9393"))
+;;   (add-to-list 'hl-todo-keyword-faces '("GIGO" . "#cc9393"))
+;;   (add-to-list 'hl-todo-keyword-faces '("WARNING" . "#cc9393"))
+;;   )
+;; TODO: following are from the package readme
+;; (setq hl-todo-keyword-faces
+;; 	'(("TODO"   . "#FF0000")
+;; 	  ("FIXME"  . "#FF0000")
+;; 	  ("DEBUG"  . "#A020F0")
+;; 	  ("GOTCHA" . "#FF4500")
+;; 	  ("STUB"   . "#1E90FF")))
+;; (define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
+;; (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
+;; (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
+;; (define-key hl-todo-mode-map (kbd "C-c i") 'hl-todo-insert)
 
 ;; Easier window navigation.
 (use-package ace-window
@@ -133,7 +155,6 @@
   :config
   (global-set-key (kbd "M-o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-
 
 (provide 'init-ui-behavior)
 ;;; init-ui-behavior.el ends here

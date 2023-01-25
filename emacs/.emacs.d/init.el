@@ -65,7 +65,9 @@
 (require 'init-ido)
 (require 'init-ibuffer)
 (require 'init-git)
-(require 'init-yasnippet)
+
+;; NOTE: it is reported that yas doesn't play nice with org
+;; (require 'init-yasnippet)
 
 
 ;; TODO: 'init-completion ... company or ???
@@ -77,12 +79,10 @@
 
 ;; TODO: textual/documentation mode stuff
 
-
 ;; Language/mode specific initialization.
 (require 'init-auto-mode)
 (require 'init-lisp)
-;;(require 'init-pascal)
-;; (require 'init-pasc)
+(require 'init-pasc)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not

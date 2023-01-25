@@ -21,8 +21,8 @@ alias df='df -h'
 alias du='du -h'
 #
 # editing
-alias e='emacsclient -t'
-alias emacs='emacsclient -t'
+# alias e='emacsclient -t'
+alias emacsclient='emacsclient -t'
 alias killemacs='emacsclient -e "(save-buffers-kill-emacs)"'
 #
 # Misc

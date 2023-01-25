@@ -58,6 +58,5 @@
 (add-to-list 'find-file-not-found-functions #'troi/create-non-existent-directory)
 
 
-
 (provide 'init-files-directories)
 ;;; init-files-directories.el ends here

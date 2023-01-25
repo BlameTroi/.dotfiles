@@ -208,10 +208,19 @@
 
 ;;; Code:
 
-(require 'idcase) ; This defines the minor mode id-case-significant.
+;; TODO: idcase can't be found in searching web, github, or emacswiki ...
+;; pretty much all i can do is comment this out and start clipping code.
+;;(require 'idcase) ; This defines the minor mode id-case-significant.
+
+;; TODO: the current easymenu does not attempt to support xemacs, is this goin to be
+;; an issue?
 (require 'easymenu) ; Define menu items for both emacs 19 and xemacs.
 
+;; TODO: xemacs is moribund, so no need to support imo
 ;; Some code for compatibility between emacs 19 and xemacs.
+;; both region-exists-p and zmacs-activate-region are not
+;; defined in my emacs (gnu 28.1) so both of these defun
+;; will be done. cute code count on short circuit or :)
 (or (fboundp 'region-exists-p)
     (defun region-exists-p () mark-active))
 (or (fboundp 'zmacs-activate-region)
@@ -219,6 +228,8 @@
 
 ;; XEmacs apparently call this `buffer-substring-without-properties',
 ;; sigh.
+;; TODO: and buffer-substring-no-properties does exist (ofc) so the
+;; redefinition won't be done.
 (or (fboundp 'buffer-substring-no-properties)
     (fset 'buffer-substring-no-properties
 	  (if (fboundp 'buffer-substring-without-properties)
@@ -559,8 +570,9 @@ or in the line's indentation; otherwise a tab is inserted."
 (defvar pascal-indent-parens
   (concat
    "[[(:]\\|"
+   ;; TXB: added "uses"
    (regexp-opt
-    '("label" "const" "type" "var"
+    '("label" "const" "type" "var" "uses"
       "function" "procedure" "program"
       "record"
       "begin" "repeat" "of")
@@ -646,8 +658,9 @@ might be confused by a multi line comment."
    '("\\<\\([0-9]+\\)[ \t]*:" 1 font-lock-reference-face)
    (cons (concat
 	  "\\<"
+      ;; TXB: added "uses"
 	  (regexp-opt
-	   '("label" "const" "type" "var"
+	   '("label" "const" "type" "var" "uses"
 	     "forward" "extern" "external"
 	     "begin" "end" "while" "do" "repeat" "until" "for" "to" "downto"
 	     "if" "then" "else" "case" "of" "with"
@@ -919,9 +932,11 @@ This string may not appear for any other purpose in the program."
     table)
   "Syntax table used in Pascal mode.")
 
+;; TODO: strip out the case/no-case
 (defvar pascal-case-template-table nil
   "Abbrev table in use in Pascal-mode buffers with case significant.")
 
+;; TODO: strip out the case/no-case
 (defvar pascal-nocase-template-table nil
   "Abbrev table in use in Pascal-mode buffers with case not significant.")
 
@@ -933,16 +948,19 @@ This string may not appear for any other purpose in the program."
 
 (defvar pascal-token-end nil)
 
+;; TODO: strip out the case/no-case
 (defun pascal-mode-case ()
   "Start pascal mode with option `id-case-significant' true."
   (interactive)
   (pascal-mode 1))
 
+;; TODO: strip out the case/no-case
 (defun pascal-mode-no-case ()
   "Start pascal mode with option `id-case-significant' false."
   (interactive)
   (pascal-mode 0))
 
+;; TODO: strip out the case/no-case
 (defun pascal-mode (&optional case)
   "Major mode for editing Pascal programs. Version 1.12.
 If optional argument CASE is not nil, then it must be numeric and
@@ -1064,15 +1082,16 @@ pascal-ignore-block-after-do nil If true, BEGIN--END have no affect on
   (if (not pascal-mode-abbrev-table)
       (setq pascal-mode-abbrev-table (make-abbrev-table)))
   (setq local-abbrev-table pascal-mode-abbrev-table)
-  (if (not (memq 'pascal-check-template-case id-case-change-hook))
-      (setq id-case-change-hook
-	    (append id-case-change-hook '(pascal-check-template-case))))
-  (id-case-significant (or case (if pascal-case-significant 1 0)) t)
+  ;; TODO: comnented out, id-case-change-hook nil
+  ;; (if (not (memq 'pascal-check-template-case id-case-change-hook))
+  ;;     (setq id-case-change-hook
+  ;;       (append id-case-change-hook '(pascal-check-template-case))))
+  ;; (id-case-significant (or case (if pascal-case-significant 1 0)) t)
   (set-syntax-table pascal-syntax-table)
   (make-local-variable 'font-lock-defaults)
   (setq font-lock-defaults
 	(list 'pascal-font-lock-keywords pascal-keywords-only
-	      (not id-case-significant)))
+	      (not nil))) ;; was id-case-significant, but not defined, see above TODO
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'pascal-indent-line)
   (make-local-variable 'indent-region-function)
@@ -1798,6 +1817,7 @@ With prefix argument USEOLD, use old id as default, otherwise use id at point"
   "Compile current buffer.
 With prefix argument DEF change compilation command."
   (interactive "P")
+  ;; TODO: where is this compiler?
   (require 'compile)
   (if def
       (setq pascal-compile-format
@@ -2095,6 +2115,7 @@ in buffer else if arg > 0 use (* and *) else use { and }."
       (insert col bl)
       (max 0 (- indent (length col) (length bl))))))
 
+;; TODO: indent for uses
 (defvar pascal-indent-fn
   '(
     ("program"   . pascal-ret-zero)	; No indentation
@@ -2108,7 +2129,7 @@ in buffer else if arg > 0 use (* and *) else use { and }."
     ("label"     . pascal-indent-decl)
     ("const"     . pascal-indent-decl)
     ("type"      . pascal-indent-decl)
-    ("var"   . pascal-indent-var-decl)	; Variable declaration or var parameter
+    ("var"       . pascal-indent-var-decl)	; Variable declaration or var parameter
     ("begin"     . pascal-indent-block)
     ("end"       . pascal-indent-end)
     ("until"     . pascal-indent-end)
@@ -2253,6 +2274,7 @@ in buffer else if arg > 0 use (* and *) else use { and }."
 (defun pascal-in-indent ()
   (save-excursion (skip-chars-backward pascal-white-ln) (bolp)))
 
+;; TODO: uses indent?
 (defvar pascal-indent-relative-fn
   '(
     ("("	 . pascal-ret-one)

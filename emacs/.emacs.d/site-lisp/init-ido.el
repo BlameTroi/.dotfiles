@@ -24,16 +24,15 @@
 
 ;;; Code:
 
-
 (use-package ido
   :config
   (setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-max-prospects 10
-      ido-default-file-method 'selected-window
-      ido-auto-merge-work-directories-length -1)
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point 'guess
+        ido-max-prospects 10
+        ido-default-file-method 'selected-window
+        ido-auto-merge-work-directories-length -1)
   (ido-mode 1)
   (ido-everywhere 1))
 
@@ -46,8 +45,9 @@
   :after ido
   :config
   (flx-ido-mode 1)
-  (setq ido-use-faces nil))
+  (setq ido-use-faces 1)) ;; txb was nil, testing 1/24/23
 
+;; NOTE: meta-lowercase-x and meta-uppercase-x here,
 (use-package smex
   :after ido
   :config
@@ -58,12 +58,11 @@
 (use-package ido-vertical-mode
   :after ido
   :config
-(ido-mode 1)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only))
+  (ido-mode 1)
+  (ido-vertical-mode 1)
+  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
-;; TODO what about ido-grid-mode?
-
+;; NOTE: might want to try ido-grid-mode in place of ido-vertical-mode
 
 (provide 'init-ido)
 ;;; init-ido.el ends here

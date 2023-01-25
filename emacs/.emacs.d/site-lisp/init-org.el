@@ -27,14 +27,16 @@
 
 ;; Load org early to get the current version and not whatever
 ;; was bundled with emacs.
-(use-package org :ensure t)
-(setq org-directory "~/org")
-
-;; (define-key global-map "\C-cl" 'org-store-link)
-;; (define-key global-map "\C-ca" 'org-agenda)
-;; (define-key global-map "\C-cc" 'org-capture)
-
-(setq org-log-done t)
+(use-package org
+  :ensure t
+  :config
+  (progn
+    (setq org-directory "~/org")
+    (setq org-log-done 'time)
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (define-key global-map "\C-cc" 'org-capture)
+    ))
 
 (provide 'init-org)
 ;;; init-org.el ends here

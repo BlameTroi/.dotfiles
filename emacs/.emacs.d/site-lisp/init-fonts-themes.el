@@ -24,32 +24,19 @@
 
 ;;; Code:
 
+;; I have older eyes and need bigger fonts.
+;; 'default-frame-alist is used to set the font when running emacsclient in gui
+;; mode, otherwise the fonts are unreadably small. on a tui, the following
+;; machts nichts.
 
-;; I need bigger fonts.
-;;(set-frame-font "Hack Nerd Font Mono-15.0" nil t)
-;;(set-frame-font "Liberation Mono-14.0" nil t)
 (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18.0"))
 (set-frame-font "SauceCodePro Nerd Font Mono-18.0" nil t)
-;; Theming support, though I'm currently using an old color theme.
-;;(use-package tao-theme :ensure t)
-;;(load-theme 'tao-yin t)
-;;(use-package
-(use-package green-is-the-new-black-theme :ensure t)
-(use-package green-screen-theme :ensure t)
-(use-package alect-themes :ensure t)
-;;(use-package solarized-theme :ensure t)
-;;(use-package gruber-darker-theme :ensure t)
-;;(use-package gruvbox-theme :ensure t)
-;; (load-theme 'wombat)
-;; (set-face-background 'default "#111")
-;; (set-face-background 'cursor "#c96")
-;; (set-face-background 'isearch "#c60")
-;; (set-face-foreground 'isearch "#eee")
-;; (set-face-background 'lazy-highlight "#960")
-;; (set-face-foreground 'lazy-highlight "#ccc")
-;; (set-face-foreground 'font-lock-comment-face "#fc0")
-;; (load-theme 'gruber-darker-theme t)
-;;(load-theme 'gruvbox-dark-hard t)
+
+;; Theming support with some of my favorites. I spend too much time down this
+;; rabbit hole. That said, fewer colors and darker modes work best for my eyes.
+
+;; (use-package green-is-the-new-black-theme :ensure t)
+;; (use-package green-screen-theme :ensure t)
 
 (use-package almost-mono-themes
   :ensure t
@@ -58,7 +45,6 @@
   ;; (load-theme 'almost-mono-gray t)
   ;; (load-theme 'almost-mono-cream t)
   ;; (load-theme 'almost-mono-white t))
-
 
 ;; parens should be colorful and show matches
 (use-package rainbow-delimiters
@@ -76,6 +62,6 @@
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
   )
 
-
 (provide 'init-fonts-themes)
+
 ;;; init-fonts-themes.el ends here

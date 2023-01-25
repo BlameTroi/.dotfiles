@@ -29,14 +29,14 @@
 
 
 ;; A repl is a good thing.
-(use-package geiser
-  :ensure t
-  :config
-  (setq geiser-repl-use-other-window nil))
+;; (use-package geiser
+;;   :ensure t
+;;   :config
+;;   (setq geiser-repl-use-other-window nil))
 
-(use-package geiser-chez
-  :ensure t
-  :after geiser)
+;; (use-package geiser-chez
+;;   :ensure t
+;;   :after geiser)
 
 
 ;; Word on the street is that this is the way.

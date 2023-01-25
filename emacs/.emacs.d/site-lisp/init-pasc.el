@@ -26,9 +26,10 @@
 ;;       pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
 
 ;; TODO defer/autoload
+;; TODO pasc-mode provides pascal-mode, overwrites the default
 (require 'pasc-mode)
 
-(add-to-list 'auto-mode-alist '("\\.pas\\'" . pasc-mode))
+(add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
 
 (provide 'init-pasc)
 
