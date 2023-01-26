@@ -23,6 +23,11 @@ export ZSH="$HOME/.oh-my-zsh"
 typeset -U PATH
 export path=(~/.local/bin ~/.cargo/bin $path[@])
 #
+# add vishap oberon compiler if it's installed
+if [ -f ~/voc/install/bin/voc ]; then
+export path=(~/voc/install/bin $path[@])
+fi
+#
 #export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

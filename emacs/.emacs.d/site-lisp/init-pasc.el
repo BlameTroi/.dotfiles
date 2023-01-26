@@ -31,6 +31,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
 
+(require 'oberon)
+(add-to-list 'auto-mod-alist '("\\.Mod\\'" . oberon-mode))
+
 (provide 'init-pasc)
 
 ;;; init-pasc.el ends here

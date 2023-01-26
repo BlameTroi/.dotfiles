@@ -58,8 +58,9 @@
                ("programming" (or
                                ;; have to check for pascal separately because it isn't
                                ;; implemented as a derived mode yet.
-                               ;; (mode . pasc-mode)
+                               ;; and also oberon
                                (mode . pascal-mode)
+                               (mode . oberon-mode)
                                (derived-mode . prog-mode)))
                ("Writing" (or
                            (mode . org-mode)
