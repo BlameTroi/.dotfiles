@@ -25,10 +25,8 @@
 
 ;;; Code:
 
-
 ;; ibuffer. from https://cestlaz.github.io/posts/using-emacs-34-ibuffer-emmet/
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
 
 (setq ibuffer-saved-filter-groups
       (quote (("troi"
@@ -57,37 +55,47 @@
                                (mode . scheme-mode)
                                (mode . lisp-mode)
                                (mode . racket-mode)))
-               ;; TODO can we find a way to check if derived from prog-mode?
                ("programming" (or
+                               ;; have to check for pascal separately because it isn't
+                               ;; implemented as a derived mode yet.
+                               ;; (mode . pasc-mode)
                                (mode . pascal-mode)
-                               (mode . eldoc-mode)
-                               (mode . fortran-mode)
-                               (mode . f90-mode)
-                               (mode . gas-mode)
-                               (mode . gdb-mode)
-                               (mode . emacs-lisp-mode)
-                               (mode . slime-mode)
-                               (mode . python-mode)
-                               (mode . c++-mode)))
+                               (derived-mode . prog-mode)))
+               ("Writing" (or
+                           (mode . org-mode)
+                           (derived-mode . org-mode)
+                           (mode . org-agenda-mode)
+                           (mode . markdown-mode)
+                           (mode . LaTeX-mode)
+                           (mode . text-mode)
+                           (mode . pdf-view-mode)))
                ))))
-
+;;(get mode 'derived-mode-parent) . prog-mode))))))
+;; (or
+;;                (mode . pascal-mode)
+;;                (mode . eldoc-mode)
+;;                (mode . fortran-mode)
+;;                (mode . f90-mode)
+;;                (mode . gas-mode)
+;;                (mode . gdb-mode)
+;;                (mode . emacs-lisp-mode)
+;;                (mode . slime-mode)
+;;                (mode . python-mode)
+;;                (mode . c++-mode)))
+;;               ))))
 
 (add-hook 'ibuffer-mode-hook
           (lambda ()
             (ibuffer-auto-mode 1)
             (ibuffer-switch-to-saved-filter-groups "troi")))
 
-
 ;; Don't show these via (add-to-list 'ibuffer-never-show-predicates "zowie")
-
 
 ;; Don't show filter groups if there are no buffers in that group
 (setq ibuffer-show-empty-filter-groups nil)
 
-
 ;; Reduce buffer kill queries.
 (setq ibuffer-expert t)
-
 
 (provide 'init-ibuffer)
 ;;; init-ibuffer.el ends here

@@ -208,6 +208,10 @@
 
 ;;; Code:
 
+;; TODO: this is not properly a mode from what i understand. i think it
+;; should be a derived mode from prog-mode, but i don't know how to make
+;; it one yet.
+
 ;; TODO: idcase can't be found in searching web, github, or emacswiki ...
 ;; pretty much all i can do is comment this out and start clipping code.
 ;;(require 'idcase) ; This defines the minor mode id-case-significant.
