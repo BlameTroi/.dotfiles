@@ -54,6 +54,30 @@
 ;; myself and therefore would never notice them anyway.   If you do
 ;; find any bugs, you may submit them to: esk@gnu.org as well as to
 ;; bug-gnu-emacs@gnu.org.
+
+
+;;; New Version -- Troy's Modifications:
+
+;; NOTES:
+;; =====
+;; I don't like some of the behavior here so I'm modifying things to suite
+;; my usage of FPC without Lazarus. This started with a copy of pascal.el
+;; from the emacs mirror on github.
+;;
+;; Troy Brumley blametroi@gmail.com January 2023
+
+;; PLANS:
+;; =====
+;; 1) Add some of the unit and object pascal syntax.
+;; 2) Better indent.
+;; 3) Compile using FPC from within emacs.
+
+;; CHANGES:
+;; =======
+;; 1) Underscore as a word character in syntax-table.
+;; 2) Update some doc strings to make it clear that this is not the standard
+;;    shipped pascal.el.
+
 
 ;;; Code:
 
@@ -153,7 +177,8 @@
     (modify-syntax-entry ?> "."    st)
     (modify-syntax-entry ?& "."    st)
     (modify-syntax-entry ?| "."    st)
-    (modify-syntax-entry ?_ "_"    st)
+    ;; txb: was "_", but it's a word character to me ...
+    (modify-syntax-entry ?_ "w"    st)
     (modify-syntax-entry ?\' "\""  st)
     st)
   "Syntax table in use in Pascal-mode buffers.")
@@ -297,7 +322,7 @@ are handled in another way, and should not be added to this list."
 
 ;;;###autoload
 (define-derived-mode pascal-mode prog-mode "Pascal"
-  "Major mode for editing Pascal code.\\<pascal-mode-map>
+  "Major mode for editing Pascal code. Troy's modifications! \\<pascal-mode-map>
 TAB indents for Pascal code.  Delete converts tabs to spaces as it moves back.
 
 \\[completion-at-point] completes the word around current point with respect \

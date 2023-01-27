@@ -22,8 +22,8 @@ alias du='du -h'
 #
 # editing
 # alias e='emacsclient -t'
-alias emacsclient='emacsclient -t'
-alias killemacs='emacsclient -e "(save-buffers-kill-emacs)"'
+#alias emacsclient='emacsclient -t'
+#alias killemacs='emacsclient -e "(save-buffers-kill-emacs)"'
 #
 # Misc
 alias less='less -r'                          # raw control characters

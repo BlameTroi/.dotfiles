@@ -1,9 +1,9 @@
-;;; init-lisp.el --- lisp related settings           -*- lexical-binding: t; -*-
+;;; init-troi-functions.el --- any defuns for my init  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  Troy Brumley
+;; Copyright (C) 2023  Troy Brumley
 
 ;; Author: Troy Brumley <BlameTroi@gmail.com>
-;; Keywords: internal, lisp
+;; Keywords: lisp, convenience, local
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,27 +20,14 @@
 
 ;;; Commentary:
 
-;; Set up for lispish programming.
+;; Various helper functions for general initialization.
 
 ;;; Code:
 
-;; A repl is a good thing.
-(use-package geiser
-  :ensure t
-  :config
-  (setq geiser-repl-use-other-window nil))
+(defun troi/add-auto-mode (mode &rest patterns)
+  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
+  (dolist (pattern patterns)
+    (add-to-list 'auto-mode-alist (cons pattern mode))))
 
-(use-package geiser-chez
-  :ensure t
-  :after geiser)
-
-;; Word on the street is that this is the way.
-(use-package paredit
-  :ensure t)
-
-;; Use the pretty print evals:
-(global-set-key (kbd "M-:") 'pp-eval-expression)
-(global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
-
-(provide 'init-lisp)
-;;; init-lisp.el ends here
+(provide 'init-troi-functions)
+;;; init-troi-functions.el ends here

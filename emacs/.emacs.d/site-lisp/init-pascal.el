@@ -24,12 +24,13 @@
 
 ;;; Code:
 
-;; TODO: how to defer?
-;; i think this is where i would load a customized version in place
-;; of the standard pascal-mode
+;; TODO: how to defer actual loading?
 
-;; the default pascal mode seems a bit broken, so i may
-;; be tweaking it.
+;; this *should* get my version instead of the shipped version.
+(require 'pascal)
+
+;; TODO: can this be removed since i'm using the standard names?
+(add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
 
 ;; User customization for Pascal mode
 (setq pascal-indent-level       2

@@ -1,6 +1,5 @@
 ;;; init.el -- Troi's emacs configuration. -*- lexical-binding: t -*-
 
-
 ;;; Commentary:
 
 ;; This init was inspired by many things I've seen exploring,
@@ -13,20 +12,16 @@
 ;; I'll spend less time just learning base emacs with default
 ;; keybinds.
 
-
 ;;; Code:
-
 
 ;; Add my lisp to load-path.
 (push "~/.emacs.d/site-lisp/" load-path)
-
 
 ;; General defaults.
 (setq user-full-name "Troy Brumley"
       user-mail-address "BlameTroi@gmail.com")
 (setq auth-sources '("~/.authinfo.gpg")
       auth-source-cache-expiry nil)
-
 
 ;; Tweak garbage collection during both init and normal
 ;; processing. Also fire off a garbage collect if the
@@ -40,19 +35,13 @@
  :after after-focus-change-function
  (lambda () (unless (frame-focus-state) (garbage-collect))))
 
-
-;; Define any utility functions for this config file.
-(defun troi/add-auto-mode (mode &rest patterns)
-  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
-  (dolist (pattern patterns)
-    (add-to-list 'auto-mode-alist (cons pattern mode))))
-
+;; Utility functions:
+(require 'init-troi-functions)
 
 ;; Initialization is factored out by somewhat logical groupings. Package
 ;; management via straight.el must come before we start loading any other
 ;; packages. org-mode should be loaded via external packaging early to
 ;; avoid bringing in the default version, which is likely stale.
-
 
 ;; infrastructure
 (require 'init-straight)
@@ -69,20 +58,18 @@
 ;; NOTE: it is reported that yas doesn't play nice with org
 ;; (require 'init-yasnippet)
 
-
 ;; TODO: 'init-completion ... company or ???
 ;; Completion. Is there another option?
 ;; (use-package company
 ;;   :ensure t)
 ;; (add-hook 'after-init-hook 'global-company-mode)
 
-
 ;; TODO: textual/documentation mode stuff
 
 ;; Language/mode specific initialization.
 (require 'init-auto-mode)
 (require 'init-lisp)
-(require 'init-pasc)
+(require 'init-pascal)
 
 ;; if i ever use paradox again, this is the pattern for storing a
 ;; token or other 'secret' data. the private directory should not
@@ -91,7 +78,6 @@
 ;; The "paradox-token" file is supposed to contain this line:
 ;;     (setq paradox-github-token "<YOUR_TOKEN>")
 ;; (load (locate-user-emacs-file "private/paradox-token")) ; :noerror :nomessage)
-
 
 (provide 'init)
 

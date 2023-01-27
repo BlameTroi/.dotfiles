@@ -47,9 +47,21 @@
 ;; Allow pixelwise resizing.
 (setq frame-resize-pixelwise t)
 
+;; Put some snark and useful snippets in scratch.
+(setq initial-scratch-message
+    ";; - 'Tis but a scratch!
+;; - A scratch? Your arm's off!
+;; - No, it isn't!
+
+;; To shutdown an emacs server
+(save-buffers-kill-emacs)
+
+;; Anything else?
+")
+
 ;; Make the UI quieter, more uniform, and generally to my liking.
-(setq-default visible-bell t
-              initial-scratch-message nil)
+(setq-default visible-bell t)
+
 (setq inhibit-startup-screen t
       use-file-dialog nil
       use-dialog-box nil
