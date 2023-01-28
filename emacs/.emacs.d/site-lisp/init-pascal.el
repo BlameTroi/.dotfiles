@@ -30,20 +30,21 @@
 (require 'pascal)
 
 ;; TODO: can this be removed since i'm using the standard names?
-(add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
+;; (add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
 
 ;; User customization for Pascal mode
 (setq pascal-indent-level       2
       pascal-case-indent        2
       pascal-auto-newline       nil
+      pascal-indent-nested-functions t
       pascal-tab-always-indent  t
       pascal-auto-endcomments   nil
-      pascal-auto-lineup        '(all)
+      pascal-auto-lineup        '(all) ;; paramlist, declaration, case
       pascal-type-keywords      '("array" "file" "packed" "char"
-				                  "integer" "real" "string" "record")
+	    		                  "integer" "real" "string" "record")
       pascal-start-keywords     '("begin" "end" "function" "procedure"
-				                  "repeat" "until" "while" "read" "readln"
-				                  "reset" "rewrite" "write" "writeln")
+        		                  "repeat" "until" "while" "read" "readln"
+	     		                  "reset" "rewrite" "write" "writeln")
       pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
 
 (provide 'init-pascal)

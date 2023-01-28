@@ -1,3 +1,10 @@
+# directories that by personal convention aren't in vc #
+########################################################
+**/notInGit
+**/private
+**/org
+# ### org is debatable, but for now, no ###
+
 # Compiled source #
 ###################
 *.com

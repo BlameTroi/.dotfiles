@@ -12,22 +12,31 @@
 ;;
 ;; Demo at https://asciinema.org/a/ypGwNO8JyPpIEXz7CC7ZkaOFp
 
+;;; Changes:
+
 ;; Extracted from KCS' full solutions repo on github:
 ;;
 ;; https://github.com/keegancsmith/advent.git
 ;;
 ;; I like the helper, don't need the solutions.
+;;
+;; Troy Brumley, January 2023.
+
+;; TODO: several
+;; 1) different directory root
+;; 2) subdirectories for year/day
+;; 3) templates
 
 ;;; Code:
 
 (require 'url)
 
 (defvar advent-dir
-  (expand-file-name "~/src/advent")
+  (expand-file-name "~/projects/adventOfCode")
   "The directory you are doing advent of code in.")
 
 (defvar advent-src-template
-  (expand-file-name "~/src/advent/template/main.py")
+  (expand-file-name "~/projects/adventOfCode/template/main.py")
   "A file which is copied and opened for each day.")
 
 (defun advent-login (session)

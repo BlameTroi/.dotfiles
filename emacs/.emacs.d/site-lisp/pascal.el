@@ -145,6 +145,15 @@
 (defconst pascal-defun-re       "\\<\\(function\\|procedure\\|program\\)\\>")
 (defconst pascal-sub-block-re   "\\<\\(if\\|else\\|for\\|while\\|with\\)\\>")
 (defconst pascal-noindent-re    "\\<\\(begin\\|end\\|until\\|else\\)\\>")
+;; txb: above is original
+;; changing to remove begin and end results in ...
+;; if blah then
+;;   begin
+;;     asdf
+;;     ijkl
+;;     end
+;; removing just begin isn't any better.
+;; yet clearly this is in the area i need to be lookging at
 (defconst pascal-nosemi-re      "\\<\\(begin\\|repeat\\|then\\|do\\|else\\)\\>")
 (defconst pascal-autoindent-lines-re
   "\\<\\(label\\|var\\|type\\|const\\|until\\|end\\|begin\\|repeat\\|else\\)\\>")
@@ -391,6 +400,7 @@ See also the user variables `pascal-type-keywords', `pascal-start-keywords' and
 (defun electric-pascal-terminate-line ()
   "Terminate line and indent next line."
   (interactive)
+  ;; TODO: bug either here or when called for a period/auto-newline, fails for range defs
   ;; First, check if current line should be indented
   (save-excursion
     (beginning-of-line)
@@ -429,6 +439,8 @@ See also the user variables `pascal-type-keywords', `pascal-start-keywords' and
   (save-excursion
     (beginning-of-line)
     (pascal-indent-line))
+  ;; TODO; this doesn't work correctly if defining a range low..high,
+  ;; bug probably in terminate-line
   (if pascal-auto-newline
       (electric-pascal-terminate-line)))
 
@@ -708,6 +720,7 @@ See also `pascal-comment-area'."
   (pascal-change-keywords 'capitalize-word))
 
 ;; Change the keywords according to argument.
+;; TODO: i think this doesn't exclude comments and string literals
 (defun pascal-change-keywords (change-word)
   (save-excursion
     (let ((keyword-re (concat "\\<\\("
@@ -805,6 +818,8 @@ on the line which ends a function or procedure named NAME."
     (if (looking-at "[ \t]+$")
 	(skip-chars-forward " \t"))))
 
+;; TODO: how to properly indent if then/begin/blah/end/else...
+;; thinking ... pascal-noindent-re ...
 (defun pascal-indent-line ()
   "Indent current line as a Pascal statement."
   (let* ((indent-str (pascal-calculate-indent))
