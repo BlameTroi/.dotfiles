@@ -34,7 +34,8 @@
 ;; these lines (the values of the variables presented here are the defaults):
 ;;
 ;; ;; User customization for Pascal mode
-;; (setq pascal-indent-level       3
+;; (setq pascal-electric-enable    t
+;;       pascal-indent-level       3
 ;;       pascal-case-indent        2
 ;;       pascal-auto-newline       nil
 ;;       pascal-tab-always-indent  t
@@ -93,11 +94,12 @@
 
 (defvar pascal-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map ";"        'electric-pascal-semi-or-dot)
-    (define-key map "."        'electric-pascal-semi-or-dot)
-    (define-key map ":"        'electric-pascal-colon)
-    (define-key map "="        'electric-pascal-equal)
-    (define-key map "#"        'electric-pascal-hash)
+    ;; txb: turn off electric while working on indent ...
+    ;; (define-key map ";"        'electric-pascal-semi-or-dot)
+    ;; (define-key map "."        'electric-pascal-semi-or-dot)
+    ;; (define-key map ":"        'electric-pascal-colon)
+    ;; (define-key map "="        'electric-pascal-equal)
+    ;; (define-key map "#"        'electric-pascal-hash)
     ;; These are user preferences, so not to set by default.
     ;;(define-key map "\r"       'electric-pascal-terminate-line)
     ;;(define-key map "\t"       'electric-pascal-tab)
@@ -231,6 +233,11 @@
                      (forward-char -1)
                      nil)))))
 
+;; txb: added
+(defcustom pascal-electric-enable t
+  "Electric typing behavior for Pascal."
+  :type 'boolean)
+
 (defcustom pascal-indent-level 3
   "Indentation of Pascal statements with respect to containing block."
   :type 'integer)
@@ -353,6 +360,8 @@ Other useful functions are:
 
 Variables controlling indentation/edit style:
 
+ `pascal-electric-enable' (default t)
+    Electrically process statement after tabs and punctuation.
  `pascal-indent-level' (default 3)
     Indentation of Pascal statements with respect to containing block.
  `pascal-case-indent' (default 2)
@@ -498,6 +507,8 @@ See also the user variables `pascal-type-keywords', `pascal-start-keywords' and
 ;;;
 ;;; Interactive functions
 ;;;
+
+;; TODO: what is the actual meaning of this variable?
 (defvar pascal--extra-indent 0)
 
 (defun pascal-insert-block ()

@@ -54,10 +54,7 @@
 ;; - No, it isn't!
 
 ;; To shutdown an emacs server
-(save-buffers-kill-emacs)
-
-;; Anything else?
-")
+(save-buffers-kill-emacs)")
 
 ;; Make the UI quieter, more uniform, and generally to my liking.
 (setq-default visible-bell t)

@@ -27,25 +27,28 @@
 ;; TODO: how to defer actual loading?
 
 ;; this *should* get my version instead of the shipped version.
-(require 'pascal)
+(require 'txbpas)
 
 ;; TODO: can this be removed since i'm using the standard names?
 ;; (add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
 
 ;; User customization for Pascal mode
-(setq pascal-indent-level       2
-      pascal-case-indent        2
-      pascal-auto-newline       nil
-      pascal-indent-nested-functions t
-      pascal-tab-always-indent  t
-      pascal-auto-endcomments   nil
-      pascal-auto-lineup        '(all) ;; paramlist, declaration, case
-      pascal-type-keywords      '("array" "file" "packed" "char"
-	    		                  "integer" "real" "string" "record")
-      pascal-start-keywords     '("begin" "end" "function" "procedure"
-        		                  "repeat" "until" "while" "read" "readln"
-	     		                  "reset" "rewrite" "write" "writeln")
-      pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
+;; indent and some electric behavior is broken so other than
+;; highlighting i'm turning most things off.
+;; (setq pascal-electric-enabled   nil
+;;       pascal-indent-level       2
+;;       pascal-case-indent        2
+;;       pascal-auto-newline       nil
+;;       pascal-indent-nested-functions nil
+;;       pascal-tab-always-indent  nil
+;;       pascal-auto-endcomments   nil
+;;       pascal-auto-lineup        '(all) ;; paramlist, declaration, case
+;;       pascal-type-keywords      '("array" "file" "packed" "char"
+;; 	    		                  "integer" "real" "string" "record")
+;;       pascal-start-keywords     '("begin" "end" "function" "procedure"
+;;         		                  "repeat" "until" "while" "read" "readln"
+;; 	     		                  "reset" "rewrite" "write" "writeln")
+;;       pascal-separator-keywords '("downto" "else" "mod" "div" "then"))
 
 (provide 'init-pascal)
 ;;; init-pascal.el ends here

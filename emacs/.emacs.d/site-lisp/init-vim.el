@@ -1,9 +1,9 @@
-;;; init-lisp.el --- lisp related settings           -*- lexical-binding: t; -*-
+;;; init-vim.el --- vimrc-mode                       -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  Troy Brumley
+;; Copyright (C) 2023  Troy Brumley
 
 ;; Author: Troy Brumley <BlameTroi@gmail.com>
-;; Keywords: internal, lisp
+;; Keywords: languages, tools
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,28 +20,15 @@
 
 ;;; Commentary:
 
-;; Set up for lispish programming.
+;; I sometimes need to look at vimscript ...
 
 ;;; Code:
 
-;; A repl is a good thing.
-(use-package geiser
-  :ensure t
-  :config
-  (setq geiser-repl-use-other-window nil))
-
-(use-package geiser-chez
-  :ensure t
-  :after geiser)
-
-;; Word on the street is that this is the way.
-(use-package paredit
+(use-package vimrc-mode
   :ensure t)
 
-;; Use the pretty print evals:
-;; txb: turn off while working through tutorials
-;; (global-set-key (kbd "M-:") 'pp-eval-expression)
-;; (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
+(require 'vimrc-mode)
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
 
-(provide 'init-lisp)
-;;; init-lisp.el ends here
+(provide 'init-vim)
+;;; init-vim.el ends here
