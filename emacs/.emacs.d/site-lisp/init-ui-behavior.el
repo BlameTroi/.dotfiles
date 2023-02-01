@@ -64,6 +64,11 @@
       use-dialog-box nil
       read-file-name-completion-ignore-case t)
 
+;; I found mention of making emacs scroll a bit more like vim. I
+;; prefer that so we'll try this:
+(setq scroll-step 1
+      scroll-conservatively 10000)
+
 ;; Most people expect delete to actually delete an active highlighted
 ;; region these days.
 (delete-selection-mode 1)

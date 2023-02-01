@@ -34,7 +34,17 @@
   :ensure t
   :after geiser)
 
+;; txb: do i want chez scheme back?
+
+;; Racket mode
+(use-package racket-mode
+  :ensure t)
+
 ;; Word on the street is that this is the way.
+;; txb: paredit and racket have some sort of conflict as of late 2022, be
+;; aware and check the racket-mode repo on github if problems arise. there
+;; are other options for smart parens if paredit becomes too much of a
+;; problem.
 (use-package paredit
   :ensure t)
 

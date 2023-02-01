@@ -14,6 +14,12 @@
 
 ;;; Code:
 
+;; Help debug config errors. Lord knows I make them!
+
+(setq debug-on-error t)
+(setq debug-on-quit t)
+(setq message-log-max t) ;; we don't want to lose any startup log info
+
 ;; Add my lisp to load-path.
 (push "~/.emacs.d/site-lisp/" load-path)
 
@@ -49,6 +55,7 @@
 (require 'init-org)
 (require 'init-files-directories)
 (require 'init-fonts-themes)
+(setq suggest-key-bindings 2.5) ;; txb: trying to increase duration of help text after M-x entry
 (require 'init-ui-behavior)
 (require 'init-external-tools)
 (require 'init-ido)
@@ -65,9 +72,11 @@
 ;; (add-hook 'after-init-hook 'global-company-mode)
 
 ;; TODO: textual/documentation mode stuff
+(require 'init-markdown)
 
 ;; Language/mode specific initialization.
 (require 'init-auto-mode)
+(require 'init-vim)
 (require 'init-lisp)
 (require 'init-pascal)
 
@@ -78,6 +87,10 @@
 ;; The "paradox-token" file is supposed to contain this line:
 ;;     (setq paradox-github-token "<YOUR_TOKEN>")
 ;; (load (locate-user-emacs-file "private/paradox-token")) ; :noerror :nomessage)
+
+;; Turn off configuration debug.
+(setq debug-on-error nil)
+(setq debug-on-quit nil)
 
 (provide 'init)
 
