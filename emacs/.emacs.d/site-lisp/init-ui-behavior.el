@@ -40,6 +40,10 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (recentf-mode)
 
+;; I'm hoping this increases the duration of help text
+;; after M-x for things that are bound to keys.
+(setq suggest-key-bindings 2.5)
+
 ;; System clipboard joins the kill ring.
 ;; NOTE: this doesn't work under kitty terminal, but i'm ok with that.
 (setq select-enable-clipboard t)
@@ -89,10 +93,18 @@
 ;; of trailing whitespace because it provides little benefit. Using
 ;; ws-butler cleans up anything I add without changing other code.
 ;; TODO wrap/truncate?
-(setq-default fill-column 70
+(setq-default fill-column 80
               indent-tabs-mode nil
-              tab-width 4)
+              tab-width 2)
 (setq sentence-end-double-space nil)
+
+;; Use visual-fill-column with visual-line-mode to properly "break"
+;; long lines on wide displays. It's 2023, all displays are wide.
+(global-visual-line-mode)
+(use-package visual-fill-column
+  :ensure t
+  :config
+  (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
 
 ;; ws-butler only cleans up whitespace on lines touched in the edit
 ;; session.

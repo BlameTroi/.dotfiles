@@ -42,6 +42,8 @@
  (lambda () (unless (frame-focus-state) (garbage-collect))))
 
 ;; Utility functions:
+;; TODO: collect functions in other files and put in i-t-f, eg., init-files-directories
+;; has one.
 (require 'init-troi-functions)
 
 ;; Initialization is factored out by somewhat logical groupings. Package
@@ -55,7 +57,6 @@
 (require 'init-org)
 (require 'init-files-directories)
 (require 'init-fonts-themes)
-(setq suggest-key-bindings 2.5) ;; txb: trying to increase duration of help text after M-x entry
 (require 'init-ui-behavior)
 (require 'init-external-tools)
 (require 'init-ido)
@@ -64,6 +65,9 @@
 
 ;; NOTE: it is reported that yas doesn't play nice with org
 ;; (require 'init-yasnippet)
+
+;; Documentation & reference support.
+(require 'init-devdocs)
 
 ;; TODO: 'init-completion ... company or ???
 ;; Completion. Is there another option?
@@ -74,10 +78,17 @@
 ;; TODO: textual/documentation mode stuff
 (require 'init-markdown)
 
+;; TODO: this needs a better home, but compilation-mode and its
+;; derivations do not need to have a fill-column.
+(add-hook 'compilation-hook
+          (lambda ()
+            (set-fill-column 0)))
+
 ;; Language/mode specific initialization.
 (require 'init-auto-mode)
 (require 'init-vim)
 (require 'init-lisp)
+(require 'init-sml)
 (require 'init-pascal)
 
 ;; if i ever use paradox again, this is the pattern for storing a

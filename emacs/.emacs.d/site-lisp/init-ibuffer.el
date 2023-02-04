@@ -5,10 +5,10 @@
 ;; Author: Troy Brumley <BlameTroi@gmail.com>
 ;; Keywords: internal, lisp
 
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation, either version 3 of the
+;; License, or (at your option) any later version.
 
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -34,6 +34,8 @@
                ("dired" (mode . dired-mode))
                ("org" (or
                        (mode . org-mode)
+                       (derived-mode . org-mode)
+                       (mode . org-agenda-mode)
                        (name . "^.*org$")))
                ("magit" (name . "\*magit"))
                ("help" (or
@@ -63,10 +65,8 @@
                                (mode . oberon-mode)
                                (derived-mode . prog-mode)))
                ("Writing" (or
-                           (mode . org-mode)
-                           (derived-mode . org-mode)
-                           (mode . org-agenda-mode)
                            (mode . markdown-mode)
+                           (mode . gfm-mode)
                            (mode . LaTeX-mode)
                            (mode . text-mode)
                            (mode . pdf-view-mode)))
@@ -87,6 +87,7 @@
 
 (add-hook 'ibuffer-mode-hook
           (lambda ()
+            (set-fill-column 0)
             (ibuffer-auto-mode 1)
             (ibuffer-switch-to-saved-filter-groups "troi")))
 

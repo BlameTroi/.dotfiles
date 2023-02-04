@@ -38,7 +38,15 @@
 
 ;; Racket mode
 (use-package racket-mode
-  :ensure t)
+  :ensure t
+  :diminish
+  :mode ("\\.rkt\\'" . racket-mode))
+
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (set-fill-column 0)
+            (ibuffer-auto-mode 1)
+            (ibuffer-switch-to-saved-filter-groups "troi")))
 
 ;; Word on the street is that this is the way.
 ;; txb: paredit and racket have some sort of conflict as of late 2022, be

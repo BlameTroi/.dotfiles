@@ -31,6 +31,7 @@
 
 ;; TODO: can this be removed since i'm using the standard names?
 ;; (add-to-list 'auto-mode-alist '("\\.pas\\'" . pascal-mode))
+;; TODO: set-fill-column 80!
 
 ;; User customization for Pascal mode
 ;; indent and some electric behavior is broken so other than

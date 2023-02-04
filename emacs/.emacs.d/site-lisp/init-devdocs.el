@@ -1,9 +1,9 @@
-;;; init-vim.el --- vimrc-mode                       -*- lexical-binding: t; -*-
+;;; init-devdocs.el --- Initialization for devdocs.io  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  Troy Brumley
 
 ;; Author: Troy Brumley <BlameTroi@gmail.com>
-;; Keywords: languages, tools
+;; Keywords: convenience, docs, help
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,18 +20,16 @@
 
 ;;; Commentary:
 
-;; I sometimes need to look at vimscript ...
+;; None.
 
 ;;; Code:
 
-(use-package vimrc-mode
-  :ensure t
-  :diminish
-  :mode ("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+(use-package devdocs
+  :ensure t)
 
-(add-hook 'vimrc-mode-hook
-          (lambda ()
-            (set-fill-column 80)))
+;; I don't think there's much need for configuration, beyond maybe a keybind.
+;; suggested ... (global-set-key (kbd "C-h D") 'devdocs-lookup) but not
+;; using yet.
 
-(provide 'init-vim)
-;;; init-vim.el ends here
+(provide 'init-devdocs)
+;;; init-devdocs.el ends here

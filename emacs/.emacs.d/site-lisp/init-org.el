@@ -29,6 +29,7 @@
 ;; was bundled with emacs.
 (use-package org
   :ensure t
+  :diminish
   :config
   (progn
     (setq org-directory "~/org")

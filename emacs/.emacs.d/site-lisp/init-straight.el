@@ -24,11 +24,9 @@
 
 ;;; Code:
 
-
 ;; Use the right cl libraries. Do this before loading any
 ;; packages.
 (require 'cl-lib)
-
 
 ;; Bootstrap straight.el if it is not already here.
 (defvar bootstrap-version)
@@ -44,15 +42,12 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-
 ;; use-package and straight-use-package working together.
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
-
 ;; bind-key comes with use-package, so may as well invoke it here.
 (require 'bind-key)
-
 
 (provide 'init-straight)
 ;;; init-straight.el ends here

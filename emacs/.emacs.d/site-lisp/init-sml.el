@@ -1,4 +1,4 @@
-;;; init-vim.el --- vimrc-mode                       -*- lexical-binding: t; -*-
+;;; init-vim.el --- sml-mode                 -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  Troy Brumley
 
@@ -24,14 +24,18 @@
 
 ;;; Code:
 
-(use-package vimrc-mode
+(use-package sml-mode
   :ensure t
   :diminish
-  :mode ("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+  :mode ("\\.sml\\'" . sml-mode))
 
-(add-hook 'vimrc-mode-hook
+(add-hook 'sml-mode-hook
           (lambda ()
             (set-fill-column 80)))
 
-(provide 'init-vim)
+(require 'sml-mode)
+;;(add-to-list 'auto-mode-alist
+;;             '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+
+(provide 'init-sml)
 ;;; init-vim.el ends here
