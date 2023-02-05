@@ -84,11 +84,13 @@
           (lambda ()
             (set-fill-column 0)))
 
+;; TODO: review and likely add ctags-update package!
 ;; Language/mode specific initialization.
 (require 'init-auto-mode)
 (require 'init-vim)
 (require 'init-lisp)
 (require 'init-sml)
+(require 'init-go)
 (require 'init-pascal)
 
 ;; if i ever use paradox again, this is the pattern for storing a
