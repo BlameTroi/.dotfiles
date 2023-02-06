@@ -573,6 +573,8 @@
 
 ;; Diminishing that wasn't done elsewhere.
 (diminish 'eldoc-mode)
+(diminish 'visual-line-mode)
+(diminish 'auto-revert-mode)
 
 
 ;; Turn off configuration debug.
