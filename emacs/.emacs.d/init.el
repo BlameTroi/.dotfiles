@@ -445,6 +445,17 @@
   )
 
 
+;; Projectile ... hopefully not projectile vomiting! Several tools
+;; I am looking at want it, so here we go but hopefully we'll keep
+;; it simple.
+;; (use-package projectile
+;;   :ensure t
+;;   :diminish)
+;; (projectile-mode +1)
+;; ;; Recommended keymap prefix on Windows/Linux
+;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
 ;; TODO: some sort of completion framework might be a good idea.
 ;; (use-package company
 ;;   :ensure t)
@@ -486,20 +497,19 @@
   :diminish
   :config
   (setq geiser-repl-use-other-window nil))
-
-(use-package racket-mode
-  :ensure t
-  :diminish)
-
 (use-package geiser-guile
   :ensure t
   :diminish
   :after geiser)
 
-(use-package geiser-racket
+(use-package racket-mode
   :ensure t
-  :diminish
-  :after geiser)
+  :diminish)
+;; let's not at this point
+;; (use-package geiser-racket
+;;   :ensure t
+;;   :diminish
+;;   :after geiser)
 
 ;; Word on the street is that this is the way.
 ;; txb: paredit and racket have some sort of conflict as of late 2022, be
@@ -524,13 +534,33 @@
 
 ;; Go go language ... edit!
 ;;
-;; Starting with just the base mode, will add more bells and whistles
-;; only if needed.
+;; Trying to keep this minimal. I've found gopls setup information but
+;; I don't think I need a full lsp. Working from the go-mode author's
+;; site at https://honnef.co/articles/writing-go-in-emacs/ and the
+;; emacs wiki I'll build up what I need/want.
 (use-package go-mode
   :ensure t
   :diminish
   :config
-  (add-hook 'before-save-hook #'gofmt-before-save))
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  ;; (add-hook 'go-mode-hook (lambda ()
+  ;;                           (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
+  ;; (add-hook 'go-mode-hook (lambda ()
+  ;;                           (local-set-key (kbd "C-c i") 'go-goto-imports)))
+  )
+
+;; a full lsp may not be required for my usage.
+;; And here come some bells and whistles for langauges. LSP mode set up
+;; for golang. UI support commands are here but clipped out for now.
+;; (use-package lsp-mode
+;;   :commands (lsp lsp-deferred)
+;;   :init (setq lsp-keymap-prefix "C-c l")
+;;   :config (lsp-enable-which-key-integration t)
+;;   :hook ((go-mode) . lsp))
+;;
+;; (use-package lsp-ui
+;;   :hook (lsp-mode . lsp-ui-mode)
+;;   :config (setq lsp-ui-doc-enable t))
 
 
 ;; This whole emacs excursion actually started with Pascal. It's still
@@ -585,4 +615,3 @@
 (provide 'init)
 
 ;;; init.el ends here
-
