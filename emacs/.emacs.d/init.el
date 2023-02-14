@@ -161,6 +161,7 @@
 ;; (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18.0"))
 ;; (set-frame-font "SauceCodePro Nerd Font Mono-18.0" nil t)
 
+
 ;; Theming support with some of my favorites. I spend too much time down this
 ;; rabbit hole. That said, fewer colors and darker modes work best for my eyes.
 ;;
@@ -170,13 +171,65 @@
 ;; almost-mono-black is my current favorite, but green-is-the-new-black-theme
 ;; and green-screen-theme are pretty good. Some of the alect- themes have
 ;; promise.
-(use-package almost-mono-themes
+;; (use-package almost-mono-themes
+;;   :ensure t
+;;   :config
+;;   (load-theme 'almost-mono-black t))
+;; (load-theme 'almost-mono-gray t)
+;; (load-theme 'almost-mono-cream t)
+;; (load-theme 'almost-mono-white t))
+
+
+;; Trying alternatives.
+
+
+;; How about plan 9, light background, fewer colors.
+;; lacking something ...
+;; (use-package acme-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'acme t))
+
+
+;; a bit too few frills
+;; (use-package nofrils-acme-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'nofrils-acme t))
+
+
+;; does not show git diff but otherwise good TODO: txb:
+(use-package plan9-theme
   :ensure t
   :config
-  (load-theme 'almost-mono-black t))
-  ;; (load-theme 'almost-mono-gray t)
-  ;; (load-theme 'almost-mono-cream t)
-  ;; (load-theme 'almost-mono-white t))
+  (load-theme 'plan9 t))
+
+
+;; I need to figure out how to use the macros to load/create the
+;; various themes in this package.
+;; (use-package colorless-themes
+;;   :ensure t
+;;   :config
+;;   (colorless-themes-load-theme nordless)
+;;   ;;  (load-theme 'nordless t)
+;;   ) ;; there are several options here
+
+
+;; This needs a recipe from github to use
+;; (use-package eink-emacs
+;;   :ensure t
+;;   :config
+;;   (load-theme 'eink t))
+
+
+;; I'd like to use this but it's going to
+;; require more font tweaking for variable-pitch-mode
+;; so I'm holding off for now.
+;; (use-package poet-theme
+;;   :ensure t)
+;; (add-hook 'text-mode-hook
+;;           (lambda ()
+;;             (variable-pitch-mode 1)))
 
 ;; UI/UX tweaks and customization.
 
