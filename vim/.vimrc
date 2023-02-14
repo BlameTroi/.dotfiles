@@ -101,7 +101,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/unicode.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug '~/projects/vim/vim-retroi'
-
+Plug 'plan9-for-vimspace/acme-colors'
 "
 Plug 'habamax/vim-pire'
 
@@ -126,10 +126,11 @@ if &term == 'xterm-kitty'
 endif
 
 " coloring and highlighting
-set background=dark
-colorscheme solarized
+" set background=dark
+" colorscheme solarized
 " colorscheme darkblue
 " colorscheme retroi-amber
+colorscheme acme
 set termguicolors
 highlight Comment gui=italic cterm=italic
 highlight! link SignColumn LineNR
