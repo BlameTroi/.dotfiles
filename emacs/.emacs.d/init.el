@@ -133,6 +133,7 @@
 ;; concentrated effort to NEVER use the customize interface, but if
 ;; something creeps in I don't want it cluttering up my init in
 ;; version control.
+;; TODO: should this be moved to *end* of init?
 (setq custom-file
       (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
@@ -154,8 +155,11 @@
 ;; 'default-frame-alist is used to set the font when running emacsclient in gui
 ;; mode, otherwise the fonts are unreadably small. on a tui, the following
 ;; machts nichts.
-(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18.0"))
-(set-frame-font "SauceCodePro Nerd Font Mono-18.0" nil t)
+;; (setq troi/default-font "Brutalist Mono-18.0")
+(add-to-list 'default-frame-alist '(font . "Brutalist Mono-16.0"))
+(set-frame-font "Brutalist Mono-16.0")
+;; (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18.0"))
+;; (set-frame-font "SauceCodePro Nerd Font Mono-18.0" nil t)
 
 ;; Theming support with some of my favorites. I spend too much time down this
 ;; rabbit hole. That said, fewer colors and darker modes work best for my eyes.
@@ -204,7 +208,10 @@
 ;; - A scratch? Your arm's off!
 ;; - No, it isn't!
 
-;; To shutdown an emacs server
+;; Start guile repl:
+(geiser-guile)
+
+;; To shutdown an emacs server:
 (save-buffers-kill-emacs)")
 
 ;; Make the UI quieter, more uniform, and generally to my liking.
@@ -456,10 +463,12 @@
 ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 
-;; TODO: some sort of completion framework might be a good idea.
-;; (use-package company
-;;   :ensure t)
-;; (add-hook 'after-init-hook 'global-company-mode)
+;; Trying out auto-complete since it is used in a tutorial I am working
+;; through. Other alternatives include company.
+(use-package auto-complete
+  :ensure t
+  :config
+  (ac-config-default)) ;; no diminish yet
 
 
 ;; Markdown mode.
@@ -494,22 +503,33 @@
 ;; Racket.
 (use-package geiser
   :ensure t
-  :diminish
+;;  :diminish
   :config
   (setq geiser-repl-use-other-window nil))
 (use-package geiser-guile
   :ensure t
-  :diminish
+;;  :diminish
   :after geiser)
 
-(use-package racket-mode
+;; Auto-complete for geiser, see jeka.frama.io tutorial on geiser.
+(use-package ac-geiser
   :ensure t
-  :diminish)
+  :after (geiser-guile auto-complete)
+  :config
+  (add-hook 'geiser-mode-hook 'ac-geiser-setup)
+  (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
+  (add-to-list 'ac-modes 'geiser-repl-mode))
+
+
+;;(use-package racket-mode
+;;  :ensure t
+;;  :diminish)
 ;; let's not at this point
 ;; (use-package geiser-racket
 ;;   :ensure t
 ;;   :diminish
 ;;   :after geiser)
+
 
 ;; Word on the street is that this is the way.
 ;; txb: paredit and racket have some sort of conflict as of late 2022, be
@@ -517,7 +537,25 @@
 ;; are other options for smart parens if paredit becomes too much of a
 ;; problem.
 (use-package paredit
-  :ensure t)
+  :ensure t
+  :config
+  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+  ;; Eldoc setup. Added while working through a geiser tutorial
+  ;; but don't know that it's stricktly needed, but it may help
+  ;; with paredit. I'm not sure if this should be separate from
+  ;; the paredit config.
+  (require 'eldoc) ; if not already loaded
+  (eldoc-add-command
+   'paredit-backward-delete
+   'paredit-close-round)
+  )
+
 
 ;; Use the pretty print evals:
 ;; txb: turn off while working through tutorials
