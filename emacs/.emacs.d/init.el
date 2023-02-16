@@ -61,15 +61,17 @@
 ;; Use the proper cl libraries. Do it early!
 (require 'cl-lib)
 
+
 ;; Some helper functions.
 (defun troi/add-auto-mode (mode &rest patterns)
   "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
   (dolist (pattern patterns)
     (add-to-list 'auto-mode-alist (cons pattern mode))))
 
-;; Package management via straight.el must come before we start loading
-;; any other packages.
 
+;; Package management is via straight.el. It must be bootstrapped and
+;; enabled before we start loading any other packages.
+;;
 ;; Bootstrap straight.el if it is not already here.
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -84,16 +86,20 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+
 ;; use-package and straight-use-package working together.
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
+
 
 ;; Simplify the mode line!
 (use-package diminish
   :ensure t)
 
+
 ;; bind-key comes with use-package, so may as well invoke it here.
 (require 'bind-key)
+
 
 ;; On OS X the execution path is often wrong. On my Linux systems, I want
 ;; to pick up the default venv for Python code.
@@ -101,6 +107,7 @@
   :ensure t
   :config
   (exec-path-from-shell-initialize))
+
 
 ;; org-mode should be loaded via external packaging early in our init
 ;; to avoid bringing in the default version, which is likely stale.
@@ -114,6 +121,7 @@
   (define-key global-map "\C-ca" 'org-agenda)
   (define-key global-map "\C-cc" 'org-capture)
   )
+
 
 ;; Automatically insert common headers and comments into newly created
 ;; files.
@@ -129,15 +137,6 @@
 ;; TODO: I'm seeing some dangling files ".#blah..." when editing in some
 ;; directories ... why? It must be for autosave or rollback.
 
-;; Get the various custom-set-variable blocks out init.el. I make a
-;; concentrated effort to NEVER use the customize interface, but if
-;; something creeps in I don't want it cluttering up my init in
-;; version control.
-;; TODO: should this be moved to *end* of init?
-(setq custom-file
-      (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
 
 ;; Automatically create missing parent directories when visiting a new
 ;; file.
@@ -147,6 +146,7 @@
                (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
       (make directory parent-directory t))))
 (add-to-list 'find-file-not-found-functions #'troi/create-non-existent-directory)
+
 
 ;; Fonts, Faces, and Themes. On a clear day you can see in color.
 ;;
@@ -171,55 +171,66 @@
 ;; almost-mono-black is my current favorite, but green-is-the-new-black-theme
 ;; and green-screen-theme are pretty good. Some of the alect- themes have
 ;; promise.
-;; (use-package almost-mono-themes
-;;   :ensure t
-;;   :config
-;;   (load-theme 'almost-mono-black t))
-;; (load-theme 'almost-mono-gray t)
-;; (load-theme 'almost-mono-cream t)
-;; (load-theme 'almost-mono-white t))
+;;(use-package almost-mono-themes
+  ;;:ensure t)
+  ;;:config
+  ;;  (load-theme 'almost-mono-black t))
+  ;; (load-theme 'almost-mono-gray t))
+  ;;(load-theme 'almost-mono-cream t))
+  ;; (load-theme 'almost-mono-white t))
 
 
-;; Trying alternatives.
-
-
-;; How about plan 9, light background, fewer colors.
-;; lacking something ...
-;; (use-package acme-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'acme t))
-
-
-;; a bit too few frills
-;; (use-package nofrils-acme-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'nofrils-acme t))
-
-
-;; does not show git diff but otherwise good TODO: txb:
+;; So far this is the most workable theme. Getting diff highlighting
+;; back to something I could actually see took a bit of digging, and
+;; this feels like a hack, but it isn't clear how to change the
+;; custom-theme-set-faces after the theme loads. I can live with
+;; this solution and I've left some comments on ohter faces I might
+;; want to tweak.
 (use-package plan9-theme
-  :ensure t
-  :config
-  (load-theme 'plan9 t))
-
-
-;; I need to figure out how to use the macros to load/create the
-;; various themes in this package.
-;; (use-package colorless-themes
-;;   :ensure t
-;;   :config
-;;   (colorless-themes-load-theme nordless)
-;;   ;;  (load-theme 'nordless t)
-;;   ) ;; there are several options here
-
-
-;; This needs a recipe from github to use
-;; (use-package eink-emacs
-;;   :ensure t
-;;   :config
-;;   (load-theme 'eink t))
+             :ensure t
+             :after diff-hl
+             :config
+             (load-theme 'plan9 t)
+             (set-face-background 'diff-hl-insert "green")
+             (set-face-background 'diff-hl-delete "red")
+             (set-face-background 'diff-hl-change "DarkOrange")
+             )
+;;
+;; Theme Faces
+;; (custom-theme-set-faces
+;;  'plan9
+;; ;;;; diff
+;;  `(diff-added ((,class (:foreground ,fg :background ,green-light))
+;;                (t (:foreground ,fg :background ,green-light))))
+;;  `(diff-changed ((t (:foreground ,yellow))))
+;;  `(diff-context ((t (:foreground ,fg))))
+;;  `(diff-removed ((,class (:foreground ,fg :background ,red-light))
+;;                  (t (:foreground ,fg :background ,red-light))))
+;;  `(diff-refine-added ((t :inherit diff-added :background ,green-light :weight bold)))
+;;  `(diff-refine-change ((t :inherit diff-changed :weight bold)))
+;;  `(diff-refine-removed ((t :inherit diff-removed :background ,red-light :weight bold)))
+;;  `(diff-header ((,class (:foreground ,fg :weight bold))
+;;                 (t (:foreground ,purple-light :weight bold))))
+;;  `(diff-file-header
+;;    ((,class (:foreground ,fg :background ,cyan-light :weight bold))
+;;     (t (:foreground ,fg :background ,cyan-light :weight bold))))
+;;  `(diff-hunk-header
+;;    ((,class (:foreground ,green :weight bold))
+;;     (t (:foreground ,green :weight bold))))
+;; ;;;; diff-hl
+;;  `(diff-hl-insert ((t (:foreground ,fg :background ,green))))
+;;  `(diff-hl-delete ((t (:foreground ,fg :background ,red))))
+;;  `(diff-hl-change ((t (:foreground ,fg :background ,yellow))))
+;; ;;;;; git-gutter
+;;  `(git-gutter:added ((t (:foreground ,green :weight bold))))
+;;  `(git-gutter:deleted ((t (:foreground ,red :weight bold))))
+;;  `(git-gutter:modified ((t (:foreground ,yellow :weight bold))))
+;;  `(git-gutter:unchanged ((t (:foreground ,fg :weight bold))))
+;; ;;;;; git-gutter-fr
+;;  `(git-gutter-fr:added ((t (:foreground ,green  :weight bold))))
+;;  `(git-gutter-fr:deleted ((t (:foreground ,red :weight bold))))
+;;  `(git-gutter-fr:modified ((t (:foreground ,yellow :weight bold))))
+;;  )
 
 
 ;; I'd like to use this but it's going to
@@ -231,29 +242,28 @@
 ;;           (lambda ()
 ;;             (variable-pitch-mode 1)))
 
+
 ;; UI/UX tweaks and customization.
 
-;; Let's try no menu bar.
-;;(menu-bar-mode -1)
 
 ;; I like to pick up where I left off.
 (save-place-mode 1)
 (setq save-place-forget-unreadable-files nil)
 
+
 ;; Minimize typing.
 (fset 'yes-or-no-p 'y-or-n-p)
 (recentf-mode)
 
-;; I'm hoping this increases the duration of help text
-;; after M-x for things that are bound to keys.
-(setq suggest-key-bindings 2.5)
 
 ;; System clipboard joins the kill ring.
 ;; NOTE: this doesn't work under kitty terminal, but i'm ok with that.
 (setq select-enable-clipboard t)
 
+
 ;; Allow pixelwise resizing.
 (setq frame-resize-pixelwise t)
+
 
 ;; Put some snark and useful snippets in scratch.
 (setq initial-scratch-message
@@ -267,6 +277,7 @@
 ;; To shutdown an emacs server:
 (save-buffers-kill-emacs)")
 
+
 ;; Make the UI quieter, more uniform, and generally to my liking.
 (setq-default visible-bell t)
 (setq inhibit-startup-screen t
@@ -274,14 +285,17 @@
       use-dialog-box nil
       read-file-name-completion-ignore-case t)
 
+
 ;; I found mention of making emacs scroll a bit more like vim. I
 ;; prefer that so we'll try this:
 (setq scroll-step 1
       scroll-conservatively 10000)
 
+
 ;; Most people expect delete to actually delete an active highlighted
 ;; region these days.
 (delete-selection-mode 1)
+
 
 ;; Parens should be colorful and show matches.
 (setq-default show-paren-delay 0)
@@ -300,6 +314,7 @@
   (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+
 ;; I go back and forth on line numbers, but I do like column numbers,
 ;; and I like them one based.
 (global-display-line-numbers-mode)
@@ -307,22 +322,25 @@
 (column-number-mode)
 (setq mode-line-position-column-format " C%C")
 
+
 ;; Whitespace and other global formatting. I removed the display
 ;; of trailing whitespace because it provides little benefit. Using
 ;; ws-butler cleans up anything I add without changing other code.
-(setq-default fill-column 0
+(setq-default ;; fill-column 0
               indent-tabs-mode nil
               tab-width 2)
 (setq sentence-end-double-space nil)
 
+
 ;; Use visual-fill-column with visual-line-mode to properly "break"
 ;; long lines on wide displays. It's 2023, all displays are wide.
-(global-visual-line-mode)
+;; (global-visual-line-mode)
 (use-package visual-fill-column
   :ensure t
   :diminish
   :config
   (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
+
 
 ;; ws-butler only cleans up whitespace on lines touched in the edit
 ;; session.
@@ -332,6 +350,7 @@
   :config
   (ws-butler-global-mode))
 
+
 ;; which-key is very helpful!
 (use-package which-key
   :ensure t
@@ -340,14 +359,12 @@
   (which-key-mode)
   (which-key-setup-side-window-right-bottom))
 
-;; Usually a newline should indent in a programming mode.
-(add-hook 'prog-mode-hook
-          (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; An understore is a word character in many prpogramming languages.
 ;; TODO: is there a prog-mode syntax table, and should this be set
 ;; there as well?
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
+
 
 ;; Hilight todo and other tags.
 (use-package hl-todo
@@ -361,7 +378,6 @@
   (define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
   (define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
   (define-key hl-todo-mode-map (kbd "C-c i") 'hl-todo-insert))
-
 ;; NOTE: following are from a reddit post
 ;; (use-package hl-todo
 ;;        :ensure t
@@ -370,12 +386,14 @@
 ;;        :hook ((prog-mode . hl-todo-mode)
 ;;               (yaml-mode . hl-todo-mode)))
 
+
 ;; Easier navigation between windows.
 (use-package ace-window
   :ensure t
   :config
   (global-set-key (kbd "M-o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 
 ;; Set up ibuffer, provide my own filter groups.
 ;; from https://cestlaz.github.io/posts/using-emacs-34-ibuffer-emmet/
@@ -436,50 +454,83 @@
 ;; Reduce buffer kill queries.
 (setq ibuffer-expert t)
 
+
 ;; External search utilities.
-;; TODO: is more setup needed beyond loading?
-(use-package ag
-  :ensure t)
 (use-package rg
-  :ensure t)
+  :ensure t
+  :config
+  (rg-enable-default-bindings))
+
 (use-package fzf
+  :bind
+    ;; Don't forget to set keybinds!
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+        ;; command used for `fzf-grep-*` functions
+        ;; example usage for ripgrep:
+        fzf/grep-command "rg --no-heading -nH"
+        ;; fzf/grep-command "grep -nrH"
+        ;; If nil, the fzf buffer will appear at the top of the window
+        fzf/position-bottom t
+        fzf/window-height 10))
+
+
+;; While researching paredit I tripped over ivy/counsel/swipe
+;; and the combination looks straight forward and useful with
+;; minimal configuration. Helm is anything but minimal from
+;; what I've read.
+;;
+;; The following is from https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+;; and then I hacked around on it to get counsel and swiper to work as well.
+;;
+;; All of ivy/counsel/swiper are in one github repo, aboabo/swiper. I can't tell
+;; for sure if I need to use-package all three or not.
+(use-package swiper
   :ensure t)
-
-
-;; ido because I'm not ready to figure out helm just yet. The settings
-;; are from various posts I've read.
-(use-package ido
+(use-package counsel
+  :ensure t
   :config
-  (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-max-prospects 10
-        ido-default-file-method 'selected-window
-        ido-auto-merge-work-directories-length -1)
-  (ido-mode 1)
-  (ido-everywhere 1))
-(use-package ido-completing-read+
-  :after ido
+  (counsel-mode 1))
+(use-package ivy :ensure t
+  ;; :diminish (ivy-mode . "")
+  ;;:bind
+  ;;(:map ivy-mode-map
+  ;;      ("C-'" . ivy-avy))
   :config
-  (ido-ubiquitous-mode 1))
-(use-package flx-ido
-  :after ido
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)                 ;; add ‘recentf-mode’ and bookmarks
+  (setq ivy-height 5)                              ;; number of result lines to display
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq search-default-mode #'char-fold-to-regexp) ;; for swiper
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+  )
+(use-package ivy-rich
+  :ensure t
+  :after ivy)
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :after ivy-rich
   :config
-  (flx-ido-mode 1))
-(use-package smex
-  :after ido
-  :config
-  (smex-initialize)
-  ;; NOTE: meta-lowercase-x and meta-uppercase-x here,
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
-(use-package ido-vertical-mode
-  :after ido
-  :config
-  (ido-mode 1)
-  (ido-vertical-mode 1)
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+  (all-the-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1))
 
 
 ;; GIT version control. git-gutter wasn't displaying so I've
@@ -493,6 +544,25 @@
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+;; (use-package git-gutter :ensure t
+;;   :after magit
+;;   :config
+;;   ;; If you enable global minor mode
+;;   (global-git-gutter-mode t)
+;;   ;; If you would like to use git-gutter.el and linum-mode
+;;   (git-gutter:linum-setup)
+;;   ;; (global-set-key (kbd "C-x C-g") 'git-gutter)
+;;   ;; (global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)
+;;   ;; ;; Jump to next/previous hunk
+;;   ;; (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
+;;   ;; (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
+;;   ;; ;; Stage current hunk
+;;   ;; (global-set-key (kbd "C-x v s") 'git-gutter:stage-hunk)
+;;   ;; ;; Revert current hunk
+;;   ;; (global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
+;;   ;; ;; Mark current hunk
+;;   ;; (global-set-key (kbd "C-x v SPC") #'git-gutter:mark-hunk)
+;;   )
 
 
 ;; Additional documentation, not sure I'll keep this.
@@ -545,6 +615,18 @@
   (setq markdown-command "cmark"))
 
 
+;; Read epub with nov.el. There's an xwidget's version of this, but
+;; it doesn't run well and I don't feel like rebuilding emacs just
+;; for that.
+;;
+;; There are many customizations possible for font, filling, and
+;; justification. See https://depp.brause.cc/nov.el/ if the
+;; default isn't getting it done.
+(use-package nov
+  :ensure t
+  :mode ("\\.epub\\'" . nov-mode))
+
+
 ;; I sometimes need to look at vimscript.
 (use-package vimrc-mode
   :ensure t
@@ -589,25 +671,35 @@
 ;; aware and check the racket-mode repo on github if problems arise. there
 ;; are other options for smart parens if paredit becomes too much of a
 ;; problem.
-(use-package paredit
-  :ensure t
-  :config
-  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-  ;; Eldoc setup. Added while working through a geiser tutorial
-  ;; but don't know that it's stricktly needed, but it may help
-  ;; with paredit. I'm not sure if this should be separate from
-  ;; the paredit config.
-  (require 'eldoc) ; if not already loaded
-  (eldoc-add-command
-   'paredit-backward-delete
-   'paredit-close-round)
-  )
+;;
+;; I'm having issues keyboarding with paredit. It's me, not the mode. I need
+;; to try something else.
+;;
+;; Alternatives are paxedit and smartparens. Paxedit requires that paredit
+;; is installed but does not need it enabled.
+;;
+;; Configuration for all of these are more hooks and more keybinds than I'm
+;; ready to deal with right now.
+;;
+;; (use-package paredit
+;;   :ensure t
+;;   :config
+;;   (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+;;   (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+;;   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+;;   (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+;;   (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+;;   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+;;   (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+;;   ;; Eldoc setup. Added while working through a geiser tutorial
+;;   ;; but don't know that it's stricktly needed, but it may help
+;;   ;; with paredit. I'm not sure if this should be separate from
+;;   ;; the paredit config.
+;;   (require 'eldoc) ; if not already loaded
+;;   (eldoc-add-command
+;;    'paredit-backward-delete
+;;    'paredit-close-round)
+;;   )
 
 
 ;; Use the pretty print evals:
@@ -696,6 +788,45 @@
 (diminish 'eldoc-mode)
 (diminish 'visual-line-mode)
 (diminish 'auto-revert-mode)
+(diminish 'counsel-mode)
+(diminish 'ivy-mode)
+
+
+;; Display tweaking for various modes ...
+;; There has to be a better way to do this, but I haven't found it yet.
+(add-hook 'text-mode-hook
+          (lambda ()
+            (set-fill-column 75)
+            (visual-line-mode)))
+;; (add-hook 'help-mode-hook
+;;           (lambda ()
+;;             (set-fill-column 75)
+;;             (visual-line-mode)))
+;; Usually a newline should indent in a programming mode.
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (local-set-key (kbd "RET") 'newline-and-indent)
+            ))
+;;             (setq fill-column 0)
+;;             (setq truncate-lines t)))
+;; (add-hook 'dired-mode-hook
+;;           (lambda ()
+;;             (setq fill-column 0)
+;;             (setq truncate-lines t)))
+;;(add-hook 'prog-mode-hook
+;;          (lambda ()
+;;            (set-fill-column 0)
+;;            (truncate-lines)))
+
+
+;; Get the various custom-set-variable blocks out init.el. I make a
+;; concentrated effort to NEVER use the customize interface, but if
+;; something creeps in I don't want it cluttering up my init in
+;; version control.
+(setq custom-file
+      (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 
 ;; Turn off configuration debug.
