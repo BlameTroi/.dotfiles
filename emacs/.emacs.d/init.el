@@ -342,6 +342,18 @@
   (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
 
 
+;; Let's try adding a visual hint about the fill column, I find
+;; the reminder helpful in certain modes. These settings seem to
+;; work ok on the gui, must test in tui.  Yep, works in tui.
+;;
+;; Toggle with display-fill-column-indicator-mode. All the variables
+;; become buffer local when set. I could setq-default but I'm not
+;; doing so at this time. Leaving here for reference.
+;;
+;; display-fill-column-indicator        't
+;; display-fill-column-indicator-column 60   ;; t for fill-column, integer to override
+;; display-fill-column-character        32   ;; ascii space, if i may show my age
+
 ;; ws-butler only cleans up whitespace on lines touched in the edit
 ;; session.
 (use-package ws-butler
@@ -393,6 +405,15 @@
   :config
   (global-set-key (kbd "M-o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+
+;; Switch up some help and key discovery. Found this on stack.
+(use-package discover-my-major
+  :ensure t
+  :bind
+  (("C-h C-m" . discover-my-major)
+   ("C-h M-m" . discover-my-mode))
+  )
 
 
 ;; Set up ibuffer, provide my own filter groups.
