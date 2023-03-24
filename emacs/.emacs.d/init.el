@@ -28,6 +28,15 @@
 ;;
 ;; First, pull everything back into one (hopefully well laid out)
 ;; ginormous init and then consider literizing it.
+;;
+;; March 2023:
+;;
+;; And that was a bit too much stuff. I've been really using emacs
+;; of late and can better judge what should and shouldn't be in
+;; here at this time. I need to grow this init into my usage
+;; habits (org, guile geiser, pascal) so I will make a pass to
+;; comment out things I may not need and start building up as I
+;; find I really want/need something.
 
 ;;; Code:
 
@@ -36,6 +45,7 @@
 (setq debug-on-quit t)
 (setq message-log-max t) ;; we don't want to lose any startup log info
 
+;; txb: do I want a different dir name?
 ;; Add my lisp to load-path.
 (push "~/.emacs.d/site-lisp/" load-path)
 
@@ -62,13 +72,6 @@
 (require 'cl-lib)
 
 
-;; Some helper functions.
-(defun troi/add-auto-mode (mode &rest patterns)
-  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
-  (dolist (pattern patterns)
-    (add-to-list 'auto-mode-alist (cons pattern mode))))
-
-
 ;; Package management is via straight.el. It must be bootstrapped and
 ;; enabled before we start loading any other packages.
 ;;
@@ -86,15 +89,9 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-
 ;; use-package and straight-use-package working together.
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
-
-
-;; Simplify the mode line!
-(use-package diminish
-  :ensure t)
 
 
 ;; bind-key comes with use-package, so may as well invoke it here.
@@ -109,11 +106,14 @@
   (exec-path-from-shell-initialize))
 
 
+;; Delight instead of diminish maybe?
+(use-package delight
+  :ensure t)
+
 ;; org-mode should be loaded via external packaging early in our init
 ;; to avoid bringing in the default version, which is likely stale.
 (use-package org
   :ensure t
-  :diminish
   :config
   (setq org-directory "~/org")
   (setq org-log-done 'time)
@@ -125,17 +125,22 @@
 
 ;; Automatically insert common headers and comments into newly created
 ;; files.
+;; txb: directory name? how about actually populating some templates?
 (auto-insert-mode t)
 (setq auto-insert-directory "~/.emacs.d/site-templates")
 
 ;; Keep working directories clean by stashing autosaves and backups
 ;; elsewhere.
 (make-directory "~/.tmp/emacs/auto-save/" t)
-(setq auto-save-file-name-transforms '((".*" "~/.tmp/emacs/auto-save/" t)))
+(make-directory "~/.tmp/emacs-backup/" t)
+(setq auto-save-file-name-transforms '((".*" "~/.tmp/emacs/auto-save/" nil)))
 (setq backup-directory-alist '(("." . "~/.tmp/emacs/backup/")))
 (setq backup-by-copying t)
 ;; TODO: I'm seeing some dangling files ".#blah..." when editing in some
 ;; directories ... why? It must be for autosave or rollback.
+;; txb: it appears that may be caused by the use of t as the third argument to
+;; auto-save-file-name-transforms ... that requests uniquifiation. changing to
+;; nil for testing.
 
 
 ;; Automatically create missing parent directories when visiting a new
@@ -271,8 +276,6 @@
 ;; - A scratch? Your arm's off!
 ;; - No, it isn't!
 
-;; Start guile repl:
-(geiser-guile)
 
 ;; To shutdown an emacs server:
 (save-buffers-kill-emacs)")
@@ -314,11 +317,15 @@
   (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package rainbow-mode
+  :ensure t
+  :delight)
+
 
 ;; I go back and forth on line numbers, but I do like column numbers,
 ;; and I like them one based.
-(global-display-line-numbers-mode)
-(setq display-line-numbers-width 4)
+;; (global-display-line-numbers-mode)
+;; (setq display-line-numbers-width 4)
 (column-number-mode)
 (setq mode-line-position-column-format " C%C")
 
@@ -337,7 +344,8 @@
 ;; (global-visual-line-mode)
 (use-package visual-fill-column
   :ensure t
-  :diminish
+;;  :diminish
+  :delight
   :config
   (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
 
@@ -358,7 +366,8 @@
 ;; session.
 (use-package ws-butler
   :ensure t
-  :diminish
+;;  :diminish
+  :delight
   :config
   (ws-butler-global-mode))
 
@@ -366,7 +375,8 @@
 ;; which-key is very helpful!
 (use-package which-key
   :ensure t
-  :diminish
+;;  :diminish
+  :delight
   :config
   (which-key-mode)
   (which-key-setup-side-window-right-bottom))
@@ -381,7 +391,7 @@
 ;; Hilight todo and other tags.
 (use-package hl-todo
   :ensure t
-  :diminish
+;;  :diminish
   :config
   (global-hl-todo-mode)
   (add-to-list 'hl-todo-keyword-faces '("TXB" . "#cc9393"))
@@ -399,21 +409,21 @@
 ;;               (yaml-mode . hl-todo-mode)))
 
 
-;; Easier navigation between windows.
-(use-package ace-window
-  :ensure t
-  :config
-  (global-set-key (kbd "M-o") 'ace-window)
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+;; ;; Easier navigation between windows.
+;; (use-package ace-window
+;;   :ensure t
+;;   :config
+;;   (global-set-key (kbd "M-o") 'ace-window)
+;;   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 
-;; Switch up some help and key discovery. Found this on stack.
-(use-package discover-my-major
-  :ensure t
-  :bind
-  (("C-h C-m" . discover-my-major)
-   ("C-h M-m" . discover-my-mode))
-  )
+;; ;; Switch up some help and key discovery. Found this on stack.
+;; (use-package discover-my-major
+;;   :ensure t
+;;   :bind
+;;   (("C-h C-m" . discover-my-major)
+;;    ("C-h M-m" . discover-my-mode))
+;;   )
 
 
 ;; Set up ibuffer, provide my own filter groups.
@@ -476,95 +486,98 @@
 (setq ibuffer-expert t)
 
 
-;; External search utilities.
-(use-package rg
-  :ensure t
-  :config
-  (rg-enable-default-bindings))
+;; ;; External search utilities.
+;; (use-package rg
+;;   :ensure t
+;;   :bind
+;;   ;; need some key bindings if not using defaults
+;;   :config
+;;   (rg-enable-default-bindings))
 
-(use-package fzf
-  :bind
-    ;; Don't forget to set keybinds!
-  :config
-  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
-        fzf/executable "fzf"
-        fzf/git-grep-args "-i --line-number %s"
-        ;; command used for `fzf-grep-*` functions
-        ;; example usage for ripgrep:
-        fzf/grep-command "rg --no-heading -nH"
-        ;; fzf/grep-command "grep -nrH"
-        ;; If nil, the fzf buffer will appear at the top of the window
-        fzf/position-bottom t
-        fzf/window-height 10))
-
-
-;; While researching paredit I tripped over ivy/counsel/swipe
-;; and the combination looks straight forward and useful with
-;; minimal configuration. Helm is anything but minimal from
-;; what I've read.
-;;
-;; The following is from https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-;; and then I hacked around on it to get counsel and swiper to work as well.
-;;
-;; All of ivy/counsel/swiper are in one github repo, aboabo/swiper. I can't tell
-;; for sure if I need to use-package all three or not.
-(use-package swiper
-  :ensure t)
-(use-package counsel
-  :ensure t
-  :config
-  (counsel-mode 1))
-(use-package ivy :ensure t
-  ;; :diminish (ivy-mode . "")
-  ;;:bind
-  ;;(:map ivy-mode-map
-  ;;      ("C-'" . ivy-avy))
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)                 ;; add ‘recentf-mode’ and bookmarks
-  (setq ivy-height 5)                              ;; number of result lines to display
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (setq search-default-mode #'char-fold-to-regexp) ;; for swiper
-  (global-set-key "\C-s" 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-  (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-  )
-(use-package ivy-rich
-  :ensure t
-  :after ivy)
-(use-package all-the-icons-ivy-rich
-  :ensure t
-  :after ivy-rich
-  :config
-  (all-the-icons-ivy-rich-mode 1)
-  (ivy-rich-mode 1))
+;; (use-package fzf
+;;   :ensure t
+;;   :bind
+;;     ;; Don't forget to set keybinds!
+;;   :config
+;;   (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+;;         fzf/executable "fzf"
+;;         fzf/git-grep-args "-i --line-number %s"
+;;         ;; command used for `fzf-grep-*` functions
+;;         ;; example usage for ripgrep:
+;;         fzf/grep-command "rg --no-heading -nH"
+;;         ;; fzf/grep-command "grep -nrH"
+;;         ;; If nil, the fzf buffer will appear at the top of the window
+;;         fzf/position-bottom t
+;;         fzf/window-height 10))
 
 
-;; GIT version control. git-gutter wasn't displaying so I've
-;; reverted to diff-hl.
-(use-package magit
-  :ensure t)
+;; ;; While researching paredit I tripped over ivy/counsel/swipe
+;; ;; and the combination looks straight forward and useful with
+;; ;; minimal configuration. Helm is anything but minimal from
+;; ;; what I've read.
+;; ;;
+;; ;; The following is from https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+;; ;; and then I hacked around on it to get counsel and swiper to work as well.
+;; ;;
+;; ;; All of ivy/counsel/swiper are in one github repo, aboabo/swiper. I can't tell
+;; ;; for sure if I need to use-package all three or not.
+;; (use-package swiper
+;;   :ensure t)
+;; (use-package counsel
+;;   :ensure t
+;;   :config
+;;   (counsel-mode 1))
+;; (use-package ivy :ensure t
+;;   ;; :diminish (ivy-mode . "")
+;;   ;;:bind
+;;   ;;(:map ivy-mode-map
+;;   ;;      ("C-'" . ivy-avy))
+;;   :config
+;;   (ivy-mode 1)
+;;   (setq ivy-use-virtual-buffers t)                 ;; add ‘recentf-mode’ and bookmarks
+;;   (setq ivy-height 5)                              ;; number of result lines to display
+;;   (setq ivy-use-virtual-buffers t)
+;;   (setq enable-recursive-minibuffers t)
+;;   (setq search-default-mode #'char-fold-to-regexp) ;; for swiper
+;;   (global-set-key "\C-s" 'swiper)
+;;   (global-set-key (kbd "C-c C-r") 'ivy-resume)
+;;   (global-set-key (kbd "M-x") 'counsel-M-x)
+;;   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;   (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+;;   (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+;;   (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+;;   (global-set-key (kbd "<f1> l") 'counsel-find-library)
+;;   (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+;;   (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+;;   (global-set-key (kbd "C-c g") 'counsel-git)
+;;   (global-set-key (kbd "C-c j") 'counsel-git-grep)
+;;   (global-set-key (kbd "C-c k") 'counsel-ag)
+;;   (global-set-key (kbd "C-x l") 'counsel-locate)
+;;   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+;;   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+;;   )
+;; (use-package ivy-rich
+;;   :ensure t
+;;   :after ivy)
+;; (use-package all-the-icons-ivy-rich
+;;   :ensure t
+;;   :after ivy-rich
+;;   :config
+;;   (all-the-icons-ivy-rich-mode 1)
+;;   (ivy-rich-mode 1))
+
+
+;; ;; GIT version control. git-gutter wasn't displaying so I've
+;; ;; reverted to diff-hl.
+;; (use-package magit
+;;   :ensure t)
 (use-package diff-hl
-  :after magit
+;;  :after magit
   :ensure t
   :config
-  (global-diff-hl-mode)
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  (global-diff-hl-mode))
+  ;; (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  ;; (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 ;; (use-package git-gutter :ensure t
 ;;   :after magit
 ;;   :config
@@ -586,14 +599,14 @@
 ;;   )
 
 
-;; Additional documentation, not sure I'll keep this.
-(use-package devdocs
-  :ensure t
-  ;; I don't think there's much need for configuration, beyond maybe
-  ;; a keybind.
-  ;; (global-set-key (kbd "C-h D") 'devdocs-lookup)
-  ;; Not using yet.
-  )
+;; ;; Additional documentation, not sure I'll keep this.
+;; (use-package devdocs
+;;   :ensure t
+;;   ;; I don't think there's much need for configuration, beyond maybe
+;;   ;; a keybind.
+;;   ;; (global-set-key (kbd "C-h D") 'devdocs-lookup)
+;;   ;; Not using yet.
+;;   )
 
 
 ;; Projectile ... hopefully not projectile vomiting! Several tools
@@ -607,12 +620,12 @@
 ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 
-;; Trying out auto-complete since it is used in a tutorial I am working
-;; through. Other alternatives include company.
-(use-package auto-complete
-  :ensure t
-  :config
-  (ac-config-default)) ;; no diminish yet
+;; ;; Trying out auto-complete since it is used in a tutorial I am working
+;; ;; through. Other alternatives include company.
+;; (use-package auto-complete
+;;   :ensure t
+;;   :config
+;;   (ac-config-default)) ;; no diminish yet
 
 
 ;; Markdown mode.
@@ -651,7 +664,7 @@
 ;; I sometimes need to look at vimscript.
 (use-package vimrc-mode
   :ensure t
-  :diminish
+  :delight
   :mode ("\\.vim\\(rc\\)?\\'" . vimrc-mode))
 
 
@@ -667,14 +680,14 @@
 ;;  :diminish
   :after geiser)
 
-;; Auto-complete for geiser, see jeka.frama.io tutorial on geiser.
-(use-package ac-geiser
-  :ensure t
-  :after (geiser-guile auto-complete)
-  :config
-  (add-hook 'geiser-mode-hook 'ac-geiser-setup)
-  (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
-  (add-to-list 'ac-modes 'geiser-repl-mode))
+;; ;; Auto-complete for geiser, see jeka.frama.io tutorial on geiser.
+;; (use-package ac-geiser
+;;   :ensure t
+;;   :after (geiser-guile auto-complete)
+;;   :config
+;;   (add-hook 'geiser-mode-hook 'ac-geiser-setup)
+;;   (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
+;;   (add-to-list 'ac-modes 'geiser-repl-mode))
 
 
 ;;(use-package racket-mode
@@ -702,25 +715,25 @@
 ;; Configuration for all of these are more hooks and more keybinds than I'm
 ;; ready to deal with right now.
 ;;
-;; (use-package paredit
-;;   :ensure t
-;;   :config
-;;   (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-;;   (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-;;   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-;;   (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-;;   (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-;;   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-;;   (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-;;   ;; Eldoc setup. Added while working through a geiser tutorial
-;;   ;; but don't know that it's stricktly needed, but it may help
-;;   ;; with paredit. I'm not sure if this should be separate from
-;;   ;; the paredit config.
-;;   (require 'eldoc) ; if not already loaded
-;;   (eldoc-add-command
-;;    'paredit-backward-delete
-;;    'paredit-close-round)
-;;   )
+(use-package paredit
+  :ensure t
+  :config
+  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+  ;; Eldoc setup. Added while working through a geiser tutorial
+  ;; but don't know that it's stricktly needed, but it may help
+  ;; with paredit. I'm not sure if this should be separate from
+  ;; the paredit config.
+  (require 'eldoc) ; if not already loaded
+  (eldoc-add-command
+   'paredit-backward-delete
+   'paredit-close-round)
+  )
 
 
 ;; Use the pretty print evals:
@@ -732,7 +745,7 @@
 ;; Standard ML.
 (use-package sml-mode
   :ensure t
-  :diminish
+  :delight
   :mode ("\\.sml\\'" . sml-mode))
 
 
@@ -744,7 +757,7 @@
 ;; emacs wiki I'll build up what I need/want.
 (use-package go-mode
   :ensure t
-  :diminish
+  :delight
   :config
   (add-hook 'before-save-hook #'gofmt-before-save)
   ;; (add-hook 'go-mode-hook (lambda ()
@@ -802,23 +815,18 @@
 
 ;; General mode related options that don't have a proper home elsewhere.
 ;; Make sure zsh uses shell mode.
-(troi/add-auto-mode 'sh-mode "\\.zsh\\'")
-
-
-;; Diminishing that wasn't done elsewhere.
-(diminish 'eldoc-mode)
-(diminish 'visual-line-mode)
-(diminish 'auto-revert-mode)
-(diminish 'counsel-mode)
-(diminish 'ivy-mode)
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
 
 ;; Display tweaking for various modes ...
-;; There has to be a better way to do this, but I haven't found it yet.
+;; Is there a better way to do this?
 (add-hook 'text-mode-hook
           (lambda ()
             (set-fill-column 75)
-            (visual-line-mode)))
+            (visual-line-mode)
+            ;;(setq display-fill-column-indicator-column t)
+            ;;(display-fill-column-indicator-mode)
+            ))
 ;; (add-hook 'help-mode-hook
 ;;           (lambda ()
 ;;             (set-fill-column 75)
