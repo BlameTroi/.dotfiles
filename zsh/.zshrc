@@ -94,3 +94,8 @@ source $HOME/.zshalias
 
 # fzf integration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+GUIX_PROFILE="/home/troi/.guix-profile"
+source "$GUIX_PROFILE/etc/profile"
+source "$HOME/.config/guix/current/etc/profile"
+GUIX_LOCPATH=$GUIX_PROFILE/lib/locale

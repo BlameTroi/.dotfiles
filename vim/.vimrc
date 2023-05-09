@@ -81,8 +81,8 @@ Plug 'airblade/vim-gitgutter'
 let g:gitgutter_set_sign_backgrounds = 1
 
 " tags
-Plug 'preservim/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'preservim/tagbar'
+" Plug 'ludovicchabant/vim-gutentags'
 
 " motion and such
 Plug 'easymotion/vim-easymotion'
@@ -97,11 +97,11 @@ Plug 'junegunn/fzf.vim'
 " https://github.com/romainl/vim-qf
 
 " eye candy
-Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/unicode.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug '~/projects/vim/vim-retroi'
 Plug 'plan9-for-vimspace/acme-colors'
+Plug 'ryanoasis/vim-devicons'
 "
 Plug 'habamax/vim-pire'
 

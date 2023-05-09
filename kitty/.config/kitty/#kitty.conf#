@@ -2034,6 +2034,7 @@ map kitty_mod+p>w kitten hints --type word --program -
 
 map kitty_mod+p>h kitten hints --type hash --program -
 
+
 #::  Select something that looks like a hash and insert it into the
 #::  terminal. Useful with git, which uses SHA1 hashes to identify
 #::  commits.

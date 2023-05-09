@@ -161,8 +161,8 @@
 ;; mode, otherwise the fonts are unreadably small. on a tui, the following
 ;; machts nichts.
 ;; (setq troi/default-font "Brutalist Mono-18.0")
-(add-to-list 'default-frame-alist '(font . "Brutalist Mono-16.0"))
-(set-frame-font "Brutalist Mono-16.0")
+(add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font Mono-16.0"))
+(set-frame-font "FiraCode Nerd Font Mono-16.0")
 ;; (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18.0"))
 ;; (set-frame-font "SauceCodePro Nerd Font Mono-18.0" nil t)
 
@@ -715,25 +715,36 @@
 ;; Configuration for all of these are more hooks and more keybinds than I'm
 ;; ready to deal with right now.
 ;;
-(use-package paredit
+;; (use-package paredit
+;;   :ensure t
+;;   :config
+;;   (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+;;   (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+;;   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+;;   (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+;;   (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+;;   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+;;   (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+;;   ;; Eldoc setup. Added while working through a geiser tutorial
+;;   ;; but don't know that it's stricktly needed, but it may help
+;;   ;; with paredit. I'm not sure if this should be separate from
+;;   ;; the paredit config.
+;;   (require 'eldoc) ; if not already loaded
+;;   (eldoc-add-command
+;;    'paredit-backward-delete
+;;    'paredit-close-round)
+;;   )
+
+;; On advice from some people on mastodon, let's try lispy
+(use-package lispy
   :ensure t
   :config
-  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-  ;; Eldoc setup. Added while working through a geiser tutorial
-  ;; but don't know that it's stricktly needed, but it may help
-  ;; with paredit. I'm not sure if this should be separate from
-  ;; the paredit config.
-  (require 'eldoc) ; if not already loaded
-  (eldoc-add-command
-   'paredit-backward-delete
-   'paredit-close-round)
-  )
+  (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+  (add-hook 'lisp-mode-hook       (lambda () (lispy-mode 1)))
+  (add-hook 'scheme-mode-hook     (lambda () (lispy-mode 1)))
+  (add-hook 'ielm-mode-hook       (lambda () (lispy-mode 1)))
+  (add-hook 'lisp-interaction-mode-hook
+                                  (lambda () (lispy-mode 1))))
 
 
 ;; Use the pretty print evals:
