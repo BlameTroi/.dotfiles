@@ -21,7 +21,8 @@ export ZSH="$HOME/.oh-my-zsh"
 #
 # PATH="$PATH"
 typeset -U PATH
-export path=(~/.local/bin ~/.cargo/bin /usr/local/go/bin $path[@])
+# export path=(~/.local/bin ~/.cargo/bin /usr/local/go/bin $path[@])
+export path=(~/.local/bin $path[@])
 #
 # add vishap oberon compiler if it's installed
 # if [ -f ~/voc/install/bin/voc ]; then
@@ -42,12 +43,12 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 # umask 077
 umask 033
 #
-export VISUAL="emacsclient -t"
-export EDITOR=$VISUAL
-export ALTERNATE_EDITOR=""
+# export VISUAL="emacsclient -t"
+# export EDITOR=$VISUAL
+# export ALTERNATE_EDITOR=""
 #
 # python specific
-export PYTHONSTARTUP=~/.config/python/init.py
+# export PYTHONSTARTUP=~/.config/python/init.py
 #
 # Timezone, set TZ$ to /etc/timezone if it exists, or default
 # to America/New_York.

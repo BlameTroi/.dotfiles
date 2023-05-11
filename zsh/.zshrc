@@ -73,7 +73,7 @@ ZSH_THEME="muse-mono"
 # Add wisely, as too many plugins slow down shell startup.
 #
 # zsh-syntax-highlighting *must* be last
-plugins=(z zsh-interactive-cd fd) # themes tmux zsh-syntax-highlighting)
+# plugins=(git z zsh-interactive-cd fd) # themes tmux zsh-syntax-highlighting)
 
 # open tmux on startup, requires tmux plugin
 # ZSH_TMUX_AUTOSTART=true
@@ -95,7 +95,7 @@ source $HOME/.zshalias
 # fzf integration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-GUIX_PROFILE="/home/troi/.guix-profile"
-source "$GUIX_PROFILE/etc/profile"
-source "$HOME/.config/guix/current/etc/profile"
-GUIX_LOCPATH=$GUIX_PROFILE/lib/locale
+# GUIX_PROFILE="/home/troi/.guix-profile"
+# source "$GUIX_PROFILE/etc/profile"
+# source "$HOME/.config/guix/current/etc/profile"
+# GUIX_LOCPATH=$GUIX_PROFILE/lib/locale

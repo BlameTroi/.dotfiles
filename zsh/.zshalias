@@ -12,9 +12,9 @@
 # For a full list of active aliases, run `alias`.
 #
 # Config review
-if type nvim &> /dev/null; then
-  alias vim='nvim'
-fi
+#if type nvim &> /dev/null; then
+#  alias vim='nvim'
+#fi
 #
 # Default to human readable figures
 alias df='df -h'
