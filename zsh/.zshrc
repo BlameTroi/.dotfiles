@@ -1,4 +1,4 @@
-# .zshenv
+# .zshrc
 #
 # sourced only for interactive shell invocations. Here's where
 # we add the eye candy and zsh command line stuff.
@@ -11,7 +11,7 @@ export fpath=(~/.zsh/functions $fpath)
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="muse-mono"
+# ZSH_THEME="muse-mono"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -79,11 +79,11 @@ ZSH_THEME="muse-mono"
 # ZSH_TMUX_AUTOSTART=true
 
 # turn it up to 11
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='emacs'
+    export EDITOR='nvim'
 fi
 
 # options
@@ -95,7 +95,3 @@ source $HOME/.zshalias
 # fzf integration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# GUIX_PROFILE="/home/troi/.guix-profile"
-# source "$GUIX_PROFILE/etc/profile"
-# source "$HOME/.config/guix/current/etc/profile"
-# GUIX_LOCPATH=$GUIX_PROFILE/lib/locale

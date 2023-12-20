@@ -11,11 +11,6 @@
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Config review
-#if type nvim &> /dev/null; then
-#  alias vim='nvim'
-#fi
-#
 # Default to human readable figures
 alias df='df -h'
 alias du='du -h'
@@ -27,7 +22,7 @@ alias du='du -h'
 #
 # Misc
 alias less='less -r'                          # raw control characters
-alias whence='type -a'                        # where, of a sort
+#alias whence='type -a'                        # where, of a sort
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -46,9 +41,6 @@ alias ll='ls -lF --color=auto'      # long list
 alias la='ls -AF --color=auto'      # almost all (excludes . and ..)
 alias l='ls -CF --color=auto'       # list by columns, suffix type indicator
 alias lla='ls -lAF --color=auto'    # long list almost all
-#
-# python virtual environments ...
-#alias activate-pyenv3="source ~/python-virtual-environments/pyenv3/bin/activate"
 #
 # longtime basic programmer
 alias cls=clear
